@@ -8,6 +8,7 @@ import Testimonials from './pages/Testimonials';
 import Perspective from './pages/Perspective';
 import Disclosure from './pages/Disclosure';
 import Contact from './pages/Contact';
+import EmployeeLogin from './pages/EmployeeLogin';
 import RiskProfiler from './pages/RiskProfiler/RiskProfiler';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/perspective" element={<Perspective />} />
           <Route path="/disclosure" element={<Disclosure />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/employee-login" element={<EmployeeLogin />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

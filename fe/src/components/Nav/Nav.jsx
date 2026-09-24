@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { useTheme } from '../../hooks/ThemeContext';
 
 const navLinkClass = ({ isActive }) => (isActive ? 'active' : undefined);
+
+const CLIENT_LOGIN_URL = 'https://wealthelite.in/client-login';
 
 const NAV_LINKS = [
   { to: '/about', label: 'The Firm' },
@@ -19,6 +21,8 @@ export default function Nav({ showMobileProfilerLink = true }) {
   const { isDark, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const loginMenuRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -26,6 +30,24 @@ export default function Nav({ showMobileProfilerLink = true }) {
     document.addEventListener('scroll', onScroll, { passive: true });
     return () => document.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Close the Login dropdown on an outside click or Escape. Hover opens
+  // it too (CSS), this state is for click/tap and keyboard users.
+  useEffect(() => {
+    if (!loginOpen) return undefined;
+    const onPointerDown = (e) => {
+      if (!loginMenuRef.current?.contains(e.target)) setLoginOpen(false);
+    };
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setLoginOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [loginOpen]);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -47,7 +69,8 @@ export default function Nav({ showMobileProfilerLink = true }) {
           </NavLink>
         ))}
         <div className="nav-links-extra">
-          <a href="https://wealthelite.in/client-login" target="_blank" rel="noopener noreferrer">Client Login</a>
+          <a href={CLIENT_LOGIN_URL} target="_blank" rel="noopener noreferrer">Client Login</a>
+          <NavLink to="/employee-login" onClick={closeMenu}>Employee Login</NavLink>
           {showMobileProfilerLink && (
             <NavLink to="/risk-profiler" onClick={closeMenu}>Start Risk Profile</NavLink>
           )}
@@ -68,7 +91,28 @@ export default function Nav({ showMobileProfilerLink = true }) {
             <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z" />
           </svg>
         </button>
-        <a href="https://wealthelite.in/client-login" target="_blank" rel="noopener noreferrer" className="nav-login">Client Login</a>
+        <div className={'nav-login-menu' + (loginOpen ? ' open' : '')} ref={loginMenuRef}>
+          <button
+            type="button"
+            className="nav-login"
+            aria-haspopup="true"
+            aria-expanded={loginOpen}
+            onClick={() => setLoginOpen((v) => !v)}
+          >
+            Login
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4.5L6 7.5L9 4.5" /></svg>
+          </button>
+          <div className="nav-login-dropdown">
+            <a href={CLIENT_LOGIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => setLoginOpen(false)}>
+              Client Login
+              <span>Your portfolio on Wealth Elite</span>
+            </a>
+            <NavLink to="/employee-login" onClick={() => setLoginOpen(false)}>
+              Employee Login
+              <span>For the RISCH team</span>
+            </NavLink>
+          </div>
+        </div>
         <NavLink to="/risk-profiler" className="nav-cta">Start Risk Profile</NavLink>
       </div>
       <button
