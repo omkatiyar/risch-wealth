@@ -2,9 +2,8 @@ import Donut from './Donut';
 import MacroTable from './MacroTable';
 import StrategySummary from './StrategySummary';
 import GranularTable from './GranularTable';
-import { CHART } from '../data';
-import { fmtINR } from '../scoring';
-import { granularBreakdown } from '../scoring';
+import { CHART } from './chartColors';
+import { fmtINR } from '../../../utils/format';
 
 export default function TierPanel({ tier, mandate, amount, isRec, isActiveTab }) {
   const macro = [
@@ -14,7 +13,9 @@ export default function TierPanel({ tier, mandate, amount, isRec, isActiveTab })
     { label: 'Cash & Equivalents', value: mandate.cash, color: CHART.macro.cash },
   ].filter((s) => s.value > 0);
 
-  const g = granularBreakdown(mandate);
+  // mandate.granular is computed server-side (be/src/riskProfiler/scoring.js)
+  // alongside the rest of the scoring result — never recomputed here.
+  const g = mandate.granular;
   const granSegs = [
     { label: 'India Large Cap', value: g.large, color: CHART.granular.large },
     { label: 'India Mid Cap', value: g.mid, color: CHART.granular.mid },

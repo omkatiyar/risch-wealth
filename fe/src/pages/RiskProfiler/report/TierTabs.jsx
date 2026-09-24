@@ -1,10 +1,8 @@
-import { TIER_ORDER, TIERS } from '../data';
-
-export default function TierTabs({ recommendedTier, activeTab, onSelect }) {
+export default function TierTabs({ tiers, tierOrder, recommendedTier, activeTab, onSelect }) {
   return (
     <div className="tier-tabs screen-only">
-      {TIER_ORDER.map((t) => {
-        const m = TIERS[t];
+      {tierOrder.map((t) => {
+        const m = tiers[t];
         const isRec = t === recommendedTier;
         return (
           <button

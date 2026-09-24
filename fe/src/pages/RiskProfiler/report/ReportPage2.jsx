@@ -1,10 +1,9 @@
-import { QUESTIONS } from '../data';
 import { PageHead, PageFoot } from './ReportChrome';
 import QBox from './QBox';
 import RRChart from './RRChart';
 import MandateBanner from './MandateBanner';
 
-export default function ReportPage2({ meta, ambiguous, mandate, answers }) {
+export default function ReportPage2({ meta, ambiguous, mandate, answers, questions }) {
   return (
     <div className="report-page">
       <PageHead dateStr={meta.dateStr} />
@@ -12,10 +11,10 @@ export default function ReportPage2({ meta, ambiguous, mandate, answers }) {
       <div className="r-section">
         <div className="q-box" style={{ marginBottom: 12 }}>
           <div className="q-num">7. Historical Return Range &amp; Downside Volatility Trade-off (Hypothetical 1-Year Period)</div>
-          <RRChart selectedLabel={answers.q7 ? answers.q7.label : null} />
+          <RRChart question={questions[6]} selectedLabel={answers.q7 ? answers.q7.label : null} />
         </div>
         <div className="q-grid full">
-          <QBox num={8} question={QUESTIONS[7]} answer={answers.q8} />
+          <QBox num={8} question={questions[7]} answer={answers.q8} />
         </div>
       </div>
 

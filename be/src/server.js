@@ -1,0 +1,62 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import riskProfilerRoutes from './riskProfiler/routes.js';
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// Bind to localhost only — on the production server this process is
+// never reached directly from the internet, only via nginx reverse
+// proxying https://rischwealth.com/api/* to it on the same machine.
+// Override with HOST=0.0.0.0 only if you know you need it (e.g. running
+// the backend and nginx in separate containers).
+const HOST = process.env.HOST || '127.0.0.1';
+
+// We're behind nginx, so trust its X-Forwarded-* headers (correct
+// req.ip / req.protocol for logging and any future rate limiting).
+app.set('trust proxy', 1);
+
+// Same-origin requests (the normal case: nginx serves the frontend and
+// proxies /api on the same domain, or Vite's dev proxy does the same
+// locally) don't need CORS at all. This allowlist exists for direct API
+// access and for anything that isn't same-origin. Configure via
+// CORS_ORIGIN as a comma-separated list to override the defaults below.
+const defaultOrigins = [
+  'https://rischwealth.com',
+  'https://www.rischwealth.com',
+];
+const isLocalhostOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+const allowedOrigins = (process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
+  : defaultOrigins
+);
+
+app.use(cors({
+  origin(origin, callback) {
+    // requests with no Origin header (curl, same-origin, server-to-server)
+    if (!origin || allowedOrigins.includes(origin) || isLocalhostOrigin(origin)) {
+      return callback(null, true);
+    }
+    const err = new Error(`Origin ${origin} is not allowed`);
+    err.status = 403;
+    callback(err);
+  },
+}));
+app.use(express.json());
+
+app.get('/health', (req, res) => res.json({ ok: true }));
+app.use('/api/risk-profiler', riskProfilerRoutes);
+
+// Catches the CORS rejection above (and anything else unhandled) so we
+// never leak a stack trace / file paths to the client, in production or
+// otherwise.
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500).json({ error: 'Request failed.' });
+});
+
+app.listen(PORT, HOST, () => {
+  console.log(`RISCH backend listening on http://${HOST}:${PORT}`);
+});

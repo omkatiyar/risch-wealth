@@ -1,4 +1,4 @@
-import { fmtINR } from '../scoring';
+import { fmtINR } from '../../../utils/format';
 
 export default function MacroTable({ mandate, amount }) {
   const rows = [

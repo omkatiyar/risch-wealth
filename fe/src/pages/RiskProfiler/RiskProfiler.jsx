@@ -1,20 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import Footer from '../../components/Footer/Footer';
 import { useDocumentHead } from '../../hooks/useDocumentHead';
-import { QUESTIONS } from './data';
-import { fmtINR, pct } from './scoring';
+import { fmtINR, pct } from '../../utils/format';
+import { submitRiskProfilerAnswers } from '../../api/riskProfilerApi';
+import { RiskProfilerConfigProvider, useRiskProfilerConfig } from './RiskProfilerConfigContext';
 import ReportView from './report/ReportView';
-
-const STEP_ORDER = ['intro', 'basics', ...QUESTIONS.map((q) => q.id), 'report'];
-
-function stepLabel(key) {
-  if (key === 'intro') return 'Introduction';
-  if (key === 'basics') return 'Your details';
-  if (key === 'report') return 'Your proposal';
-  const q = QUESTIONS.find((q) => q.id === key);
-  return `${q.group} — Question ${q.groupIndex} of ${q.groupTotal}`;
-}
 
 export default function RiskProfiler() {
   useDocumentHead(
@@ -22,11 +13,74 @@ export default function RiskProfiler() {
     'Answer eight questions and receive an instant, personalised investment proposal — time horizon and risk preference scored independently, mapped to a recommended portfolio.'
   );
 
+  return (
+    <RiskProfilerConfigProvider>
+      <RiskProfilerBody />
+    </RiskProfilerConfigProvider>
+  );
+}
+
+function RiskProfilerBody() {
+  const { config, error } = useRiskProfilerConfig();
+
+  if (error) {
+    return (
+      <>
+        <Nav showMobileProfilerLink={false} />
+        <main className="wrap profiler-wrap">
+          <p className="lede">The risk profiler couldn't load right now ({error}). Please make sure the API server is running and try again.</p>
+        </main>
+      </>
+    );
+  }
+
+  if (!config) {
+    return (
+      <>
+        <Nav showMobileProfilerLink={false} />
+        <main className="wrap profiler-wrap">
+          <p className="lede">Loading the risk profiler…</p>
+        </main>
+      </>
+    );
+  }
+
+  return <RiskProfilerQuiz questions={config.questions} />;
+}
+
+function stepLabel(key, questions) {
+  if (key === 'intro') return 'Introduction';
+  if (key === 'basics') return 'Your details';
+  if (key === 'report') return 'Your proposal';
+  const q = questions.find((q) => q.id === key);
+  return `${q.group} — Question ${q.groupIndex} of ${q.groupTotal}`;
+}
+
+function RiskProfilerQuiz({ questions }) {
+  const STEP_ORDER = ['intro', 'basics', ...questions.map((q) => q.id), 'report'];
+
   const [stepIndex, setStepIndex] = useState(0);
   const [basics, setBasics] = useState({ name: '', email: '', phone: '', age: '', amount: 5000000 });
   const [answers, setAnswers] = useState({});
+  const [scoreResult, setScoreResult] = useState(null);
+  const [scoreError, setScoreError] = useState(null);
 
   const currentStepKey = STEP_ORDER[stepIndex];
+
+  // The backend — not this component — decides the tier. As soon as the
+  // quiz reaches the report step, send the selected points and wait for
+  // the computed result instead of scoring anything locally.
+  useEffect(() => {
+    if (currentStepKey !== 'report' || scoreResult) return;
+    const pointsByQuestion = Object.fromEntries(
+      Object.entries(answers).map(([id, opt]) => [id, opt.points])
+    );
+    let cancelled = false;
+    submitRiskProfilerAnswers(pointsByQuestion)
+      .then((result) => { if (!cancelled) setScoreResult(result); })
+      .catch((err) => { if (!cancelled) setScoreError(err.message); });
+    return () => { cancelled = true; };
+  }, [currentStepKey, scoreResult, answers]);
 
   const goToStep = (index) => {
     const clamped = Math.max(0, Math.min(index, STEP_ORDER.length - 1));
@@ -45,6 +99,8 @@ export default function RiskProfiler() {
 
   const handleRestart = () => {
     setAnswers({});
+    setScoreResult(null);
+    setScoreError(null);
     setStepIndex(0);
   };
 
@@ -58,7 +114,7 @@ export default function RiskProfiler() {
 
       <div className="prog-rail">
         <div className="wrap prog-inner">
-          <span className="mono prog-label">Step {stepIndex + 1} of {total} — {stepLabel(currentStepKey)}</span>
+          <span className="mono prog-label">Step {stepIndex + 1} of {total} — {stepLabel(currentStepKey, questions)}</span>
           <div className="prog-track"><div className="prog-fill" style={{ width: progressPct + '%' }}></div></div>
         </div>
       </div>
@@ -123,9 +179,9 @@ export default function RiskProfiler() {
           </section>
         )}
 
-        {QUESTIONS.some((q) => q.id === currentStepKey) && (
+        {questions.some((q) => q.id === currentStepKey) && (
           <QuestionStep
-            question={QUESTIONS.find((q) => q.id === currentStepKey)}
+            question={questions.find((q) => q.id === currentStepKey)}
             amount={Number(basics.amount) || 5000000}
             answer={answers[currentStepKey]}
             onSelect={(opt) => handleSelectOption(currentStepKey, opt)}
@@ -136,7 +192,15 @@ export default function RiskProfiler() {
 
         {currentStepKey === 'report' && (
           <section className="p-step is-active" data-step="report">
-            <ReportView basics={basics} answers={answers} onRestart={handleRestart} />
+            {scoreError && (
+              <p className="lede">Couldn't generate your proposal ({scoreError}). Please make sure the API server is running, then try restarting.</p>
+            )}
+            {!scoreError && !scoreResult && (
+              <p className="lede">Generating your proposal…</p>
+            )}
+            {scoreResult && (
+              <ReportView basics={basics} answers={answers} questions={questions} scoreResult={scoreResult} onRestart={handleRestart} />
+            )}
           </section>
         )}
       </main>

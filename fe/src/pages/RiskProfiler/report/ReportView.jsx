@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TIERS } from '../data';
-import { computeScores, mapToTier } from '../scoring';
 import ReportPage1 from './ReportPage1';
 import ReportPage2 from './ReportPage2';
 import ReportPage3 from './ReportPage3';
 import ReportPage4 from './ReportPage4';
 
-export default function ReportView({ basics, answers, onRestart }) {
-  const { timeHorizonScore, riskPreferenceScore } = computeScores(answers);
-  const { tier, ambiguous } = mapToTier(timeHorizonScore, riskPreferenceScore);
-  const mandate = TIERS[tier];
+// `scoreResult` is exactly what the backend returned from
+// POST /api/risk-profiler/score (be/src/riskProfiler/scoring.js) —
+// this component only renders it, it never recomputes anything.
+export default function ReportView({ basics, answers, questions, scoreResult, onRestart }) {
+  const { tier, ambiguous, tierOrder, tiers } = scoreResult;
+  const mandate = tiers[tier];
   const amount = Number(basics.amount) || 5000000;
 
   const [activeTab, setActiveTab] = useState(tier);
@@ -38,9 +38,9 @@ export default function ReportView({ basics, answers, onRestart }) {
   return (
     <>
       <div className="report-scroll">
-        <ReportPage1 meta={meta} amount={amount} answers={answers} />
-        <ReportPage2 meta={meta} ambiguous={ambiguous} mandate={mandate} answers={answers} />
-        <ReportPage3 meta={meta} recommendedTier={tier} amount={amount} activeTab={activeTab} onSelectTab={setActiveTab} />
+        <ReportPage1 meta={meta} amount={amount} answers={answers} questions={questions} />
+        <ReportPage2 meta={meta} ambiguous={ambiguous} mandate={mandate} answers={answers} questions={questions} />
+        <ReportPage3 meta={meta} tiers={tiers} tierOrder={tierOrder} recommendedTier={tier} amount={amount} activeTab={activeTab} onSelectTab={setActiveTab} />
         <ReportPage4 meta={meta} />
       </div>
 

@@ -1,11 +1,18 @@
 // ===========================================================
 // RISCH Risk Profiler — question bank + mandate data.
-// Methodology mirrors the Morningstar-style RTQ: time horizon
-// and risk preference are scored independently, then cross-
-// tabulated against a suitability matrix to reach a mandate.
+//
+// This is the "weights" the whole profiler runs on: question
+// points, the suitability grid, and each tier's allocation.
+// It lives here (not in the frontend) so that only the backend
+// ever decides what a set of answers is worth.
+//
+// TODO(future): once Postgres + the superAdmin config UI exist,
+// replace this hard-coded object with a DB-backed "active
+// published config" lookup (see be/README.md). Everything below
+// is written so that swap only touches getActiveConfig().
 // ===========================================================
 
-export const QUESTIONS = [
+const QUESTIONS = [
   {
     id: 'q1', group: 'Time Horizon', groupIndex: 1, groupTotal: 2,
     prompt: 'When do you expect to begin withdrawing money from this account?',
@@ -103,13 +110,10 @@ export const QUESTIONS = [
   },
 ];
 
-export const TIME_HORIZON_COLS = ['1–2 Yrs', '3–5 Yrs', '6–7 Yrs', '8–10 Yrs', '11+ Yrs'];
-export const RISK_ROWS = ['0–14', '15–35', '36–64', '65–83', '84–100'];
-
 // grid[riskRowIdx][timeColIdx] -> tier 1-4. RISCH runs four live mandates only
 // (Balanced / Growth / Aggressive / Aggressive Plus) — the floor is always
 // Balanced, never a "sit in cash" result.
-export const GRID = [
+const GRID = [
   [1, 1, 1, 1, 1],
   [1, 1, 1, 2, 2],
   [1, 1, 1, 2, 3],
@@ -117,7 +121,7 @@ export const GRID = [
   [1, 1, 2, 3, 4],
 ];
 
-export const AMBIGUOUS = [
+const AMBIGUOUS = [
   [false, true, false, false, false],
   [false, true, false, false, false],
   [false, false, false, false, false],
@@ -125,9 +129,9 @@ export const AMBIGUOUS = [
   [false, false, false, false, false],
 ];
 
-export const TIER_ORDER = [1, 2, 3, 4];
+const TIER_ORDER = [1, 2, 3, 4];
 
-export const TIERS = {
+const TIERS = {
   1: {
     name: 'RISCH Active Balanced',
     short: 'Active Balanced', tag: 'TIER 1',
@@ -152,15 +156,34 @@ export const TIERS = {
 };
 
 // sub-splits derived from the reference Active Aggressive allocation
-export const SPLIT = {
+const SPLIT = {
   domesticEquity: { large: 0.795, mid: 0.127, small: 0.078 },
   intlEquity: { europe: 0.436, us: 0.349, asia: 0.215 },
   debt: { medium: 0.435, long: 0.316, short: 0.249 },
 };
 
-export const PAYOFF_PORTFOLIOS = QUESTIONS.find((q) => q.id === 'q4').options;
+// Bucket cutoffs for the two independent scores. Kept alongside the
+// grid/tiers because they jointly define "what a score means" — the
+// same kind of weight a superAdmin would eventually tune.
+const TIME_HORIZON_BUCKETS = [2, 5, 7, 10]; // <=2 ->0, <=5->1, <=7->2, <=10->3, else 4
+const RISK_PREFERENCE_BUCKETS = [14, 35, 64, 83]; // same pattern
 
-export const CHART = {
-  macro: { india: '#B24A0E', intl: '#F1650C', debt: '#FFB25B', cash: '#C9BFA6' },
-  granular: { large: '#B24A0E', mid: '#D9711F', small: '#FF9A4D', europe: '#F1650C', us: '#FFA35C', asia: '#FFC48A', medium: '#D9A056', long: '#E8BD84', short: '#F2D3AC', cash: '#C9BFA6' },
-};
+/**
+ * Returns the single active config. Synchronous today because the config
+ * is a hard-coded object; kept as a function (not a bare export) so that
+ * swapping this for `SELECT config FROM risk_profiler_config_versions
+ * WHERE status = 'published'` later doesn't change any of its callers.
+ */
+export function getActiveConfig() {
+  return {
+    version: 1,
+    questions: QUESTIONS,
+    tierOrder: TIER_ORDER,
+    tiers: TIERS,
+    grid: GRID,
+    ambiguous: AMBIGUOUS,
+    split: SPLIT,
+    timeHorizonBuckets: TIME_HORIZON_BUCKETS,
+    riskPreferenceBuckets: RISK_PREFERENCE_BUCKETS,
+  };
+}

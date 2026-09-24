@@ -1,9 +1,5 @@
-import { QUESTIONS } from '../data';
-
-const q7 = QUESTIONS.find((q) => q.id === 'q7');
-
-export default function RRChart({ selectedLabel }) {
-  const maxAbs = Math.max(...q7.options.map((o) => Math.max(o.best, Math.abs(o.worst))));
+export default function RRChart({ question, selectedLabel }) {
+  const maxAbs = Math.max(...question.options.map((o) => Math.max(o.best, Math.abs(o.worst))));
   const half = 46;    // pixel height available for the taller of best/worst on either side of baseline
   const gutter = 16;  // reserved space for the value label so it can never collide with text above/below
   const baseline = half + gutter;
@@ -12,7 +8,7 @@ export default function RRChart({ selectedLabel }) {
   return (
     <>
       <div className="rr-chart">
-        {q7.options.map((o) => {
+        {question.options.map((o) => {
           const bestH = (o.best / maxAbs) * half;
           const worstH = (Math.abs(o.worst) / maxAbs) * half;
           const bestLabelTop = Math.max(0, baseline - bestH - 12).toFixed(1);

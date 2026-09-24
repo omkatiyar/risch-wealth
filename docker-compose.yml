@@ -1,0 +1,26 @@
+services:
+  backend:
+    build: ./be
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      # 0.0.0.0, not 127.0.0.1, on purpose: inside its own container,
+      # binding to loopback would make it unreachable from the frontend
+      # container too. It's still not reachable from outside the Docker
+      # host — see the missing `ports:` below, only `expose`.
+      HOST: 0.0.0.0
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://rischwealth.com,https://www.rischwealth.com}
+    expose:
+      - "4000"
+
+  frontend:
+    build: ./fe
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      # Bound to localhost only — the host's own nginx (deploy/nginx.conf)
+      # is what's actually internet-facing (it terminates TLS and proxies
+      # here). Nothing should reach this port directly from outside the
+      # server.
+      - "127.0.0.1:8080:80"

@@ -1,10 +1,9 @@
-import { TIER_ORDER, TIERS } from '../data';
 import { PageHead, PageFoot } from './ReportChrome';
 import TierTabs from './TierTabs';
 import TierPanel from './TierPanel';
 
-export default function ReportPage3({ meta, recommendedTier, amount, activeTab, onSelectTab }) {
-  const recMandate = TIERS[recommendedTier];
+export default function ReportPage3({ meta, tiers, tierOrder, recommendedTier, amount, activeTab, onSelectTab }) {
+  const recMandate = tiers[recommendedTier];
   return (
     <div className="report-page">
       <PageHead dateStr={meta.dateStr} />
@@ -16,13 +15,13 @@ export default function ReportPage3({ meta, recommendedTier, amount, activeTab, 
           <span className="screen-only" style={{ color: 'var(--muted)' }}>Use the tabs below to see how each of our four portfolios would be built.</span>
         </p>
 
-        <TierTabs recommendedTier={recommendedTier} activeTab={activeTab} onSelect={onSelectTab} />
+        <TierTabs tiers={tiers} tierOrder={tierOrder} recommendedTier={recommendedTier} activeTab={activeTab} onSelect={onSelectTab} />
 
-        {TIER_ORDER.map((t) => (
+        {tierOrder.map((t) => (
           <TierPanel
             key={t}
             tier={t}
-            mandate={TIERS[t]}
+            mandate={tiers[t]}
             amount={amount}
             isRec={t === recommendedTier}
             isActiveTab={t === activeTab}

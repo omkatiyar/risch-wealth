@@ -1,5 +1,4 @@
-import { fmtINR } from '../scoring';
-import { granularBreakdown } from '../scoring';
+import { fmtINR } from '../../../utils/format';
 
 function Row({ label, p, amount }) {
   if (p <= 0) return null;
@@ -11,7 +10,7 @@ function Subhead({ label }) {
 }
 
 export default function GranularTable({ mandate, amount }) {
-  const g = granularBreakdown(mandate);
+  const g = mandate.granular;
   return (
     <table className="alloc-table">
       <thead><tr><th>Underlying Asset Class</th><th>Weight</th><th>Amount</th></tr></thead>
