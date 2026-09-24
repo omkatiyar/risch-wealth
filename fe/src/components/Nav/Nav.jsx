@@ -9,7 +9,6 @@ const NAV_LINKS = [
   { to: '/about', label: 'The Firm' },
   { to: '/who-we-serve', label: 'Who We Serve' },
   { to: '/solutions', label: 'Solutions' },
-  { to: '/risk-profiler', label: 'Risk Profiler' },
   { to: '/testimonials', label: 'Testimonials' },
   { to: '/perspective', label: 'Perspective' },
   { to: '/disclosure', label: 'Disclosure' },
