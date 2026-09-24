@@ -3,13 +3,9 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import TestimonialSlider from '../components/TestimonialSlider/TestimonialSlider';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
+import { FAQS } from '../seo';
 
 export default function Home() {
-  useDocumentHead(
-    'RISCH Wealth — Private Wealth',
-    'RISCH Wealth is an independent private wealth firm founded by a career private banker.'
-  );
   useScrollReveal();
 
   return (
@@ -33,7 +29,7 @@ export default function Home() {
         </div>
 
         <div className="wrap" style={{ marginTop: 64, position: 'relative' }}>
-          <svg className="arc-svg" viewBox="0 0 1200 300" width="100%" height="auto" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }}>
+          <svg className="arc-svg" viewBox="0 0 1200 300" width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }}>
             <defs>
               <linearGradient id="arcGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#C85A16" stopOpacity="0.16" />
@@ -177,6 +173,29 @@ export default function Home() {
           <Link to="/risk-profiler" className="btn btn-rust reveal">Start the risk profiler
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
           </Link>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <div className="grid g-2" style={{ gridTemplateColumns: '0.9fr 1.1fr' }}>
+            <div className="reveal">
+              <p className="eyebrow">Questions</p>
+              <h2 className="display-l">Frequently asked questions.</h2>
+              <p className="lede" style={{ maxWidth: '36ch', marginTop: 20 }}>How RISCH works, who we work with, and what the risk profiler tells you.</p>
+            </div>
+            <div className="faq-list reveal">
+              {FAQS.map(({ q, a }, idx) => (
+                <details className="faq-item" key={q} open={idx === 0}>
+                  <summary>
+                    <h3 className="display-s">{q}</h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                  </summary>
+                  <p>{a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

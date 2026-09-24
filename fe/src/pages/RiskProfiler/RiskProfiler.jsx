@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react';
 import Nav from '../../components/Nav/Nav';
 import Footer from '../../components/Footer/Footer';
-import { useDocumentHead } from '../../hooks/useDocumentHead';
 import { fmtINR, pct } from '../../utils/format';
 import { submitRiskProfilerAnswers } from '../../api/riskProfilerApi';
 import { RiskProfilerConfigProvider, useRiskProfilerConfig } from './RiskProfilerConfigContext';
 import ReportView from './report/ReportView';
 
 export default function RiskProfiler() {
-  useDocumentHead(
-    'Risk Profiler — RISCH Wealth',
-    'Answer eight questions and receive an instant, personalised investment proposal — time horizon and risk preference scored independently, mapped to a recommended portfolio.'
-  );
-
   return (
     <RiskProfilerConfigProvider>
       <RiskProfilerBody />
@@ -34,18 +28,45 @@ function RiskProfilerBody() {
     );
   }
 
+  // Until the question bank arrives, show the intro (it doesn't depend on
+  // it) with Begin disabled. This is also what the prerendered HTML holds.
   if (!config) {
     return (
       <>
         <Nav showMobileProfilerLink={false} />
+        <div className="prog-rail">
+          <div className="wrap prog-inner">
+            <span className="mono prog-label">Introduction</span>
+            <div className="prog-track"><div className="prog-fill" style={{ width: '4%' }}></div></div>
+          </div>
+        </div>
         <main className="wrap profiler-wrap">
-          <p className="lede">Loading the risk profiler…</p>
+          <ProfilerIntro />
         </main>
       </>
     );
   }
 
   return <RiskProfilerQuiz questions={config.questions} />;
+}
+
+function ProfilerIntro({ onBegin }) {
+  return (
+    <section className="p-step is-active" data-step="intro">
+      <p className="eyebrow reveal in">Portfolio Suitability Questionnaire</p>
+      <h1 className="display-xl reveal in" style={{ maxWidth: '14em' }}>Know your risk profile <span className="italic">before you invest.</span></h1>
+      <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>This diagnostic follows a documented time-horizon and risk-preference methodology. It takes about three minutes. At the end, you'll receive a complete investment proposal — allocation, sub-asset breakdown and hypothetical outcomes — built around your answers.</p>
+      <div className="intro-facts reveal in">
+        <div><span className="mono">01</span> Basic details</div>
+        <div><span className="mono">02</span> Time horizon — 2 questions</div>
+        <div><span className="mono">03</span> Risk preference — 6 questions</div>
+        <div><span className="mono">04</span> Your proposal, instantly</div>
+      </div>
+      <button className="btn btn-primary" style={{ marginTop: 40 }} disabled={!onBegin} onClick={onBegin}>Begin
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
+      </button>
+    </section>
+  );
 }
 
 function stepLabel(key, questions) {
@@ -120,22 +141,7 @@ function RiskProfilerQuiz({ questions }) {
       </div>
 
       <main className="wrap profiler-wrap">
-        {currentStepKey === 'intro' && (
-          <section className="p-step is-active" data-step="intro">
-            <p className="eyebrow reveal in">Portfolio Suitability Questionnaire</p>
-            <h1 className="display-xl reveal in" style={{ maxWidth: '14em' }}>Know your risk profile <span className="italic">before you invest.</span></h1>
-            <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>This diagnostic follows a documented time-horizon and risk-preference methodology. It takes about three minutes. At the end, you'll receive a complete investment proposal — allocation, sub-asset breakdown and hypothetical outcomes — built around your answers.</p>
-            <div className="intro-facts reveal in">
-              <div><span className="mono">01</span> Basic details</div>
-              <div><span className="mono">02</span> Time horizon — 2 questions</div>
-              <div><span className="mono">03</span> Risk preference — 6 questions</div>
-              <div><span className="mono">04</span> Your proposal, instantly</div>
-            </div>
-            <button className="btn btn-primary" style={{ marginTop: 40 }} onClick={() => goToStep(1)}>Begin
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
-            </button>
-          </section>
-        )}
+        {currentStepKey === 'intro' && <ProfilerIntro onBegin={() => goToStep(1)} />}
 
         {currentStepKey === 'basics' && (
           <section className="p-step is-active" data-step="basics">

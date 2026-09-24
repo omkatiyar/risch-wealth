@@ -1,0 +1,6 @@
+# All crawlers, including AI crawlers, may index the public site.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://rischwealth.com/sitemap.xml

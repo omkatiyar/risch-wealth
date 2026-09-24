@@ -14,12 +14,19 @@
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RISCH Wealth — Private Wealth</title>
-    <meta name="description" content="RISCH Wealth is an independent private wealth firm founded by a career private banker." />
-    <link rel="icon" href="/logo.png" />
+    <meta name="theme-color" content="#15110C" />
+    <!--
+      Title, description, canonical, Open Graph / X tags and JSON-LD are
+      written here per page by scripts/prerender.mjs at build time (and kept
+      in sync on client-side navigation by src/components/RouteHead.jsx).
+      Page copy lives in src/seo.js.
+    -->
+    <!--app-head-->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

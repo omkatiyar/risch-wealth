@@ -5,7 +5,6 @@
    anywhere (site or report) — print-safe by design.
    =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
 
 :root{
   /* ---- palette : orange + white, no dark fills ---- */
@@ -33,7 +32,7 @@
   --neg:        #C7401F;
 
   /* ---- type: one global family ---- */
-  --f-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --f-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --container: 1240px;
   --pad: clamp(20px, 5vw, 64px);
@@ -342,7 +341,9 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .g-3{ grid-template-columns:repeat(3,1fr); }
 .g-4{ grid-template-columns:repeat(4,1fr); }
 .g-12{ grid-template-columns:repeat(12,1fr); }
-@media (max-width:920px){ .g-2,.g-3,.g-4{ grid-template-columns:1fr; } }
+/* !important: several grids set their desktop columns inline, which would
+   otherwise override this and keep two squeezed columns on phones. */
+@media (max-width:920px){ .g-2,.g-3,.g-4{ grid-template-columns:1fr !important; } }
 
 /* ===================== CARDS / NUMBERED LIST ===================== */
 .numbered-row{
@@ -375,7 +376,7 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 /* ===================== FOOTER (light, not dark) ===================== */
 .footer{ background:var(--bg-tint); color:var(--ink); padding:88px 0 32px; border-top:1px solid var(--line); }
 .footer .f-top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; padding-bottom:56px; }
-.footer h5{ font-family:var(--f-sans); font-weight:700; font-size:12.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin:0 0 20px; }
+.footer .f-heading{ font-family:var(--f-sans); font-weight:700; font-size:12.5px; line-height:normal; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin:0 0 20px; }
 .footer ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px; }
 .footer a{ color:var(--ink-2); font-size:14.5px; transition:color .2s ease; }
 .footer a:hover{ color:var(--orange-deep); }
@@ -537,3 +538,17 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .testimonial-nav.next{ right:-8px; }
 @media (min-width:900px){ .testimonial-nav.prev{ left:-58px; } .testimonial-nav.next{ right:-58px; } }
 @media (max-width:600px){ .testimonial-nav{ display:none; } }
+
+/* ===================== FAQ (home) ===================== */
+.faq-list{ border-top:1px solid var(--line); }
+.faq-item{ border-bottom:1px solid var(--line); }
+.faq-item summary{
+  list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:24px;
+  padding:24px 0;
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary h3{ transition:color .2s ease; }
+.faq-item summary:hover h3{ color:var(--orange-deep); }
+.faq-item summary svg{ flex:0 0 18px; width:18px; height:18px; color:var(--orange); transition:transform .25s ease; }
+.faq-item[open] summary svg{ transform:rotate(45deg); }
+.faq-item p{ max-width:68ch; margin:0 0 26px; }

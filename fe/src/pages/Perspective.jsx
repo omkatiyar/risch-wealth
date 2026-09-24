@@ -2,14 +2,9 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 import { PERSPECTIVES } from '../data/perspectives';
 
 export default function Perspective() {
-  useDocumentHead(
-    'Perspective — RISCH Wealth',
-    "Notes on risk, portfolio construction and wealth coordination from RISCH Wealth."
-  );
   useScrollReveal();
 
   return (
@@ -33,7 +28,7 @@ export default function Perspective() {
                 <div className="num" style={{ fontSize: 12.5, letterSpacing: '.04em', textTransform: 'uppercase' }}>{p.date}</div>
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 10 }}>{p.tag}</p>
-                  <h3 className="display-s" style={{ marginBottom: 10, maxWidth: '40ch' }}>{p.title}</h3>
+                  <h2 className="display-s" style={{ marginBottom: 10, maxWidth: '40ch' }}>{p.title}</h2>
                   <p className="mb-0" style={{ maxWidth: '62ch' }}>{p.excerpt}</p>
                 </div>
               </div>

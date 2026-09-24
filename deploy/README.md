@@ -70,6 +70,19 @@ Certbot edits the nginx config in place to add the certificate paths and
 the automatic HTTP -> HTTPS redirect — you don't need to write that part
 by hand.
 
+Then, once certbot has run, make two more edits to
+`/etc/nginx/sites-available/rischwealth.com` (both came out of the SEO
+audit):
+
+- **HTTP/2:** change `listen 443 ssl;` to `listen 443 ssl http2;` (and the
+  same for the `[::]:443` line).
+- **One canonical host:** in the 443 server block, add
+  `if ($host = www.rischwealth.com) { return 301 https://rischwealth.com$request_uri; }`,
+  and in the port-80 block point the `www` redirect straight at
+  `https://rischwealth.com$request_uri` so it's a single hop.
+
+`sudo nginx -t && sudo systemctl reload nginx` afterwards.
+
 ## Verify
 
 ```bash

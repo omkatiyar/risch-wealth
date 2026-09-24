@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 
 const SEGMENTS = [
   {
@@ -38,10 +37,6 @@ const SEGMENTS = [
 ];
 
 export default function WhoWeServe() {
-  useDocumentHead(
-    'Who We Serve — RISCH Wealth',
-    'The kinds of clients RISCH Wealth works with — business owners, entrepreneurs, private clients, NRIs, executives and family offices.'
-  );
   useScrollReveal();
 
   return (
@@ -65,7 +60,7 @@ export default function WhoWeServe() {
                 <div className="icon-badge" style={{ marginBottom: 22 }}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
                 </div>
-                <h3 className="display-s" style={{ marginBottom: 10 }}>{s.title}</h3>
+                <h2 className="display-s" style={{ marginBottom: 10 }}>{s.title}</h2>
                 <p className="body-s mb-0">{s.body}</p>
               </div>
             ))}

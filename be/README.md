@@ -92,3 +92,34 @@ reject anything except a known option id.
   Docker setup it has no published port at all (see `docker-compose.yml`)
   — only the frontend container can reach it, over the internal Docker
   network.
+
+## Change log
+
+Newest first. The backend's own code (`src/`) has not changed in any of
+these; they're about how it's deployed and reached. Frontend changes are
+listed in `../fe/README.md`.
+
+**SEO audit fixes**
+- `robots.txt` (served by the frontend) now has `Disallow: /api/`, so
+  search engines don't crawl these endpoints.
+- The frontend container's nginx now gzips responses, including JSON
+  from `/api/` (`gzip_types` includes `application/json`).
+- Prepared, not yet applied (it needs a manual step on the server, see
+  `../deploy/README.md`): HTTP/2 on the host nginx, plus a
+  `www.rischwealth.com` → `rischwealth.com` redirect. Once that's live,
+  every browser request comes from `https://rischwealth.com`, which the
+  default `CORS_ORIGIN` already allows.
+
+**Production actually running on Docker**
+- Docker Engine + Compose plugin installed on the server
+  (`get.docker.com`). The `ubuntu` user is in the `docker` group.
+- The host nginx site (`/etc/nginx/sites-available/risch-wealth`) was
+  still serving an old static build from `/var/www/risch-wealth`, so
+  nothing proxied `/api` and the live risk profiler couldn't reach this
+  service. It now proxies everything to the frontend container
+  (`127.0.0.1:8080`), which proxies `/api/` and `/health` here. The
+  pre-switch config is backed up at `~/risch-wealth-nginx.backup`.
+- Check it's live with `curl -s https://rischwealth.com/health`, which
+  should return `{"ok":true}`, not HTML.
+- Deploy: `git pull && docker compose up -d --build` from the repo root.
+  `docker compose restart` doesn't pick up code changes.

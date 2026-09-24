@@ -1,11 +1,23 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+// Self-hosted Inter (one variable file covers every weight). Served from
+// our own domain: no third-party request, no visitor IPs sent to Google.
+import '@fontsource-variable/inter';
 import './styles/styles.css';
 import './styles/profiler.css';
 import App from './App.jsx';
 
-createRoot(document.getElementById('root')).render(
+const app = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );
+
+// Production pages arrive prerendered (scripts/prerender.mjs), so React
+// attaches to the existing HTML. The Vite dev server serves an empty root.
+const root = document.getElementById('root');
+if (root.firstElementChild) hydrateRoot(root, app);
+else createRoot(root).render(app);

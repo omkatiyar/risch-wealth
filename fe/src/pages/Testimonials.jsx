@@ -2,14 +2,9 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 import { TESTIMONIALS } from '../data/testimonials';
 
 export default function Testimonials() {
-  useDocumentHead(
-    'Testimonials — RISCH Wealth',
-    'What RISCH Wealth clients say about working with an independent, risk-first private wealth firm.'
-  );
   useScrollReveal();
 
   return (

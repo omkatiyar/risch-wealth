@@ -1,13 +1,8 @@
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 
 export default function Disclosure() {
-  useDocumentHead(
-    'Disclosure — RISCH Wealth',
-    'Important disclosures, methodology notes and disclaimers for RISCH Wealth and the RISCH risk profiler.'
-  );
   useScrollReveal();
 
   return (

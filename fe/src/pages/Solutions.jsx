@@ -2,13 +2,8 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 
 export default function Solutions() {
-  useDocumentHead(
-    'Solutions — RISCH Wealth',
-    "Private wealth solutions, wealth coordination, portfolio construction and risk profiling — RISCH Wealth's solutions."
-  );
   useScrollReveal();
 
   return (
@@ -32,7 +27,7 @@ export default function Solutions() {
                 <div className="icon-badge">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z" /><path d="M3 12l9 5 9-5" /><path d="M3 17l9 5 9-5" /></svg>
                 </div>
-                <h3 className="display-s">Private Wealth Solutions</h3>
+                <h2 className="display-s">Private Wealth Solutions</h2>
               </div>
               <p className="mb-0" style={{ maxWidth: '52ch' }}>Portfolios built on a documented suitability process — reviewed against your objectives at every rebalancing.</p>
             </div>
@@ -45,7 +40,7 @@ export default function Solutions() {
                 <div className="icon-badge">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="8" r="3.2" /><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" /><circle cx="17" cy="8.5" r="2.6" /><path d="M15 14.2c2.7.4 4.7 2.5 4.7 5.8" /></svg>
                 </div>
-                <h3 className="display-s">Wealth Coordination</h3>
+                <h2 className="display-s">Wealth Coordination</h2>
               </div>
               <p className="mb-0" style={{ maxWidth: '52ch' }}>Consolidated reporting, succession and governance structuring — one point of contact for your legal and tax advisers.</p>
             </div>
@@ -58,7 +53,7 @@ export default function Solutions() {
                 <div className="icon-badge">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2" /><rect x="14" y="3" width="7" height="7" rx="1.2" /><rect x="3" y="14" width="7" height="7" rx="1.2" /><rect x="14" y="14" width="7" height="7" rx="1.2" /></svg>
                 </div>
-                <h3 className="display-s">Portfolio Construction</h3>
+                <h2 className="display-s">Portfolio Construction</h2>
               </div>
               <p className="mb-0" style={{ maxWidth: '52ch' }}>Granular allocation across domestic and international equity, fixed income and liquidity — sized to you, not a model.</p>
             </div>
@@ -71,7 +66,7 @@ export default function Solutions() {
                 <div className="icon-badge">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" /></svg>
                 </div>
-                <h3 className="display-s">Risk Profiling</h3>
+                <h2 className="display-s">Risk Profiling</h2>
               </div>
               <p className="mb-0" style={{ maxWidth: '52ch' }}>An eight-question diagnostic scores time horizon and risk preference independently, then matches you to a portfolio.</p>
             </div>
@@ -89,21 +84,21 @@ export default function Solutions() {
               <div className="icon-badge icon-badge-dark" style={{ marginBottom: 18 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-5 3 3 5-7" /></svg>
               </div>
-              <h4 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>Domestic Equity</h4>
+              <h3 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>Domestic Equity</h3>
               <p className="body-s mb-0" style={{ color: 'var(--muted)' }}>Large, mid &amp; small cap.</p>
             </div>
             <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
               <div className="icon-badge icon-badge-dark" style={{ marginBottom: 18 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
               </div>
-              <h4 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>International Equity</h4>
+              <h3 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>International Equity</h3>
               <p className="body-s mb-0" style={{ color: 'var(--muted)' }}>US, Europe &amp; Asia ex-Japan.</p>
             </div>
             <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
               <div className="icon-badge icon-badge-dark" style={{ marginBottom: 18 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="13" rx="2" /><path d="M2 10h20" /><circle cx="7" cy="14.5" r="1.3" fill="currentColor" stroke="none" /></svg>
               </div>
-              <h4 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>Fixed Income &amp; Liquidity</h4>
+              <h3 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>Fixed Income &amp; Liquidity</h3>
               <p className="body-s mb-0" style={{ color: 'var(--muted)' }}>Short, medium &amp; long duration.</p>
             </div>
           </div>

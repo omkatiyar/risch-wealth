@@ -1,0 +1,25 @@
+# RISCH Wealth
+
+> RISCH Wealth Private Limited is an independent private wealth firm in Bengaluru, India, founded in 2014 by Rishiraj Maheshwari, a career private banker with more than two decades of experience (Edelweiss Financial Services, ICICI Securities). Its approach is risk first: a client's capacity for risk is measured before their willingness, and the best, expected and worst case are shown before any money is invested.
+
+Key facts:
+
+- Independent: no proprietary fund; recommendations align to the client, not a product shelf.
+- Services: private wealth solutions, wealth coordination (consolidated reporting, succession, governance), portfolio construction, and risk profiling.
+- Allocation universe: domestic equity (large, mid and small cap), international equity (US, Europe, Asia ex-Japan), fixed income (short, medium and long duration), cash and liquid equivalents.
+- Clients: business owners, entrepreneurs and founders, private clients and families, NRIs and global Indians, senior executives and professionals, and family offices.
+- Risk profiler: an eight-question online diagnostic that scores time horizon and risk preference independently and returns an instant portfolio proposal.
+- Contact: rischwealth@gmail.com, +91 94480 90998, Bengaluru, Karnataka, India.
+
+This site is for informational purposes only and does not constitute investment advice. Investments are subject to market risk.
+
+## Pages
+
+- [Home](https://rischwealth.com/): overview of the firm, method and FAQs
+- [The Firm](https://rischwealth.com/about): the founder's background and the four principles RISCH works by
+- [Who We Serve](https://rischwealth.com/who-we-serve): the client profiles RISCH works with most often
+- [Solutions](https://rischwealth.com/solutions): services and the allocation universe
+- [Risk Profiler](https://rischwealth.com/risk-profiler): the eight-question risk profile questionnaire
+- [Testimonials](https://rischwealth.com/testimonials): client experiences
+- [Disclosure](https://rischwealth.com/disclosure): disclosures, methodology notes and disclaimers
+- [Contact](https://rischwealth.com/contact): email, phone and contact form

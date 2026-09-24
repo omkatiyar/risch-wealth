@@ -3,13 +3,8 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import ceoPhoto from '../assets/ceo-photo.jpg';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 
 export default function About() {
-  useDocumentHead(
-    'About Us — RISCH Wealth',
-    'RISCH Wealth is an independent private wealth firm founded by Rishiraj Maheshwari, a career private banker.'
-  );
   useScrollReveal();
 
   return (
@@ -29,7 +24,7 @@ export default function About() {
           <div className="grid g-2" style={{ gridTemplateColumns: '0.8fr 1.2fr', alignItems: 'start' }}>
             <div className="reveal center">
               <img src={ceoPhoto} alt="Rishiraj Maheshwari, Founder & CEO" className="avatar-photo" style={{ margin: '0 auto' }} />
-              <h3 className="display-s" style={{ marginTop: 26, marginBottom: 4 }}>Rishiraj Maheshwari</h3>
+              <h2 className="display-s" style={{ marginTop: 26, marginBottom: 4 }}>Rishiraj Maheshwari</h2>
               <p className="mono body-s" style={{ color: 'var(--orange-deep)', marginBottom: 20 }}>Founder &amp; CEO</p>
               <div className="flex gap-10" style={{ justifyContent: 'center', flexWrap: 'wrap', gap: 10 }}>
                 <a href="https://www.linkedin.com/in/rishiraj-maheshwari-81240b5/" target="_blank" rel="noopener noreferrer" className="social-chip">

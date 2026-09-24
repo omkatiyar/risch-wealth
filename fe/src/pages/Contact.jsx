@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 
 const TOPICS = [
   'Private Wealth Solutions',
@@ -13,7 +12,6 @@ const TOPICS = [
 ];
 
 export default function Contact() {
-  useDocumentHead('Contact — RISCH Wealth', 'Get in touch with RISCH Wealth.');
   useScrollReveal();
 
   const [form, setForm] = useState({ name: '', email: '', phone: '', topic: TOPICS[0], message: '' });

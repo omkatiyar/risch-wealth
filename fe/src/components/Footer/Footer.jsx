@@ -24,7 +24,7 @@ export default function Footer({ showSocials = true, extendedLegal = false, cont
             )}
           </div>
           <div>
-            <h5>Firm</h5>
+            <h2 className="f-heading">Firm</h2>
             <ul>
               <li><Link to="/about">The Firm</Link></li>
               <li><Link to="/who-we-serve">Who We Serve</Link></li>
@@ -32,7 +32,7 @@ export default function Footer({ showSocials = true, extendedLegal = false, cont
             </ul>
           </div>
           <div>
-            <h5>Resources</h5>
+            <h2 className="f-heading">Resources</h2>
             <ul>
               <li><Link to="/risk-profiler">Risk Profiler</Link></li>
               <li><Link to="/testimonials">Testimonials</Link></li>
@@ -41,7 +41,7 @@ export default function Footer({ showSocials = true, extendedLegal = false, cont
             </ul>
           </div>
           <div>
-            <h5>Connect</h5>
+            <h2 className="f-heading">Connect</h2>
             <ul>
               <li><Link to="/contact">Contact Us</Link></li>
               <li><a href={`mailto:${contactEmail}`}>{contactEmail}</a></li>

@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
-import { useDocumentHead } from '../hooks/useDocumentHead';
 
 export default function EmployeeLogin() {
-  useDocumentHead('Employee Login — RISCH Wealth', 'Sign-in for the RISCH Wealth team.');
-
   const [form, setForm] = useState({ employeeId: '', password: '' });
   const [note, setNote] = useState('');
 
