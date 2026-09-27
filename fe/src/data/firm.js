@@ -17,14 +17,15 @@ export const FIRM = {
   email: 'rischwealth@gmail.com',
   phone: '+91 94480 90998',
   phoneHref: 'tel:+919448090998',
-  // Second office line, from the client brochure. Also the number on the
-  // Google Business Profile, so both appear wherever contact details do.
-  phoneAlt: '+91 94830 03456',
-  phoneAltHref: 'tel:+919483003456',
-  // Office address as printed on the client brochure.
+  // Optional second line. An older brochure listed +91 94830 03456 (also on
+  // the Google Business Profile), but current materials only list the
+  // number above, so it's off until confirmed. Shown wherever set.
+  phoneAlt: null,
+  phoneAltHref: null,
+  // Office address, exactly as on the business card and letterhead.
   address: {
-    street: 'Brigade Exotica, Old Madras Road, Near Budigere Cross',
-    locality: 'Aavalahalli',
+    lines: ['Brigade Exotica, Tower Azure', 'No 35 & 36/1, P', 'Old Madras Road', '(Before Budigere Cross)', 'Bengaluru 560049'],
+    street: 'Brigade Exotica, Tower Azure, No 35 & 36/1, P, Old Madras Road (Before Budigere Cross)',
     postalCode: '560049',
   },
   clientLoginUrl: 'https://wealthelite.in/client-login',
@@ -40,10 +41,16 @@ export const FIRM = {
   // under the hero. Only if it's a real minimum you apply.
   minimumInvestable: null,
 
-  // Regulatory registrations, shown in the footer on every page. e.g.
-  // { label: 'AMFI-registered Mutual Fund Distributor', id: 'ARN-000000' }
-  // or { label: 'SEBI Registered Portfolio Manager', id: 'INP000000000' }
-  registrations: [],
+  // Regulatory standing, shown in the footer on every page, on the
+  // Disclosure, About and Contact pages. Source: APMI acknowledgement and
+  // EUIN confirmation emails (June 2025).
+  registrationNote: 'Registered with APMI (Association of Portfolio Managers in India) as a Distributor of Portfolio Management Services.',
+  registrations: [
+    { label: 'APRN', id: 'APRN05916' },
+    // Rishiraj Maheshwari's EUIN, valid 24/05/2025 – 23/05/2028. Renew before expiry.
+    { label: 'EUIN', id: 'E11449' },
+    // Add when available: { label: 'CIN', id: '…' }, { label: 'ARN', id: 'ARN-…' } (AMFI)
+  ],
   // e.g. 'Grievance Officer: Name, grievance@…, +91 …'
   grievance: null,
 };

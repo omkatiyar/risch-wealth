@@ -2,14 +2,16 @@
 .prog-rail{
   position:fixed; top:0; left:0; right:0; z-index:190;
   background:var(--surface); border-bottom:1px solid var(--line);
-  padding-top:74px;
+  padding-top:var(--nav-h);
+  transition:padding-top .35s cubic-bezier(.16,1,.3,1);
 }
+.nav.scrolled ~ .prog-rail{ padding-top:var(--nav-h-scrolled); }
 .prog-inner{ padding-top:14px; padding-bottom:14px; }
 .prog-label{ font-family:var(--f-sans); font-weight:600; font-size:12.5px; color:var(--muted); display:block; margin-bottom:10px; }
 .prog-track{ height:5px; background:var(--bg-tint); border-radius:4px; width:100%; overflow:hidden; }
 .prog-fill{ height:5px; background:linear-gradient(90deg, var(--orange), var(--orange-2)); width:4%; border-radius:4px; transition:width .5s cubic-bezier(.16,1,.3,1); }
 
-.profiler-wrap{ padding-top:190px; padding-bottom:140px; min-height:70vh; }
+.profiler-wrap{ padding-top:calc(var(--nav-h) + 116px); padding-bottom:140px; min-height:70vh; }
 
 /* ===================== STEPS ===================== */
 .p-step{ display:none; max-width:760px; }

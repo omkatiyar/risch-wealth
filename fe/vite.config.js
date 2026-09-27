@@ -4,6 +4,9 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // three.js ships as its own lazy chunk for the logo ring (~140 KB gzip),
+  // loaded after the page is idle; it never blocks first paint.
+  build: { chunkSizeWarningLimit: 600 },
   server: {
     // In dev, the frontend and backend run on different ports (5173 vs
     // 4000), which browsers treat as different origins. Proxying /api

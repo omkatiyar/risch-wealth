@@ -33,6 +33,7 @@ export default function WhoWeServe() {
               </div>
             ))}
           </div>
+          <p className="serve-motto reveal">Every relationship is built on trust.<br />Every strategy is built for the long term.</p>
         </div>
       </section>
 

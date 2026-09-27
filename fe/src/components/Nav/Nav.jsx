@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { useTheme } from '../../hooks/ThemeContext';
 import { FIRM } from '../../data/firm';
+import LogoRing from '../LogoRing/LogoRing';
 
 const navLinkClass = ({ isActive }) => (isActive ? 'active' : undefined);
 
@@ -53,6 +54,7 @@ export default function Nav({ showMobileProfilerLink = true }) {
   return (
     <nav className={'nav' + (scrolled ? ' scrolled' : '')}>
       <NavLink to="/" className="nav-logo" onClick={closeMenu}>
+        <LogoRing />
         <img src={logo} alt="RISCH Wealth" />
       </NavLink>
       <div className={'nav-links' + (menuOpen ? ' open' : '')}>

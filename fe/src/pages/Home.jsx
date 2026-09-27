@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import TestimonialSlider from '../components/TestimonialSlider/TestimonialSlider';
-import ceoPhoto from '../assets/ceo-photo.jpg';
+import founderPortrait from '../assets/founder-portrait.jpg';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { FAQS } from '../seo';
 import { FIRM } from '../data/firm';
@@ -236,21 +236,24 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section on-tint">
+      <section className="ceo-desk">
         <div className="wrap">
-          <div className="founder reveal">
-            <img src={ceoPhoto} alt="Rishiraj Maheshwari, Founder & CEO of RISCH Wealth" className="founder-photo" width="520" height="520" />
+          <div className="ceo-grid reveal">
+            <img src={founderPortrait} alt="Rishiraj Maheshwari, Founder & CEO of RISCH Wealth" className="ceo-photo" width="528" height="660" loading="lazy" />
             <div>
-              <p className="eyebrow">Leadership</p>
-              <h2 className="display-l" style={{ marginBottom: 8 }}>Rishiraj Maheshwari</h2>
-              <p className="founder-role">Founder &amp; CEO</p>
-              <p className="lede" style={{ maxWidth: '52ch' }}>A career private banker who built RISCH around one conviction: risk has to be understood, in a documented and repeatable way, before a single recommendation is made.</p>
+              <p className="eyebrow">From the CEO&rsquo;s Desk</p>
+              <blockquote className="ceo-quote">
+                <p>The objective is not to beat the market every quarter. The objective is to help families preserve and compound wealth across generations.</p>
+              </blockquote>
+              <h2 className="ceo-name">Rishiraj Maheshwari</h2>
+              <p className="ceo-role">Founder &amp; CEO, {FIRM.legalName}</p>
+              <p className="ceo-body">At RISCH, we believe wealth is not a destination, but a responsibility. Our role is to be the steward of your capital, aligned with your values, and committed to your legacy.</p>
               <ul className="career">
                 <li><span>2010 – 2014</span>Senior Private Banker, ICICI Securities</li>
                 <li><span>2018 – 2019</span>Vice President, Family Office Group, Edelweiss Financial Services</li>
                 <li><span>2014 – Present</span>Founder &amp; CEO, RISCH Wealth</li>
               </ul>
-              <Link to="/about" className="text-link">Read the founder's story <Arrow /></Link>
+              <Link to="/about" className="text-link">Read the founder&rsquo;s story <Arrow /></Link>
             </div>
           </div>
         </div>

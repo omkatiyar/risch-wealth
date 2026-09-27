@@ -64,13 +64,16 @@ function buildSections() {
     },
   ];
 
+  // Registration sits straight after the compliance statement, not at the end.
   if (FIRM.registrations.length > 0) {
-    sections.push({
-      title: 'Regulatory registration',
+    const at = sections.findIndex((x) => x.title === 'Regulatory compliance') + 1;
+    sections.splice(at, 0, {
+      title: 'Registration',
       body: (
         <>
+          <p style={{ marginBottom: 12 }}>{FIRM.legalName} is {FIRM.registrationNote.replace(/^Registered/, 'registered').replace(/\.$/, '')}.</p>
           {FIRM.registrations.map((r) => (
-            <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.label}:</strong> {r.id}</p>
+            <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.label}:</strong> {r.id}{r.label === 'EUIN' ? ' (Rishiraj Maheshwari)' : ''}</p>
           ))}
         </>
       ),

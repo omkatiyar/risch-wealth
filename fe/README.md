@@ -240,6 +240,68 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Logo ring (Three.js)**
+- Behind the RISCH wordmark in the nav: the single large ring from the
+  brochure cover (4 segments, the brochure's tones), sized so the whole
+  104x32 wordmark sits inside it (116px; 102px on phones), spinning
+  clockwise about its centre, one revolution per 36 s.
+- `components/LogoRing/`: `ringGeometry.js` is the single source of the
+  shape (segment angles, inner radius, parallel-sided gaps) for both the
+  SVG and the Three.js mesh; `logoRingScene.js` is the Three.js scene
+  (orthographic camera, `ShapeGeometry` per segment, colours and
+  per-tone opacity read from the `--lr-*` CSS variables, so light/dark
+  are set in `styles.css` and update live on theme change);
+  `LogoRing.jsx` handles loading and the hand-off.
+- Loading: the SVG is prerendered and spins with CSS from first paint.
+  4 s after the load event (then on idle), `three` is fetched as its own
+  chunk (~137 KB gzip) and the WebGL canvas cross-fades in at exactly the
+  CSS animation's current angle, then the SVG animation is paused. This
+  keeps Three.js out of the critical path: Lighthouse performance stays
+  at 98 (it was 84 when Three.js loaded on first idle).
+- Fallbacks: no WebGL, or the chunk fails to load, and the CSS spin just
+  carries on. With `prefers-reduced-motion` the ring is still and
+  Three.js is never downloaded.
+- The wordmark gets a hairline halo in the page colour
+  (`drop-shadow`) so every letter stays crisp over any segment.
+- Header geometry is now variables in `:root`: `--nav-h` 124px
+  (108px on phones), `--nav-h-scrolled` 94px (84px), `--logo-h`,
+  `--ring-d`, `--logo-scrolled-scale`. On scroll the header compacts and
+  the logo and ring scale down together. The hero, `.page-head`, and the
+  risk profiler's progress rail and content offsets are derived from
+  `--nav-h` rather than hard-coded.
+- Replaces an earlier attempt (a small rotated crop of the rings beside
+  the wordmark), which was removed.
+
+**Registration, founder portrait, business-card details**
+- Regulatory standing from the APMI emails (June 2025): RISCH Wealth
+  Private Limited is registered with APMI as a Distributor of Portfolio
+  Management Services, APRN05916; the founder's EUIN is E11449 (valid
+  24/05/2025 – 23/05/2028, renew before expiry). Held in
+  `FIRM.registrationNote` / `FIRM.registrations`, shown in the footer on
+  every page, as the second clause on the Disclosure page, on the About
+  page (Governance & Standing) and on the Contact page. CIN and AMFI ARN
+  slots are noted in `firm.js` for when they're supplied.
+- Office address now matches the business card exactly (Brigade Exotica,
+  Tower Azure, No 35 & 36/1, P, Old Madras Road (Before Budigere Cross),
+  Bengaluru 560049), stored as display lines in `FIRM.address.lines`.
+- The second phone number is switched off (`FIRM.phoneAlt: null`):
+  current materials only list +91 94480 90998.
+- New founder portrait cropped from the business card
+  (`assets/founder-portrait.jpg`, 4:5, and `founder-headshot.jpg` for the
+  About page avatar). The old `ceo-photo.jpg` is removed.
+- Home: the founder section is now "From the CEO's Desk", a charcoal
+  band like the footer and brochures, with the founder's quote from the
+  brochures and the stewardship paragraph, plus the career summary.
+- Footer rebuilt: brochure line "Private Wealth. Family Capital.
+  Enduring Legacies.", an Office column with the address, a registration
+  band (note + APRN + EUIN), and the "Trust. Discipline. Performance."
+  motto.
+- Who We Serve ends with the brochure line "Every relationship is built
+  on trust. Every strategy is built for the long term."
+- Not used from the new brochure drafts: the service list (Investment
+  Advisory, Tax & Structuring, etc.) and "Independent & Unbiased
+  Advice", pending a compliance view given the distributor registration.
+
 **Client brochure content (RISCH Wealth & RISCH Family Office)**
 - Hero is now two columns: copy on the left, and on the right the
   overlapping "portfolio rings" from the brochure cover, redrawn as SVG

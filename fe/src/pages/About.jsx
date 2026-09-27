@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
-import ceoPhoto from '../assets/ceo-photo.jpg';
+import founderHeadshot from '../assets/founder-headshot.jpg';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { FIRM } from '../data/firm';
 
 export default function About() {
   useScrollReveal();
@@ -23,7 +24,7 @@ export default function About() {
         <div className="wrap">
           <div className="grid g-2" style={{ gridTemplateColumns: '0.8fr 1.2fr', alignItems: 'start' }}>
             <div className="reveal center">
-              <img src={ceoPhoto} alt="Rishiraj Maheshwari, Founder & CEO" className="avatar-photo" style={{ margin: '0 auto' }} />
+              <img src={founderHeadshot} alt="Rishiraj Maheshwari, Founder & CEO" className="avatar-photo" width="380" height="380" style={{ margin: '0 auto' }} />
               <h2 className="display-s" style={{ marginTop: 26, marginBottom: 4 }}>Rishiraj Maheshwari</h2>
               <p className="mono body-s" style={{ color: 'var(--orange-deep)', marginBottom: 20 }}>Founder &amp; CEO</p>
               <div className="flex gap-10" style={{ justifyContent: 'center', flexWrap: 'wrap', gap: 10 }}>
@@ -186,6 +187,16 @@ export default function About() {
               <p className="body-s mb-0">Managed independently.</p>
             </div>
           </div>
+          {FIRM.registrations.length > 0 && (
+            <div className="reg-strip reveal">
+              <p className="mb-0">{FIRM.registrationNote}</p>
+              <p className="reg-ids mb-0">
+                {FIRM.registrations.map((r) => (
+                  <span key={r.id}><em>{r.label}</em> {r.id}</span>
+                ))}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

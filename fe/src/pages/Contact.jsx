@@ -115,8 +115,7 @@ export default function Contact() {
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Call</p>
                   <a href={FIRM.phoneHref} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)' }}>{FIRM.phone}</a>
-                  <br />
-                  <a href={FIRM.phoneAltHref} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)', marginTop: 8 }}>{FIRM.phoneAlt}</a>
+                  {FIRM.phoneAlt && (<><br /><a href={FIRM.phoneAltHref} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)', marginTop: 8 }}>{FIRM.phoneAlt}</a></>)}
                 </div>
               </div>
               <div className="flex gap-16" style={{ borderTop: '1px solid var(--line)', paddingTop: 28, marginBottom: 28 }}>
@@ -126,10 +125,20 @@ export default function Contact() {
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Office</p>
                   <address className="display-s mb-0" style={{ fontStyle: 'normal', lineHeight: 1.45 }}>
-                    {FIRM.address.street},<br />
-                    {FIRM.address.locality}, {FIRM.city},<br />
-                    {FIRM.region} {FIRM.address.postalCode}, {FIRM.country}
+                    {FIRM.address.lines.map((line) => <span key={line} style={{ display: 'block' }}>{line}</span>)}
                   </address>
+                </div>
+              </div>
+              <div className="flex gap-16" style={{ borderTop: '1px solid var(--line)', paddingTop: 28, marginBottom: 28 }}>
+                <div className="icon-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.4-8 9-4.6-.6-8-4.5-8-9V6l8-3z" /><path d="M8.5 12l2.5 2.5 4.5-5" /></svg>
+                </div>
+                <div>
+                  <p className="eyebrow" style={{ marginBottom: 8 }}>Registration</p>
+                  <p className="mb-0" style={{ color: 'var(--ink-2)', maxWidth: '40ch' }}>{FIRM.registrationNote}</p>
+                  <p className="mb-0" style={{ marginTop: 8, color: 'var(--ink)', fontWeight: 600 }}>
+                    {FIRM.registrations.map((r) => `${r.label} ${r.id}`).join('  ·  ')}
+                  </p>
                 </div>
               </div>
               <div style={{ borderTop: '1px solid var(--line)', paddingTop: 28 }}>

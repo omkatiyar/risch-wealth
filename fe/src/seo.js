@@ -122,7 +122,7 @@ const ORGANIZATION = {
   founder: { '@id': FOUNDER_ID },
   email: FIRM.email,
   telephone: FIRM.phone.replace(/\s+/g, '-'),
-  contactPoint: [FIRM.phone, FIRM.phoneAlt].map((t) => ({
+  contactPoint: [FIRM.phone, FIRM.phoneAlt].filter(Boolean).map((t) => ({
     '@type': 'ContactPoint',
     telephone: t.replace(/\s+/g, '-'),
     contactType: 'customer service',
@@ -130,7 +130,7 @@ const ORGANIZATION = {
   })),
   address: {
     '@type': 'PostalAddress',
-    streetAddress: `${FIRM.address.street}, ${FIRM.address.locality}`,
+    streetAddress: FIRM.address.street,
     postalCode: FIRM.address.postalCode,
     addressLocality: 'Bengaluru',
     addressRegion: 'Karnataka',
