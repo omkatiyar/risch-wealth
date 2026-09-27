@@ -8,12 +8,10 @@ const navLinkClass = ({ isActive }) => (isActive ? 'active' : undefined);
 
 const NAV_LINKS = [
   { to: '/about', label: 'The Firm' },
-  { to: '/who-we-serve', label: 'Who We Serve' },
-  { to: '/solutions', label: 'Solutions' },
+  { to: '/who-we-serve', label: 'Whom We Serve' },
+  { to: '/solutions', label: 'What We Provide' },
   { to: '/testimonials', label: 'Testimonials' },
-  { to: '/perspective', label: 'Perspective' },
-  { to: '/disclosure', label: 'Disclosure' },
-  { to: '/contact', label: 'Contact' },
+  { to: '/contact', label: 'Get In Touch' },
 ];
 
 export default function Nav({ showMobileProfilerLink = true }) {
