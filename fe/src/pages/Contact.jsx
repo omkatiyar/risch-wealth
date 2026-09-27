@@ -2,8 +2,10 @@ import { useState } from 'react';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { FIRM } from '../data/firm';
 
 const TOPICS = [
+  'Portfolio review',
   'Private Wealth Solutions',
   'Wealth Coordination',
   'Portfolio Construction',
@@ -22,11 +24,26 @@ export default function Contact() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // There's no mail backend yet, so the form hands off to the visitor's
+  // own email app with everything filled in, addressed to FIRM.email.
+  // Once the API can send or store enquiries, POST `form` there instead.
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Design preview only — no backend wired up yet. Once the Node.js
-    // API exists, POST `form` to it here instead of just showing a note.
-    setNote("Thank you — this is a design preview, so messages aren't actually sent yet. Connect a form backend (e.g. your CRM or email service) to go live.");
+    if (!form.name.trim() || !form.email.trim()) {
+      setNote('Please add your name and email so we can reply.');
+      return;
+    }
+    const subject = `Enquiry: ${form.topic} (${form.name.trim()})`;
+    const body = [
+      form.message.trim(),
+      '',
+      `Name: ${form.name.trim()}`,
+      `Email: ${form.email.trim()}`,
+      form.phone.trim() && `Phone: ${form.phone.trim()}`,
+      `Interested in: ${form.topic}`,
+    ].filter((line) => line !== '' && line !== false).join('\n');
+    window.location.href = `mailto:${FIRM.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setNote(`Your email app should now open with this message ready to send. If it doesn't, write to ${FIRM.email} or call ${FIRM.phone}.`);
   };
 
   return (
@@ -36,8 +53,9 @@ export default function Contact() {
       <header className="page-head" style={{ paddingBottom: 40, position: 'relative', overflow: 'hidden' }}>
         <div className="pattern-dots" style={{ top: 0, height: 380 }}></div>
         <div className="wrap" style={{ position: 'relative' }}>
-          <p className="eyebrow kicker reveal in">Get In Touch</p>
+          <p className="eyebrow kicker reveal in">Start A Conversation</p>
           <h1 className="display-xxl reveal in" style={{ maxWidth: '14em' }}>Let's talk about your <span className="italic">portfolio.</span></h1>
+          <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 24 }}>Tell us a little about your situation and what you'd like help with. Every enquiry is read and answered personally.</p>
         </div>
       </header>
 
@@ -87,7 +105,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Email</p>
-                  <a href="mailto:rischwealth@gmail.com" className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)' }}>rischwealth@gmail.com</a>
+                  <a href={`mailto:${FIRM.email}`} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)' }}>{FIRM.email}</a>
                 </div>
               </div>
               <div className="flex gap-16" style={{ borderTop: '1px solid var(--line)', paddingTop: 28, marginBottom: 28 }}>
@@ -96,7 +114,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Call</p>
-                  <a href="tel:+919448090998" className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)' }}>+91 94480 90998</a>
+                  <a href={FIRM.phoneHref} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)' }}>{FIRM.phone}</a>
                 </div>
               </div>
               <div className="flex gap-16" style={{ borderTop: '1px solid var(--line)', paddingTop: 28, marginBottom: 28 }}>

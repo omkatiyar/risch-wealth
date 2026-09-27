@@ -55,7 +55,7 @@ function ProfilerIntro({ onBegin }) {
     <section className="p-step is-active" data-step="intro">
       <p className="eyebrow reveal in">Portfolio Suitability Questionnaire</p>
       <h1 className="display-xl reveal in" style={{ maxWidth: '14em' }}>Know your risk profile <span className="italic">before you invest.</span></h1>
-      <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>This diagnostic follows a documented time-horizon and risk-preference methodology. It takes about three minutes. At the end, you'll receive a complete investment proposal — allocation, sub-asset breakdown and hypothetical outcomes — built around your answers.</p>
+      <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>This diagnostic follows a documented time-horizon and risk-preference methodology. It takes about three minutes. At the end, you'll receive a preliminary proposal — allocation, sub-asset breakdown and hypothetical outcomes — built around your answers, as a starting point for a conversation with RISCH.</p>
       <div className="intro-facts reveal in">
         <div><span className="mono">01</span> Basic details</div>
         <div><span className="mono">02</span> Time horizon — 2 questions</div>
@@ -211,7 +211,7 @@ function RiskProfilerQuiz({ questions }) {
         )}
       </main>
 
-      {showFooter && <Footer extendedLegal contactEmail="contact@rischwealth.com" showPhone={false} showSocials={false} />}
+      {showFooter && <Footer extendedLegal showSocials={false} />}
     </>
   );
 }

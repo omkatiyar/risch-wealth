@@ -2,8 +2,57 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import TestimonialSlider from '../components/TestimonialSlider/TestimonialSlider';
+import ceoPhoto from '../assets/ceo-photo.jpg';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { FAQS } from '../seo';
+import { FIRM } from '../data/firm';
+import { SEGMENTS } from '../data/segments';
+
+const Arrow = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
+);
+
+// Trust bar: verified facts only. Client count / assets appear first once
+// they're filled in (and cleared) in src/data/firm.js.
+function trustItems() {
+  const items = [];
+  if (FIRM.clientCount) items.push({ n: FIRM.clientCount, l: 'Client families' });
+  if (FIRM.assets) items.push({ n: FIRM.assets.value, l: FIRM.assets.label });
+  items.push(
+    { n: `${new Date().getFullYear() - FIRM.careerStartYear} years`, l: "Founder's career in private banking and wealth management" },
+    { n: String(FIRM.foundedYear), l: 'Year RISCH Wealth was founded' },
+    { n: 'Zero', l: 'Proprietary products — recommendations align to you, not a shelf' },
+    { n: '8-point', l: 'Risk diagnostic, completed before any proposal' },
+  );
+  return items.slice(0, 4);
+}
+
+const PROCESS = [
+  { t: 'Conversation', d: 'Your objectives, liquidity needs and time horizon — and what your wealth can actually withstand.' },
+  { t: 'Diagnosis', d: 'Existing holdings across banks, brokers and advisers, reviewed as one balance sheet.' },
+  { t: 'Proposal', d: 'An allocation matched to your risk profile, with best, expected and worst case shown before a rupee moves.' },
+  { t: 'Implementation', d: 'Executed as agreed. Any deviation is recorded, justified and signed by both parties.' },
+  { t: 'Review', d: 'Your portfolio is reviewed against your objectives at every rebalancing.' },
+];
+
+const DISCIPLINES = [
+  { t: 'Private Wealth Solutions', d: 'Portfolios built on a documented suitability process, not a house view.' },
+  { t: 'Wealth Coordination', d: 'Consolidated reporting, succession and governance, with one point of contact for your legal and tax advisers.' },
+  { t: 'Portfolio Construction', d: 'Granular allocation across domestic and international equity, fixed income and liquidity — sized to you, not a model.' },
+  { t: 'Risk Profiling', d: 'Time horizon and risk preference scored independently, then matched to a portfolio.' },
+];
+
+const WHY = [
+  { t: 'Independent of product', d: 'No proprietary fund and no product shelf. Recommendations align to the client, never to what needs selling.' },
+  { t: 'A focused practice', d: 'RISCH works with a small number of clients directly, so every portfolio gets genuine attention.' },
+  { t: 'Accountable by design', d: 'The worst case is disclosed before you commit, and any override is documented and signed by both parties.' },
+  { t: 'One view of your wealth', d: 'Holdings spread across custodians, brought together into one coherent strategy and one set of reports.' },
+];
+
+// Four primary client profiles; family offices get a line of their own.
+const HOME_SEGMENTS = ['Private Clients & Families', 'Business Owners', 'Senior Executives & Professionals', 'NRIs & Global Indians']
+  .map((title) => SEGMENTS.find((s) => s.title === title))
+  .filter(Boolean);
 
 export default function Home() {
   useScrollReveal();
@@ -12,27 +61,30 @@ export default function Home() {
     <>
       <Nav />
 
-      <header className="arc-wrap" style={{ padding: '186px 0 0', overflow: 'hidden', position: 'relative' }}>
+      <header className="arc-wrap hero" style={{ overflow: 'hidden', position: 'relative' }}>
         <div className="pattern-dots" style={{ top: 0, height: 600 }}></div>
         <div className="wrap" style={{ position: 'relative' }}>
-          <p className="eyebrow reveal in">RISCH Private Wealth</p>
-          <h1 className="display-xxl reveal in" style={{ maxWidth: '15em' }}>Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
-          <div className="grid g-2" style={{ gridTemplateColumns: '1.4fr 1fr', marginTop: 40, alignItems: 'end' }}>
-            <p className="lede reveal in" style={{ maxWidth: '36ch', transitionDelay: '.1s' }}>Independent private wealth, led by a career private banker. Risk understood first — then a portfolio built around it.</p>
-            <div className="flex gap-16 reveal in" style={{ transitionDelay: '.2s', flexWrap: 'wrap' }}>
-              <Link to="/risk-profiler" className="btn btn-primary">Begin your risk profile
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
-              </Link>
-              <Link to="/about" className="btn">Meet the founder</Link>
+          <p className="eyebrow reveal in">Private Wealth · {FIRM.city}</p>
+          <h1 className="display-xxl reveal in" style={{ maxWidth: '13em' }}>Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
+          <div className="hero-body">
+            <div className="reveal in" style={{ transitionDelay: '.1s' }}>
+              <p className="lede" style={{ maxWidth: '52ch' }}>An independent private wealth practice for families and individuals with significant wealth, led by a career private banker. Risk understood first — then a portfolio built around it.</p>
+              {FIRM.minimumInvestable && (
+                <p className="hero-note">For investors with {FIRM.minimumInvestable}+ in investable assets.</p>
+              )}
+            </div>
+            <div className="hero-ctas reveal in" style={{ transitionDelay: '.2s' }}>
+              <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
+              <Link to="/risk-profiler" className="btn">Take the risk assessment</Link>
             </div>
           </div>
         </div>
 
-        <div className="wrap" style={{ marginTop: 64, position: 'relative' }}>
-          <svg className="arc-svg" viewBox="0 0 1200 300" width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }}>
+        <div className="wrap" style={{ marginTop: 56, position: 'relative' }}>
+          <svg className="arc-svg" viewBox="0 0 1200 300" width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }} aria-hidden="true">
             <defs>
               <linearGradient id="arcGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#C85A16" stopOpacity="0.16" />
+                <stop offset="0%" stopColor="#C85A16" stopOpacity="0.12" />
                 <stop offset="100%" stopColor="#C85A16" stopOpacity="0" />
               </linearGradient>
             </defs>
@@ -43,26 +95,24 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="ticker">
-        <div className="ticker-track">
-          <span><b>ALLOCATION UNIVERSE</b></span>
-          <span>Domestic Equity</span><span>·</span>
-          <span>International Equity</span><span>·</span>
-          <span>Fixed Income</span><span>·</span>
-          <span>Cash &amp; Liquid Equivalents</span><span>·</span>
-          <span><b>ALLOCATION UNIVERSE</b></span>
-          <span>Domestic Equity</span><span>·</span>
-          <span>International Equity</span><span>·</span>
-          <span>Fixed Income</span><span>·</span>
-          <span>Cash &amp; Liquid Equivalents</span><span>·</span>
+      <section className="trust-bar" aria-label="RISCH at a glance">
+        <div className="wrap">
+          <div className="trust-grid reveal-stagger">
+            {trustItems().map((item) => (
+              <div key={item.l} className="trust-item">
+                <div className="trust-n">{item.n}</div>
+                <div className="trust-l">{item.l}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       <section className="section">
         <div className="wrap">
           <div className="grid g-2" style={{ gridTemplateColumns: '0.9fr 1.1fr' }}>
             <div className="reveal">
-              <p className="eyebrow">Our Method</p>
+              <p className="eyebrow">Our Philosophy</p>
               <h2 className="display-l">Risk first.<br />Return follows.</h2>
             </div>
             <div className="reveal">
@@ -70,119 +120,150 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{ marginTop: 24 }}>
-            <div className="numbered-row reveal">
-              <div className="num">01</div>
-              <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-                <div className="flex gap-16 items-center">
-                  <div className="icon-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" /></svg>
-                  </div>
-                  <h3 className="display-s">Capacity, measured</h3>
+          <div style={{ marginTop: 32 }}>
+            {[
+              ['Capacity, measured', "What you're able to withstand, not just what you feel able to."],
+              ['Portfolio, matched', 'Time horizon and risk preference decide the portfolio — never the other way round.'],
+              ['Outcome, disclosed', 'Best case, expected case, worst case — shown before a rupee moves.'],
+            ].map(([t, d], i) => (
+              <div className="numbered-row reveal" key={t}>
+                <div className="num">0{i + 1}</div>
+                <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'baseline' }}>
+                  <h3 className="display-s">{t}</h3>
+                  <p className="mb-0">{d}</p>
                 </div>
-                <p className="mb-0">What you're able to withstand, not just what you feel able to.</p>
               </div>
-            </div>
-            <div className="numbered-row reveal">
-              <div className="num">02</div>
-              <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-                <div className="flex gap-16 items-center">
-                  <div className="icon-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z" /><path d="M3 12l9 5 9-5" /><path d="M3 17l9 5 9-5" /></svg>
-                  </div>
-                  <h3 className="display-s">Portfolio, matched</h3>
-                </div>
-                <p className="mb-0">Time horizon and risk preference decide the portfolio — never the other way round.</p>
-              </div>
-            </div>
-            <div className="numbered-row reveal">
-              <div className="num">03</div>
-              <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-                <div className="flex gap-16 items-center">
-                  <div className="icon-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-5 3 3 5-7" /></svg>
-                  </div>
-                  <h3 className="display-s">Outcome, disclosed</h3>
-                </div>
-                <p className="mb-0">Best case, expected case, worst case — shown before a rupee moves.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="section on-dark" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="pattern-dots"></div>
-        <div className="wrap" style={{ position: 'relative' }}>
-          <p className="eyebrow reveal" style={{ justifyContent: 'center' }}>What Clients Say</p>
-          <h2 className="display-l reveal center" style={{ margin: '0 auto 56px' }}>Client experiences.</h2>
-          <TestimonialSlider />
+      <section className="section on-tint">
+        <div className="wrap">
+          <div className="reveal" style={{ maxWidth: 720, marginBottom: 56 }}>
+            <p className="eyebrow">How We Work With You</p>
+            <h2 className="display-l">A documented process, from first conversation to every review.</h2>
+          </div>
+          <ol className="process reveal-stagger">
+            {PROCESS.map((step, i) => (
+              <li key={step.t}>
+                <span className="process-n">0{i + 1}</span>
+                <h3 className="display-s">{step.t}</h3>
+                <p className="body-s mb-0">{step.d}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
       <section className="section">
         <div className="wrap">
-          <div className="flex justify-between items-center reveal" style={{ flexWrap: 'wrap', gap: 24, marginBottom: 56 }}>
-            <div>
-              <p className="eyebrow">What We Do</p>
-              <h2 className="display-l" style={{ maxWidth: '14ch', marginBottom: 0 }}>Built around the whole balance sheet.</h2>
+          <div className="grid g-2" style={{ gridTemplateColumns: '0.9fr 1.1fr', alignItems: 'start' }}>
+            <div className="reveal">
+              <p className="eyebrow">Who We Serve</p>
+              <h2 className="display-l" style={{ marginBottom: 20 }}>For wealth that has outgrown simple answers.</h2>
+              <p style={{ maxWidth: '42ch' }}>RISCH works with a small number of clients directly — typically where wealth is spread across businesses, custodians, generations or countries.</p>
+              <Link to="/who-we-serve" className="text-link">More on who we work with <Arrow /></Link>
             </div>
-            <Link to="/solutions" className="btn">View all solutions
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
-            </Link>
-          </div>
-
-          <div className="grid g-4 reveal-stagger">
-            <div className="card">
-              <div className="icon-badge" style={{ marginBottom: 22 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z" /><path d="M3 12l9 5 9-5" /><path d="M3 17l9 5 9-5" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 10 }}>Private Wealth Solutions</h3>
-              <p className="body-s mb-0">Portfolios built on a documented process, not a house view.</p>
-            </div>
-            <div className="card">
-              <div className="icon-badge" style={{ marginBottom: 22 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="8" r="3.2" /><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" /><circle cx="17" cy="8.5" r="2.6" /><path d="M15 14.2c2.7.4 4.7 2.5 4.7 5.8" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 10 }}>Wealth Coordination</h3>
-              <p className="body-s mb-0">Consolidated reporting and succession, across generations.</p>
-            </div>
-            <div className="card">
-              <div className="icon-badge" style={{ marginBottom: 22 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2" /><rect x="14" y="3" width="7" height="7" rx="1.2" /><rect x="3" y="14" width="7" height="7" rx="1.2" /><rect x="14" y="14" width="7" height="7" rx="1.2" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 10 }}>Portfolio Construction</h3>
-              <p className="body-s mb-0">Granular allocation, sized to the client — not the model.</p>
-            </div>
-            <div className="card">
-              <div className="icon-badge" style={{ marginBottom: 22 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 10 }}>Risk Profiling</h3>
-              <p className="body-s mb-0">Time horizon and risk preference, scored independently.</p>
+            <div className="line-list reveal">
+              {HOME_SEGMENTS.map((s) => (
+                <div key={s.title} className="line-item">
+                  <h3 className="display-s">{s.title}</h3>
+                  <p className="mb-0">{s.body}</p>
+                </div>
+              ))}
+              <p className="body-s" style={{ marginTop: 20 }}>We also work alongside existing family offices, as an independent second opinion and execution partner.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section on-paper-2">
-        <div className="wrap center">
-          <p className="eyebrow reveal" style={{ justifyContent: 'center' }}>The Instrument</p>
-          <h2 className="display-l reveal" style={{ maxWidth: '20ch', margin: '0 auto 20px' }}>Your risk profile, generated in eight questions.</h2>
-          <p className="lede reveal" style={{ maxWidth: '50ch', margin: '0 auto 36px' }}>A short questionnaire, an instant proposal — your allocation and hypothetical outcomes, built around your answers.</p>
-          <Link to="/risk-profiler" className="btn btn-rust reveal">Start the risk profiler
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
-          </Link>
+      <section className="section on-tint">
+        <div className="wrap">
+          <div className="flex justify-between items-center reveal" style={{ flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
+            <div>
+              <p className="eyebrow">What We Do</p>
+              <h2 className="display-l" style={{ maxWidth: '22ch', marginBottom: 0 }}>Built around the whole balance sheet.</h2>
+            </div>
+            <Link to="/solutions" className="btn">View all solutions <Arrow /></Link>
+          </div>
+          <div className="disc-grid reveal-stagger">
+            {DISCIPLINES.map((d, i) => (
+              <div key={d.t} className="disc-item">
+                <span className="process-n">0{i + 1}</span>
+                <h3 className="display-s">{d.t}</h3>
+                <p className="mb-0">{d.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="section">
+        <div className="wrap">
+          <div className="reveal" style={{ maxWidth: 720, marginBottom: 48 }}>
+            <p className="eyebrow">Why RISCH</p>
+            <h2 className="display-l">Structured to put the client's interest first.</h2>
+          </div>
+          <div className="why-grid reveal-stagger">
+            {WHY.map((w) => (
+              <div key={w.t} className="why-item">
+                <h3 className="display-s">{w.t}</h3>
+                <p className="mb-0">{w.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section on-tint">
+        <div className="wrap">
+          <div className="founder reveal">
+            <img src={ceoPhoto} alt="Rishiraj Maheshwari, Founder & CEO of RISCH Wealth" className="founder-photo" width="520" height="520" />
+            <div>
+              <p className="eyebrow">Leadership</p>
+              <h2 className="display-l" style={{ marginBottom: 8 }}>Rishiraj Maheshwari</h2>
+              <p className="founder-role">Founder &amp; CEO</p>
+              <p className="lede" style={{ maxWidth: '52ch' }}>A career private banker who built RISCH around one conviction: risk has to be understood, in a documented and repeatable way, before a single recommendation is made.</p>
+              <ul className="career">
+                <li><span>2010 – 2014</span>Senior Private Banker, ICICI Securities</li>
+                <li><span>2018 – 2019</span>Vice President, Family Office Group, Edelweiss Financial Services</li>
+                <li><span>2014 – Present</span>Founder &amp; CEO, RISCH Wealth</li>
+              </ul>
+              <Link to="/about" className="text-link">Read the founder's story <Arrow /></Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="wrap" style={{ position: 'relative' }}>
+          <p className="eyebrow reveal" style={{ justifyContent: 'center' }}>Client Experiences</p>
+          <h2 className="display-l reveal center" style={{ margin: '0 auto 56px' }}>In their words.</h2>
+          <TestimonialSlider />
+        </div>
+      </section>
+
+      <section className="section-tight on-tint">
+        <div className="wrap">
+          <div className="assess reveal">
+            <div>
+              <p className="eyebrow">Risk Assessment</p>
+              <h2 className="display-m" style={{ marginBottom: 12 }}>Before we talk, see where you stand.</h2>
+              <p className="mb-0" style={{ maxWidth: '60ch' }}>Eight questions on your time horizon and risk preference produce a preliminary allocation with hypothetical outcomes. It's a starting point for a conversation — not a recommendation.</p>
+            </div>
+            <Link to="/risk-profiler" className="btn">Take the risk assessment <Arrow /></Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" id="faq">
         <div className="wrap">
           <div className="grid g-2" style={{ gridTemplateColumns: '0.9fr 1.1fr' }}>
             <div className="reveal">
               <p className="eyebrow">Questions</p>
               <h2 className="display-l">Frequently asked questions.</h2>
-              <p className="lede" style={{ maxWidth: '36ch', marginTop: 20 }}>How RISCH works, who we work with, and what the risk profiler tells you.</p>
+              <p className="lede" style={{ maxWidth: '36ch', marginTop: 20 }}>How RISCH works, who we work with, and what the risk assessment tells you.</p>
             </div>
             <div className="faq-list reveal">
               {FAQS.map(({ q, a }, idx) => (
@@ -199,14 +280,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section on-dark" style={{ padding: '140px 0', position: 'relative', overflow: 'hidden' }}>
-        <div className="pattern-dots"></div>
-        <div className="wrap center" style={{ position: 'relative' }}>
+      <section className="final-cta">
+        <div className="wrap center">
           <p className="eyebrow reveal" style={{ justifyContent: 'center' }}>Start A Conversation</p>
-          <h2 className="display-xl reveal" style={{ maxWidth: '16ch', margin: '0 auto 36px' }}>Let's understand your risk before we discuss your return.</h2>
+          <h2 className="display-l reveal" style={{ maxWidth: '22ch', margin: '0 auto 24px' }}>Your portfolio deserves a considered second opinion.</h2>
+          <p className="lede reveal" style={{ maxWidth: '52ch', margin: '0 auto 36px' }}>Whether your wealth sits across several advisers or you're starting afresh, the first step is a conversation about what it needs to do — and what it can withstand.</p>
           <div className="flex gap-16 reveal" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/risk-profiler" className="btn btn-rust">Take the risk profiler</Link>
-            <Link to="/contact" className="btn btn-ghost-dark">Get in touch</Link>
+            <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
+            <a href={FIRM.phoneHref} className="btn">Call {FIRM.phone}</a>
           </div>
         </div>
       </section>

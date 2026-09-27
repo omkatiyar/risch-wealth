@@ -18,10 +18,16 @@ const { getHeadTags, getJsonLd, PAGES, canonicalUrl } = await import(pathToFileU
 
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 
-// Preload the Latin Inter file so text paints in the right font first time.
-const interLatin = fs.readdirSync(path.join(dist, 'assets')).find((f) => /^inter-latin-wght-normal-.*\.woff2$/.test(f));
-if (!interLatin) throw new Error('Inter font file not found in dist/assets');
-const fontPreload = `<link rel="preload" href="/assets/${interLatin}" as="font" type="font/woff2" crossorigin />`;
+// Preload the Latin files of both fonts (Inter body, Cormorant headings)
+// so text paints in the right font first time.
+const assetFiles = fs.readdirSync(path.join(dist, 'assets'));
+const fontPreload = [/^inter-latin-wght-normal-.*\.woff2$/, /^cormorant-garamond-latin-wght-normal-.*\.woff2$/]
+  .map((re) => {
+    const file = assetFiles.find((f) => re.test(f));
+    if (!file) throw new Error(`Font file matching ${re} not found in dist/assets`);
+    return `<link rel="preload" href="/assets/${file}" as="font" type="font/woff2" crossorigin />`;
+  })
+  .join('\n    ');
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

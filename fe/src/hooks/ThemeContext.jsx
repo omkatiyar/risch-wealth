@@ -4,9 +4,9 @@ const ThemeContext = createContext(null);
 
 function getInitialIsDark() {
   try {
-    return localStorage.getItem('risch-theme') !== 'light';
+    return localStorage.getItem('risch-theme') === 'dark';
   } catch {
-    return true;
+    return false;
   }
 }
 

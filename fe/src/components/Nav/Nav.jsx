@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { useTheme } from '../../hooks/ThemeContext';
+import { FIRM } from '../../data/firm';
 
 const navLinkClass = ({ isActive }) => (isActive ? 'active' : undefined);
-
-const CLIENT_LOGIN_URL = 'https://wealthelite.in/client-login';
 
 const NAV_LINKS = [
   { to: '/about', label: 'The Firm' },
@@ -14,7 +13,7 @@ const NAV_LINKS = [
   { to: '/testimonials', label: 'Testimonials' },
   { to: '/perspective', label: 'Perspective' },
   { to: '/disclosure', label: 'Disclosure' },
-  { to: '/contact', label: 'Contact Us' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export default function Nav({ showMobileProfilerLink = true }) {
@@ -58,22 +57,17 @@ export default function Nav({ showMobileProfilerLink = true }) {
       </NavLink>
       <div className={'nav-links' + (menuOpen ? ' open' : '')}>
         {NAV_LINKS.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            end={link.end}
-            className={navLinkClass}
-            onClick={closeMenu}
-          >
+          <NavLink key={link.to} to={link.to} className={navLinkClass} onClick={closeMenu}>
             {link.label}
           </NavLink>
         ))}
         <div className="nav-links-extra">
-          <a href={CLIENT_LOGIN_URL} target="_blank" rel="noopener noreferrer">Client Login</a>
-          <NavLink to="/employee-login" onClick={closeMenu}>Employee Login</NavLink>
           {showMobileProfilerLink && (
             <NavLink to="/risk-profiler" onClick={closeMenu}>Start Risk Profile</NavLink>
           )}
+          <NavLink to="/contact" onClick={closeMenu}>Start a conversation</NavLink>
+          <a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer">Client Login</a>
+          <NavLink to="/employee-login" onClick={closeMenu}>Employee Login</NavLink>
         </div>
       </div>
       <div className="nav-actions">
@@ -103,7 +97,7 @@ export default function Nav({ showMobileProfilerLink = true }) {
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4.5L6 7.5L9 4.5" /></svg>
           </button>
           <div className="nav-login-dropdown">
-            <a href={CLIENT_LOGIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => setLoginOpen(false)}>
+            <a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer" onClick={() => setLoginOpen(false)}>
               Client Login
               <span>Your portfolio on Wealth Elite</span>
             </a>
@@ -118,6 +112,7 @@ export default function Nav({ showMobileProfilerLink = true }) {
       <button
         className={'nav-burger' + (menuOpen ? ' open' : '')}
         aria-label="Toggle menu"
+        aria-expanded={menuOpen}
         onClick={() => setMenuOpen((v) => !v)}
       >
         <span></span><span></span><span></span>

@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <script>
+      // Light (ivory) is the default; dark only if the visitor chose it.
+      // Runs before first paint so there's no flash of the wrong theme.
       (function () {
         try {
-          if (localStorage.getItem('risch-theme') !== 'light') {
+          if (localStorage.getItem('risch-theme') === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
           }
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
+        } catch (e) {}
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#15110C" />
+    <meta name="theme-color" content="#FAF6F0" />
     <!--
       Title, description, canonical, Open Graph / X tags and JSON-LD are
       written here per page by scripts/prerender.mjs at build time (and kept

@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 // Self-hosted Inter (one variable file covers every weight). Served from
 // our own domain: no third-party request, no visitor IPs sent to Google.
 import '@fontsource-variable/inter';
+// Display serif for large headings, chosen to echo the logo.
+import '@fontsource-variable/cormorant-garamond';
 import './styles/styles.css';
 import './styles/profiler.css';
 import App from './App.jsx';

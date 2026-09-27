@@ -8,6 +8,9 @@
 // Guidelines from the SEO audit: titles 50–60 characters, descriptions
 // 120–160 characters. `npm run build` warns if a page falls outside that.
 
+// Explicit .js extension: scripts/prerender.mjs imports this file in plain Node.
+import { FIRM } from './data/firm.js';
+
 export const SITE_URL = 'https://rischwealth.com';
 export const SITE_NAME = 'RISCH Wealth';
 export const OG_IMAGE = `${SITE_URL}/og-image.png`;
@@ -19,7 +22,7 @@ export const PAGES = {
   },
   '/about': {
     title: 'About RISCH Wealth | Founder & CEO Rishiraj Maheshwari',
-    description: 'Meet Rishiraj Maheshwari, founder of RISCH Wealth: 20+ years in private banking at Edelweiss and ICICI Securities, now leading an independent wealth firm.',
+    description: 'Meet Rishiraj Maheshwari, founder of RISCH Wealth: a career private banker whose roles include ICICI Securities and Edelweiss Financial Services.',
   },
   '/who-we-serve': {
     title: 'Who We Serve | Private Wealth for Families, NRIs & Founders',
@@ -74,7 +77,7 @@ export function canonicalUrl(pathname) {
 export const FAQS = [
   {
     q: 'What is RISCH Wealth?',
-    a: 'RISCH Wealth Private Limited is an independent private wealth firm based in Bengaluru. It was founded in 2014 by Rishiraj Maheshwari, a career private banker with more than two decades of experience, including roles at Edelweiss Financial Services and ICICI Securities.',
+    a: 'RISCH Wealth Private Limited is an independent private wealth firm based in Bengaluru. It was founded in 2014 by Rishiraj Maheshwari, a career private banker whose roles include Senior Private Banker at ICICI Securities and Vice President in the Family Office Group at Edelweiss Financial Services.',
   },
   {
     q: 'Who does RISCH Wealth work with?',
@@ -98,7 +101,7 @@ export const FAQS = [
   },
   {
     q: 'How do I get started?',
-    a: 'Take the risk profiler on this site to see a proposed portfolio in a few minutes, or contact RISCH Wealth directly by email at rischwealth@gmail.com or by phone on +91 94480 90998.',
+    a: `Start with a conversation: email ${FIRM.email} or call ${FIRM.phone}, or use the contact page. If you'd like a first view beforehand, the risk profiler on this site produces a preliminary allocation in a few minutes.`,
   },
 ];
 
@@ -117,8 +120,8 @@ const ORGANIZATION = {
   description: 'Independent private wealth firm in Bengaluru, led by a career private banker. Risk understood first, then a portfolio built around it.',
   foundingDate: '2014',
   founder: { '@id': FOUNDER_ID },
-  email: 'rischwealth@gmail.com',
-  telephone: '+91-94480-90998',
+  email: FIRM.email,
+  telephone: FIRM.phone.replace(/\s+/g, '-'),
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Bengaluru',

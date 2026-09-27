@@ -1,9 +1,10 @@
 # RISCH Wealth — Frontend (React)
 
 React + Vite migration of the original static `risch-wealth/*.html` site.
-It started as a 1:1 framework migration; since then it has added a Login
-menu, an employee login page, a home-page FAQ and a full SEO/performance
-pass (see "SEO & performance" and "Change log" below).
+It started as a 1:1 framework migration. Since then it has been redesigned
+as a private-wealth site (see "Design system"), and has gained an employee
+login page, a home-page FAQ and a full SEO/performance pass. See "Change
+log" at the bottom.
 
 ## Run
 
@@ -52,10 +53,17 @@ src/
   utils/
     format.js          fmtINR / pct — display-only formatting, not logic
   data/
+    firm.js          firm facts in one place: name, email, phone, founding
+                      year, and the optional client count / assets /
+                      minimum / registrations / grievance fields. Fields
+                      left null are hidden, so nothing unverified shows.
+    segments.jsx     client profiles (Who We Serve page + home page)
     testimonials.js, perspectives.js  static content for those pages
   components/
-    Nav/             shared site nav (active link, mobile burger, theme toggle)
-    Footer/          shared site footer (a few prop-driven variants)
+    Nav/             shared site nav: 5 links, Client Login, "Start a
+                      conversation" CTA, theme toggle, mobile burger
+    Footer/          charcoal footer: entity, links, registrations (from
+                      firm.js), disclaimer, employee sign-in link
     TestimonialSlider/
     ScrollToTop.jsx  restores per-page-load scroll-to-top behavior under
                       React Router, since the original was a multi-page site
@@ -95,22 +103,55 @@ and this frontend is just a client of it now.
 
 ## Routes
 
-| Where it's linked                          | React route       |
-|--------------------------------------------|-------------------|
-| (logo)                                     | `/` (Home)        |
-| Nav: The Firm                              | `/about`          |
-| Nav: Who We Serve                          | `/who-we-serve`   |
-| Nav: Solutions                             | `/solutions`      |
-| "Start Risk Profile" button, footer        | `/risk-profiler`  |
-| Nav: Testimonials                          | `/testimonials`   |
-| Nav: Perspective                           | `/perspective`    |
-| Nav: Disclosure                            | `/disclosure`     |
-| Nav: Contact Us                            | `/contact`        |
-| Login menu → Employee Login                | `/employee-login` (noindex) |
-| anything else                              | 404 page (noindex, real 404 status) |
+| Where it's linked                               | React route       |
+|-------------------------------------------------|-------------------|
+| (logo)                                          | `/` (Home)        |
+| Nav: The Firm                                   | `/about`          |
+| Nav: Who We Serve                               | `/who-we-serve`   |
+| Nav: Solutions                                  | `/solutions`      |
+| Nav: Testimonials, footer: Client Experiences   | `/testimonials`   |
+| Nav: Perspective                                | `/perspective`    |
+| Nav: Disclosure, footer: Disclosures            | `/disclosure`     |
+| Nav: Contact, "Start a conversation" buttons     | `/contact`        |
+| Nav: "Start Risk Profile" button, "Take the risk assessment" buttons | `/risk-profiler` |
+| Footer: Employee sign-in                         | `/employee-login` (noindex) |
+| anything else                                   | 404 page (noindex, real 404 status) |
 
-Login menu → Client Login opens `https://wealthelite.in/client-login` in a
-new tab.
+"Client Login" (nav and footer) opens `FIRM.clientLoginUrl` (Wealth Elite)
+in a new tab.
+
+## Design system
+
+`src/styles/styles.css` (v3, "private-wealth editorial"):
+
+- **Colour:** warm ivory ground (`--bg #FAF6F0`), sand for alternate
+  sections (`--bg-tint`), charcoal text and primary buttons (`--ink
+  #1C1A17`). The logo orange `--orange #F1650C` is only used for graphics
+  and hairlines (it's 2.95:1 on ivory). Orange *text* uses `--accent
+  #B24A07` (5:1). Dark mode is still available from the toggle, but light
+  is the default (`index.html` + `ThemeContext`). The footer is charcoal
+  in both themes.
+- **Type:** Cormorant Garamond (self-hosted variable font, picked to echo
+  the logo's serif) for `.display-*` headings, with lining numerals.
+  Inter for everything else, including the smaller `.display-s` headings,
+  where Cormorant gets too thin.
+- **Shape:** squared 4px buttons (no pills), flat hairline-bordered cards,
+  and numbered serif sequences (01, 02…) instead of icon tiles.
+- The printable proposal (`profiler.css`, `.report-page`) pins its own
+  palette and isn't affected by the site theme.
+
+**Home page order:** hero → trust bar → philosophy ("Risk first. Return
+follows.") → how we work (5 steps) → who we serve → what we do → why
+RISCH → founder → client experiences → risk assessment (secondary CTA)
+→ FAQ → closing CTA.
+
+**Firm facts:** the trust bar, footer and schema read from
+`src/data/firm.js`. The trust bar shows only facts the site already
+states (career length from the About timeline, founding year, no
+proprietary products, the 8-point diagnostic). `clientCount`, `assets`,
+`minimumInvestable`, `registrations` and `grievance` start as `null`/empty
+and appear automatically once filled. Only add figures that are accurate
+and cleared by compliance.
 
 **Adding a page:** add the `<Route>` in `App.jsx` *and* an entry in
 `PAGES` in `seo.js`. The prerender step renders exactly the routes listed
@@ -152,9 +193,10 @@ Site-wide:
 - `public/robots.txt` allows all crawlers (including AI crawlers), blocks
   `/api/`, and points at the sitemap. `public/llms.txt` is a plain-text
   summary of the firm for LLMs.
-- Inter is self-hosted (`@fontsource-variable/inter`, one variable font
-  file for all weights), and its Latin file is preloaded. There are no
-  Google Fonts requests.
+- Fonts are self-hosted (`@fontsource-variable/inter` for body text,
+  `@fontsource-variable/cormorant-garamond` for headings), and both Latin
+  files are preloaded by the prerender step. There are no Google Fonts
+  requests.
 - The logo (`src/assets/logo.png`) is sized for its 32px display height
   (10 KB, was 267 KB). The favicons are generated from the logo's "R".
 - `docker/nginx.conf` gzips text assets, caches hashed `/assets/` files
@@ -166,12 +208,18 @@ FAQPage schema, so the visible text and the schema can't drift apart.
 Every answer restates something the site already says elsewhere. Keep it
 that way, and have compliance review any change.
 
-Lighthouse (mobile, run against local Docker builds before and after the
-SEO pass): Performance 58–71 → 99, SEO 92 → 100, Best Practices
-96–100 → 100, Accessibility 93–95 → 95, page weight ~960 KB → ~175 KB,
-home LCP 6.4 s → 1.8 s. The remaining accessibility point is colour
-contrast: white text on the brand orange `#F1650C` is 3.2:1, and WCAG AA
-asks for 4.5:1 at that text size.
+Lighthouse (mobile, local Docker builds):
+
+| | Before SEO pass | After SEO pass | After redesign |
+|---|---|---|---|
+| Performance | 58–71 | 99 | 98–99 |
+| Accessibility | 93–95 | 95 | **100** |
+| Best Practices | 96–100 | 100 | 100 |
+| SEO | 92 | 100 | 100 |
+| Home page weight | ~960 KB | ~175 KB | ~250 KB (adds the serif font) |
+
+Accessibility reached 100 once buttons moved to charcoal and orange text
+to `--accent`. White on the logo orange was only 3.2:1.
 
 ## Known gaps (by design, until more of the backend exists)
 
@@ -179,8 +227,9 @@ asks for 4.5:1 at that text size.
   accounts or auth yet; submitting shows a "not available yet" message,
   and nothing is sent or stored.
 
-- The contact form does not submit anywhere yet — same as the original
-  site, which only showed a "this is a design preview" message.
+- The contact form has no backend. On submit it opens the visitor's
+  email app with a pre-filled message to `FIRM.email`. Once the API can
+  send or store enquiries, POST the form there instead.
 - Perspective's blog posts are hard-coded placeholder content
   (`src/data/perspectives.js`) pending a real CMS/backend.
 - The risk profiler's basic-details step (name/email/phone) is not
@@ -190,6 +239,53 @@ asks for 4.5:1 at that text size.
 ## Change log
 
 Newest first.
+
+**Private-wealth redesign**
+- New design system (see "Design system"): ivory default theme, charcoal
+  primary buttons, the orange as a restrained accent, Cormorant Garamond
+  display headings, squared buttons, flat cards. Replaces the previous
+  "consumer fintech" look. Accessibility is 95 → 100.
+- Home page rebuilt around a private-wealth story: trust bar, 5-step
+  "How we work with you", four client profiles, four disciplines, "Why
+  RISCH", founder section with career summary, and a closing
+  consultation CTA. The allocation-universe ticker was removed.
+- The main CTA on inner pages/sections is "Start a conversation"
+  (`/contact`); the risk profiler is offered as a secondary action
+  ("Take the risk assessment"). The nav's top-right button is the
+  exception: it stays "Start Risk Profile" → `/risk-profiler`, so it
+  doesn't duplicate the "Contact" nav link next to it.
+- Nav: The Firm, Who We Serve, Solutions, Testimonials, Perspective,
+  Disclosure, Contact (7 links). Fits down to ~1180px before the burger
+  (was 1400px in the previous design).
+- Kept the Login dropdown ("Login ▾" → Client Login / Employee Login),
+  restyled for the new design system (squared corners, ivory/charcoal).
+  The footer also keeps a small "Employee sign-in" link as a second way in.
+- Disclosure page rewritten as 9–11 numbered clauses (same numbered-row
+  pattern as the home page's philosophy section): purpose, entity, risk
+  assessment methodology, its limits, independence, deviation policy,
+  risk warning, no guarantee of returns, confidentiality, and contact.
+  Regulatory registration and grievance rows appear automatically once
+  `FIRM.registrations` / `FIRM.grievance` are filled in — nothing is
+  invented ahead of that.
+- New charcoal footer: legal entity, location, link columns, registration
+  line (from `firm.js`), disclaimer.
+- `src/data/firm.js` holds firm facts; `src/data/segments.jsx` holds the
+  client profiles shared by two pages.
+- Contact page: the "design preview" message is gone. The form now opens
+  a pre-filled email to `FIRM.email`, and "Portfolio review" was added as
+  a topic.
+- `contact@rischwealth.com` (used on Disclosure and in the profiler
+  footer) replaced with `FIRM.email`. The domain has no MX records yet,
+  so that address bounced.
+- Risk profiler: the intro now says "preliminary proposal". The result
+  screen shows a "preliminary assessment, not a final investment
+  recommendation" notice, with "Discuss this with RISCH" as the primary
+  action.
+- Copy: removed "more than two decades" / "20+ years" from the FAQ, the
+  About meta description and `llms.txt`. The About timeline (career from
+  2006, RISCH from 2014) doesn't support it. The trust bar computes the
+  career length from `FIRM.careerStartYear`.
+- New share image (`public/og-image.png`) in the new design.
 
 **SEO audit fixes** (from the rischwealth.com SEO audit report)
 - Prerendering of every route + hydration (was a client-only SPA:

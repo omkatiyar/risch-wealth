@@ -99,6 +99,16 @@ Newest first. The backend's own code (`src/`) has not changed in any of
 these; they're about how it's deployed and reached. Frontend changes are
 listed in `../fe/README.md`.
 
+**Private-wealth redesign (frontend only)**
+- No API changes. The contact form still has no endpoint here. For now
+  the frontend opens a pre-filled email to the firm's inbox instead. A
+  future `POST /api/enquiries` (send and/or store) should replace that.
+  It will need the same care as client data, since enquiries can include
+  investable-asset details.
+- The risk profiler's result screen now labels the output a preliminary
+  assessment, not a recommendation. The tier logic in
+  `src/riskProfiler/` is unchanged.
+
 **SEO audit fixes**
 - `robots.txt` (served by the frontend) now has `Disallow: /api/`, so
   search engines don't crawl these endpoints.
