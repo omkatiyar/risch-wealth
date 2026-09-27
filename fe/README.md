@@ -240,6 +240,29 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Investment principles (client brochure)**
+- Added an "Our Investment Principles" section to the Solutions page,
+  between the four disciplines and the allocation universe: RISCH's own
+  seven-principle client brochure ("We put investors first", "We're
+  independent-minded", "We invest for the long term", "We're
+  valuation-driven investors", "We take a fundamental approach", "We
+  strive to minimise costs", "We build portfolios holistically"), each
+  with a small stroke icon, in the same card grid as the allocation
+  universe below it. Titles and copy are the firm's own text
+  (light copy-edits only), not written for this redesign. The data now
+  lives in `src/data/principles.jsx` (icon + title + body), shared with
+  the home page hero below.
+- Home page hero: the seven principle titles now run right-aligned
+  beside "Capital deserves a considered hand" (a numbered list with
+  hairline dividers, linking to the Solutions page for the full text).
+  Stacks below the CTAs on mobile. The decorative wave graph under the
+  hero is shorter (viewBox height 300 → 150, same curve, just
+  compressed) to make room.
+- The Allocation Universe section lost its `on-dark`/tint background
+  (it would otherwise sit directly against the new tinted Investment
+  Principles section with no visual break) and its icons dropped the
+  now-redundant `icon-badge-dark` modifier.
+
 **Private-wealth redesign**
 - New design system (see "Design system"): ivory default theme, charcoal
   primary buttons, the orange as a restrained accent, Cormorant Garamond
@@ -260,13 +283,16 @@ Newest first.
 - Kept the Login dropdown ("Login ▾" → Client Login / Employee Login),
   restyled for the new design system (squared corners, ivory/charcoal).
   The footer also keeps a small "Employee sign-in" link as a second way in.
-- Disclosure page rewritten as 9–11 numbered clauses (same numbered-row
-  pattern as the home page's philosophy section): purpose, entity, risk
-  assessment methodology, its limits, independence, deviation policy,
-  risk warning, no guarantee of returns, confidentiality, and contact.
-  Regulatory registration and grievance rows appear automatically once
-  `FIRM.registrations` / `FIRM.grievance` are filled in — nothing is
-  invented ahead of that.
+- Disclosure page rewritten as 12 numbered clauses (same numbered-row
+  pattern as the home page's philosophy section): purpose, entity,
+  regulatory compliance, risk assessment methodology, its limits,
+  independence, deviation policy, no advice/no endorsement, risk
+  warning, no guarantee of returns, confidentiality, trademarks, and
+  contact. The regulatory-compliance and no-advice/no-endorsement
+  clauses are drawn from RISCH's own client brochure ("Investment
+  Principles"), not written for this redesign. Regulatory registration
+  and grievance rows appear automatically once `FIRM.registrations` /
+  `FIRM.grievance` are filled in — nothing is invented ahead of that.
 - New charcoal footer: legal entity, location, link columns, registration
   line (from `firm.js`), disclaimer.
 - `src/data/firm.js` holds firm facts; `src/data/segments.jsx` holds the

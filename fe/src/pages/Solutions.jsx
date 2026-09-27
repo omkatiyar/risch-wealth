@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { PRINCIPLES } from '../data/principles';
 
 export default function Solutions() {
   useScrollReveal();
@@ -74,32 +75,53 @@ export default function Solutions() {
         </div>
       </section>
 
-      <section className="section on-dark">
+      <section className="section-tight on-tint">
+        <div className="wrap">
+          <div className="reveal" style={{ maxWidth: 640, marginBottom: 48 }}>
+            <p className="eyebrow">Investment Philosophy</p>
+            <h2 className="display-l">Our Investment Principles.</h2>
+            <p className="lede" style={{ marginTop: 16 }}>The same principles we set out for every new client, before a single rupee is committed.</p>
+          </div>
+          <div className="grid g-3 reveal-stagger">
+            {PRINCIPLES.map((p) => (
+              <div key={p.title} style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
+                <div className="icon-badge" style={{ marginBottom: 18 }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{p.icon}</svg>
+                </div>
+                <h3 className="display-s" style={{ marginBottom: 8 }}>{p.title}</h3>
+                <p className="body-s mb-0">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
         <div className="wrap">
           <p className="eyebrow reveal">Allocation Universe</p>
           <h2 className="display-l reveal" style={{ maxWidth: '18ch', marginBottom: 56 }}>What we allocate across.</h2>
 
           <div className="grid g-3 reveal-stagger">
             <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge icon-badge-dark" style={{ marginBottom: 18 }}>
+              <div className="icon-badge" style={{ marginBottom: 18 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-5 3 3 5-7" /></svg>
               </div>
-              <h3 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>Domestic Equity</h3>
-              <p className="body-s mb-0" style={{ color: 'var(--muted)' }}>Large, mid &amp; small cap.</p>
+              <h3 className="display-s" style={{ marginBottom: 8 }}>Domestic Equity</h3>
+              <p className="body-s mb-0">Large, mid &amp; small cap.</p>
             </div>
             <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge icon-badge-dark" style={{ marginBottom: 18 }}>
+              <div className="icon-badge" style={{ marginBottom: 18 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
               </div>
-              <h3 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>International Equity</h3>
-              <p className="body-s mb-0" style={{ color: 'var(--muted)' }}>US, Europe &amp; Asia ex-Japan.</p>
+              <h3 className="display-s" style={{ marginBottom: 8 }}>International Equity</h3>
+              <p className="body-s mb-0">US, Europe &amp; Asia ex-Japan.</p>
             </div>
             <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge icon-badge-dark" style={{ marginBottom: 18 }}>
+              <div className="icon-badge" style={{ marginBottom: 18 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="13" rx="2" /><path d="M2 10h20" /><circle cx="7" cy="14.5" r="1.3" fill="currentColor" stroke="none" /></svg>
               </div>
-              <h3 className="display-s" style={{ marginBottom: 8, color: 'var(--ink)' }}>Fixed Income &amp; Liquidity</h3>
-              <p className="body-s mb-0" style={{ color: 'var(--muted)' }}>Short, medium &amp; long duration.</p>
+              <h3 className="display-s" style={{ marginBottom: 8 }}>Fixed Income &amp; Liquidity</h3>
+              <p className="body-s mb-0">Short, medium &amp; long duration.</p>
             </div>
           </div>
         </div>

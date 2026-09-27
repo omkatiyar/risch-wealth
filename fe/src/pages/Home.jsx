@@ -7,6 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { FAQS } from '../seo';
 import { FIRM } from '../data/firm';
 import { SEGMENTS } from '../data/segments';
+import { PRINCIPLES } from '../data/principles';
 
 const Arrow = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
@@ -64,33 +65,47 @@ export default function Home() {
       <header className="arc-wrap hero" style={{ overflow: 'hidden', position: 'relative' }}>
         <div className="pattern-dots" style={{ top: 0, height: 600 }}></div>
         <div className="wrap" style={{ position: 'relative' }}>
-          <p className="eyebrow reveal in">Private Wealth · {FIRM.city}</p>
-          <h1 className="display-xxl reveal in" style={{ maxWidth: '13em' }}>Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
-          <div className="hero-body">
-            <div className="reveal in" style={{ transitionDelay: '.1s' }}>
-              <p className="lede" style={{ maxWidth: '52ch' }}>An independent private wealth practice for families and individuals with significant wealth, led by a career private banker. Risk understood first — then a portfolio built around it.</p>
-              {FIRM.minimumInvestable && (
-                <p className="hero-note">For investors with {FIRM.minimumInvestable}+ in investable assets.</p>
-              )}
+          <div className="hero-top">
+            <div className="hero-intro">
+              <p className="eyebrow reveal in">Private Wealth · {FIRM.city}</p>
+              <h1 className="display-xxl reveal in" style={{ maxWidth: '13em' }}>Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
+              <div className="hero-body">
+                <div className="reveal in" style={{ transitionDelay: '.1s' }}>
+                  <p className="lede" style={{ maxWidth: '52ch' }}>An independent private wealth practice for families and individuals with significant wealth, led by a career private banker. Risk understood first — then a portfolio built around it.</p>
+                  {FIRM.minimumInvestable && (
+                    <p className="hero-note">For investors with {FIRM.minimumInvestable}+ in investable assets.</p>
+                  )}
+                </div>
+                <div className="hero-ctas reveal in" style={{ transitionDelay: '.2s' }}>
+                  <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
+                  <Link to="/risk-profiler" className="btn">Take the risk assessment</Link>
+                </div>
+              </div>
             </div>
-            <div className="hero-ctas reveal in" style={{ transitionDelay: '.2s' }}>
-              <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
-              <Link to="/risk-profiler" className="btn">Take the risk assessment</Link>
+
+            <div className="hero-principles reveal in" style={{ transitionDelay: '.15s' }}>
+              <p className="hp-label">Our Investment Principles</p>
+              <ol>
+                {PRINCIPLES.map((p, i) => (
+                  <li key={p.title}><span className="hp-n">{String(i + 1).padStart(2, '0')}</span>{p.title}</li>
+                ))}
+              </ol>
+              <Link to="/solutions" className="text-link" style={{ marginTop: 14 }}>Read the full philosophy <Arrow /></Link>
             </div>
           </div>
         </div>
 
-        <div className="wrap" style={{ marginTop: 56, position: 'relative' }}>
-          <svg className="arc-svg" viewBox="0 0 1200 300" width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }} aria-hidden="true">
+        <div className="wrap" style={{ marginTop: 32, position: 'relative' }}>
+          <svg className="arc-svg" viewBox="0 0 1200 150" width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }} aria-hidden="true">
             <defs>
               <linearGradient id="arcGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#C85A16" stopOpacity="0.12" />
                 <stop offset="100%" stopColor="#C85A16" stopOpacity="0" />
               </linearGradient>
             </defs>
-            <path className="arc-fill" d="M0,260 C150,255 220,150 340,140 C460,130 520,220 640,205 C760,190 820,60 960,50 C1060,43 1140,90 1200,70 L1200,300 L0,300 Z" />
-            <path className="arc-line" d="M0,260 C150,255 220,150 340,140 C460,130 520,220 640,205 C760,190 820,60 960,50 C1060,43 1140,90 1200,70" />
-            <circle className="arc-dot" cx="1200" cy="70" r="4.5" fill="#C85A16" />
+            <path className="arc-fill" d="M0,130 C150,127 220,75 340,70 C460,65 520,110 640,102 C760,95 820,30 960,25 C1060,21 1140,45 1200,35 L1200,150 L0,150 Z" />
+            <path className="arc-line" d="M0,130 C150,127 220,75 340,70 C460,65 520,110 640,102 C760,95 820,30 960,25 C1060,21 1140,45 1200,35" />
+            <circle className="arc-dot" cx="1200" cy="35" r="4.5" fill="#C85A16" />
           </svg>
         </div>
       </header>

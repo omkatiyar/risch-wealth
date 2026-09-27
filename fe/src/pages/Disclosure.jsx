@@ -19,6 +19,10 @@ function buildSections() {
       body: `${FIRM.legalName} is an independent private wealth practice based in ${FIRM.city}, ${FIRM.region}, ${FIRM.country}, founded in ${FIRM.foundedYear}. Nothing on this site is an offer or solicitation to buy or sell any security in any jurisdiction where such an offer would be unlawful.`,
     },
     {
+      title: 'Regulatory compliance',
+      body: `${FIRM.legalName} ensures compliance with all applicable laws and guidelines issued by SEBI and other regulatory authorities, as amended from time to time.`,
+    },
+    {
       title: 'The risk assessment: methodology and scope',
       body: 'The eight-question assessment synthesises two principal dimensions: liquidity time horizon and drawdown tolerance, informed by behavioural loss aversion. Resulting scores map across a continuum from Conservative to Aggressive, and the output is a preliminary allocation, not a final recommendation.',
     },
@@ -35,6 +39,10 @@ function buildSections() {
       body: 'Where a client or RISCH Wealth elects to deviate from a recommended portfolio, that deviation is bounded to one tier above or below the recommendation, with the basis for it documented and signed by both parties.',
     },
     {
+      title: 'No advice, no endorsement',
+      body: `${FIRM.legalName} does not endorse or promote any opportunity referenced on this site, and nothing here should be read as an offer, solicitation or invitation to participate in one. Any assets or securities referenced may be arranged, referred to or held by the firm. This site does not provide business, investment, tax or legal advice, and no investment decision should be made solely on the basis of information provided here.`,
+    },
+    {
       title: 'General risk warning',
       body: 'This site, and any proposal generated from it, is provided for informational purposes only and does not constitute investment advice. Investments in securities, mutual funds, portfolio services and alternative assets are subject to market risk, including possible loss of principal invested.',
     },
@@ -45,6 +53,10 @@ function buildSections() {
     {
       title: 'Confidentiality of client information',
       body: "Information a client shares with RISCH Wealth — whether through this site, in conversation or in a portfolio review — is held in confidence and used solely to develop, execute and service that client's portfolio.",
+    },
+    {
+      title: 'Trademarks',
+      body: 'Any trademarks or symbols appearing on this site are included for informational purposes only and remain the property of their respective owners.',
     },
   ];
 
