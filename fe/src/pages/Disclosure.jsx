@@ -47,6 +47,10 @@ function buildSections() {
       body: 'This site, and any proposal generated from it, is provided for informational purposes only and does not constitute investment advice. Investments in securities, mutual funds, portfolio services and alternative assets are subject to market risk, including possible loss of principal invested.',
     },
     {
+      title: 'Mutual fund risk disclosure',
+      body: 'Mutual fund investments are subject to market risks; read all scheme-related documents carefully. The NAVs of the schemes may go up or down depending on the factors and forces affecting the securities market, including fluctuations in interest rates. The past performance of mutual funds is not necessarily indicative of the future performance of the schemes. A mutual fund does not guarantee or assure any dividend under any of its schemes, which is subject to the availability and adequacy of distributable surplus. Investors should review the scheme documents carefully and obtain expert professional advice on the specific legal, tax and financial implications of an investment.',
+    },
+    {
       title: 'No guarantee of returns',
       body: 'Past performance is not an indicator or guarantee of future returns. Portfolio names shown in a proposal (RISCH Active Balanced, RISCH Active Growth, RISCH Active Aggressive, RISCH Active Aggressive Plus) are labels for an allocation mandate and do not themselves represent or guarantee any performance outcome.',
     },

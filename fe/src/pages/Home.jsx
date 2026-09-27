@@ -8,6 +8,7 @@ import { FAQS } from '../seo';
 import { FIRM } from '../data/firm';
 import { SEGMENTS } from '../data/segments';
 import { PRINCIPLES } from '../data/principles';
+import PortfolioRings from '../components/PortfolioRings';
 
 const Arrow = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
@@ -62,37 +63,29 @@ export default function Home() {
     <>
       <Nav />
 
-      <header className="arc-wrap hero" style={{ overflow: 'hidden', position: 'relative' }}>
+      <header className="hero" style={{ overflow: 'hidden', position: 'relative' }}>
         <div className="pattern-dots" style={{ top: 0, height: 600 }}></div>
-        <div className="wrap" style={{ position: 'relative' }}>
-          <p className="eyebrow reveal in">Private Wealth · {FIRM.city}</p>
-          <h1 className="display-xxl reveal in" style={{ maxWidth: '13em' }}>Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
-          <div className="hero-body">
-            <div className="reveal in" style={{ transitionDelay: '.1s' }}>
-              <p className="lede" style={{ maxWidth: '52ch' }}>An independent private wealth practice for families and individuals with significant wealth, led by a career private banker. Risk understood first — then a portfolio built around it.</p>
-              {FIRM.minimumInvestable && (
-                <p className="hero-note">For investors with {FIRM.minimumInvestable}+ in investable assets.</p>
-              )}
-            </div>
-            <div className="hero-ctas reveal in" style={{ transitionDelay: '.2s' }}>
-              <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
-              <Link to="/risk-profiler" className="btn">Take the risk assessment</Link>
+        <div className="wrap hero-grid" style={{ position: 'relative' }}>
+          <div className="hero-copy">
+            <p className="eyebrow reveal in">RISCH Wealth &amp; RISCH Family Office</p>
+            <h1 className="display-xxl reveal in">Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
+            <p className="hero-tagline reveal in" style={{ transitionDelay: '.05s' }}>We manage portfolios.</p>
+            <div className="hero-body">
+              <div className="reveal in" style={{ transitionDelay: '.1s' }}>
+                <p className="lede" style={{ maxWidth: '48ch' }}>An independent private wealth practice for families and individuals with significant wealth, led by a career private banker. Risk understood first — then a portfolio built around it.</p>
+                {FIRM.minimumInvestable && (
+                  <p className="hero-note">For investors with {FIRM.minimumInvestable}+ in investable assets.</p>
+                )}
+              </div>
+              <div className="hero-ctas reveal in" style={{ transitionDelay: '.2s' }}>
+                <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
+                <Link to="/risk-profiler" className="btn">Take the risk assessment</Link>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="wrap" style={{ marginTop: 56, position: 'relative' }}>
-          <svg className="arc-svg" viewBox="0 0 1200 220" width="100%" preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }} aria-hidden="true">
-            <defs>
-              <linearGradient id="arcGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#C85A16" stopOpacity="0.12" />
-                <stop offset="100%" stopColor="#C85A16" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path className="arc-fill" d="M0,190 C150,187 220,110 340,102 C460,95 520,161 640,150 C760,139 820,44 960,37 C1060,31 1140,66 1200,51 L1200,220 L0,220 Z" />
-            <path className="arc-line" d="M0,190 C150,187 220,110 340,102 C460,95 520,161 640,150 C760,139 820,44 960,37 C1060,31 1140,66 1200,51" />
-            <circle className="arc-dot" cx="1200" cy="51" r="4.5" fill="#C85A16" />
-          </svg>
+          <div className="hero-visual">
+            <PortfolioRings />
+          </div>
         </div>
       </header>
 
@@ -100,10 +93,10 @@ export default function Home() {
         <div className="wrap">
           <div className="principles-feature-head">
             <div>
-              <p className="eyebrow">Our Investment Principles</p>
-              <h2 className="display-l" style={{ maxWidth: '18ch' }}>What we believe, before we invest a rupee.</h2>
+              <p className="eyebrow">Our Mission — Investor Success</p>
+              <h2 className="display-l" style={{ maxWidth: '24ch' }}>Investors trust us because we put them first.</h2>
             </div>
-            <p className="lede" style={{ maxWidth: '46ch' }}>The same principles we set out for every new client — the foundation of every portfolio RISCH builds.</p>
+            <p className="lede" style={{ maxWidth: '46ch' }}>Seven investment principles guide every portfolio we manage — the same ones we set out for every new client, before a single rupee is committed.</p>
           </div>
           <div className="principles-list">
             {PRINCIPLES.map((p, i) => (

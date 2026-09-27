@@ -326,16 +326,29 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .btn-block{ width:100%; justify-content:center; }
 .btn[disabled]{ opacity:0.35; pointer-events:none; }
 
-/* ===================== HERO ARC MOTIF (signature element) ===================== */
-.arc-wrap{ position:relative; }
-.arc-svg path.arc-line{
-  fill:none; stroke:var(--orange); stroke-width:2.2;
-  stroke-dasharray:1400; stroke-dashoffset:1400;
-  animation:draw 2.4s cubic-bezier(.2,.7,.2,1) forwards .3s;
+/* ===================== PORTFOLIO RINGS (signature graphic) =====================
+   The overlapping rings from the RISCH brochure cover
+   (components/PortfolioRings.jsx). One orange at graded opacities, so
+   overlaps blend the way they do in print and it adapts to dark mode. */
+.portfolio-rings{
+  --ring:#EE7A1E;
+  --o-strong:1; --o-medium:.55; --o-light:.22; --o-faint:.1; --o-hatch:.7;
+  display:block; width:100%; height:auto; overflow:visible;
 }
-.arc-svg path.arc-fill{ fill:url(#arcGrad); opacity:0; animation:fadein 1.6s ease forwards 1.4s; }
-.arc-svg .arc-dot{ opacity:0; animation:fadein .6s ease forwards 2.2s; }
-@keyframes draw{ to{ stroke-dashoffset:0; } }
+html[data-theme="dark"] .portfolio-rings{ --o-medium:.6; --o-light:.3; --o-faint:.17; --o-hatch:.5; }
+.portfolio-rings .pr-seg{ fill:var(--ring); }
+.portfolio-rings .pr-strong{ fill-opacity:var(--o-strong); }
+.portfolio-rings .pr-medium{ fill-opacity:var(--o-medium); }
+.portfolio-rings .pr-light{ fill-opacity:var(--o-light); }
+.portfolio-rings .pr-faint{ fill-opacity:var(--o-faint); }
+.portfolio-rings .pr-gap{ stroke:var(--bg); stroke-width:7; }
+.portfolio-rings .pr-hatch-line{ stroke:var(--ring); stroke-opacity:var(--o-hatch); stroke-width:1.8; }
+.portfolio-rings .pr-ring{ transform-box:fill-box; transform-origin:center; opacity:0; animation:ringIn 1.1s cubic-bezier(.16,1,.3,1) forwards; }
+.portfolio-rings .pr-ring-big{ animation-delay:.15s; }
+.portfolio-rings .pr-ring-med{ animation-delay:.4s; }
+.portfolio-rings .pr-ring-small{ animation-delay:.6s; }
+.portfolio-rings .pr-hatches{ opacity:0; animation:fadein 1.4s ease forwards .7s; }
+@keyframes ringIn{ from{ opacity:0; transform:scale(.92) rotate(-8deg); } to{ opacity:1; transform:none; } }
 @keyframes fadein{ to{ opacity:1; } }
 
 /* ===================== SCROLL REVEAL ===================== */
@@ -573,17 +586,28 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .faq-item p{ max-width:68ch; margin:0 0 26px; }
 
 /* ===================== HOME (v3 private-wealth layout) ===================== */
-.hero{ padding:176px 0 0; }
-.hero-body{ margin-top:32px; }
+.hero{ padding:168px 0 88px; }
+.hero-grid{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:clamp(32px, 3.5vw, 48px); align-items:center; }
+/* the headline shares its row with the rings, so it runs a little smaller */
+.hero-copy .display-xxl{ font-size:clamp(44px, 5.3vw, 76px); }
+.hero-tagline{ font-family:var(--f-serif); font-weight:600; font-size:clamp(24px, 2.3vw, 32px); line-height:1.2; color:var(--ink); margin:22px 0 0; padding-left:16px; border-left:3px solid var(--orange); }
+/* the rings bleed slightly past the text column edge, like the brochure cover */
+.hero-visual{ justify-self:end; width:calc(100% + 56px); max-width:600px; margin-right:-56px; }
+.hero-body{ margin-top:26px; }
 .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-top:34px; }
 .hero-note{ margin:18px 0 0; font-size:14px; font-weight:600; letter-spacing:0.02em; color:var(--ink-2); padding-left:14px; border-left:2px solid var(--orange); }
-@media (max-width:920px){ .hero{ padding-top:140px; } }
+@media (max-width:920px){
+  .hero{ padding:136px 0 56px; }
+  .hero-grid{ grid-template-columns:1fr; }
+  .hero-visual{ justify-self:center; width:100%; max-width:320px; margin:8px 0 0; }
+}
 
 /* ===================== INVESTMENT PRINCIPLES (featured, home page) =====
    The firm's own client-facing principles, given the most prominent
    treatment on the site: the first full section after the hero, on its
    own tinted band, in a bold card grid rather than a compact list. */
 .principles-feature{ padding:96px 0 110px; background:var(--bg-tint); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.principles-feature-head h2{ text-wrap:balance; }
 .principles-feature-head{
   display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end;
   margin-bottom:60px; padding-bottom:36px; border-bottom:1px solid var(--line-strong);

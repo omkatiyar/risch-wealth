@@ -17,6 +17,16 @@ export const FIRM = {
   email: 'rischwealth@gmail.com',
   phone: '+91 94480 90998',
   phoneHref: 'tel:+919448090998',
+  // Second office line, from the client brochure. Also the number on the
+  // Google Business Profile, so both appear wherever contact details do.
+  phoneAlt: '+91 94830 03456',
+  phoneAltHref: 'tel:+919483003456',
+  // Office address as printed on the client brochure.
+  address: {
+    street: 'Brigade Exotica, Old Madras Road, Near Budigere Cross',
+    locality: 'Aavalahalli',
+    postalCode: '560049',
+  },
   clientLoginUrl: 'https://wealthelite.in/client-login',
   foundedYear: 2014,
   careerStartYear: 2006, // founder's first private-banking role (About timeline)

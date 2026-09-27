@@ -14,7 +14,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
             <div className="f-logo"><img src={logo} alt="RISCH Wealth" /></div>
             <p className="f-tagline">Capital deserves a considered hand.</p>
             <p className="f-meta">{FIRM.legalName}</p>
-            <p className="f-meta">{FIRM.city}, {FIRM.region}, {FIRM.country}</p>
+            <p className="f-meta">{FIRM.address.street}, {FIRM.address.locality}, {FIRM.city}, {FIRM.region} {FIRM.address.postalCode}</p>
             {showSocials && (
               <div className="f-social">
                 <a href="https://www.linkedin.com/in/rishiraj-maheshwari-81240b5/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
@@ -49,6 +49,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
               <li><Link to="/contact">Start a conversation</Link></li>
               <li><a href={`mailto:${FIRM.email}`}>{FIRM.email}</a></li>
               <li><a href={FIRM.phoneHref}>{FIRM.phone}</a></li>
+              <li><a href={FIRM.phoneAltHref}>{FIRM.phoneAlt}</a></li>
               <li><a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer">Client Login</a></li>
             </ul>
           </div>
@@ -65,7 +66,8 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
 
         <div className="f-disclaimer">
           <p>
-            {FIRM.legalName}. This site is for informational purposes only and does not constitute investment advice or an offer to buy or sell any security.
+            Mutual fund investments are subject to market risks, read all scheme related documents carefully.
+            {' '}{FIRM.legalName}. This site is for informational purposes only and does not constitute investment advice or an offer to buy or sell any security.
             {extendedLegal && ' Investments in securities, mutual funds, portfolio services and alternative assets are subject to market risk, including possible loss of principal.'}
             {' '}Past performance is not indicative of future results. See <Link to="/disclosure" style={{ fontSize: 'inherit', textDecoration: 'underline' }}>Disclosures</Link>.
           </p>

@@ -240,6 +240,33 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Client brochure content (RISCH Wealth & RISCH Family Office)**
+- Hero is now two columns: copy on the left, and on the right the
+  overlapping "portfolio rings" from the brochure cover, redrawn as SVG
+  (`components/PortfolioRings.jsx`). It's one orange at graded
+  opacities, so overlaps blend as in print, it's sharp at any size and
+  it adapts to dark mode. The eyebrow is now "RISCH Wealth & RISCH
+  Family Office", and "We manage portfolios." sits under the headline.
+  The old decorative wave graph is gone; the rings replace it.
+- The featured principles section is now headed by the brochure's
+  mission: "Our Mission — Investor Success" / "Investors trust us
+  because we put them first."
+- Contact details from the brochure: the full office address and a
+  second phone number (+91 94830 03456, which also matches the Google
+  Business Profile) are in `FIRM.address` / `FIRM.phoneAlt`, shown on the
+  contact page and in the footer, and emitted in schema.org
+  (`streetAddress`, `postalCode`, `contactPoint`).
+- Contact page intro uses the brochure's "We have a dedicated support
+  team."
+- Footer disclaimer starts with the standard mutual fund line, and the
+  Disclosure page has a new "Mutual fund risk disclosure" clause, both
+  taken from the brochure's disclaimer.
+- Not used on purpose: the two Morningstar brochures (marked "For
+  Investment Adviser Use Only", with a no-redistribution notice), and
+  the brochure's page-2 copy ("Great investing makes everyone shine",
+  "The time for great investing is now", the seven values), which is
+  Morningstar's published wording.
+
 **Investment principles (client brochure)**
 - Added an "Our Investment Principles" section to the Solutions page,
   between the four disciplines and the allocation universe: RISCH's own

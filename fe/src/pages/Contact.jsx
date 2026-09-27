@@ -55,7 +55,7 @@ export default function Contact() {
         <div className="wrap" style={{ position: 'relative' }}>
           <p className="eyebrow kicker reveal in">Start A Conversation</p>
           <h1 className="display-xxl reveal in" style={{ maxWidth: '14em' }}>Let's talk about your <span className="italic">portfolio.</span></h1>
-          <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 24 }}>Tell us a little about your situation and what you'd like help with. Every enquiry is read and answered personally.</p>
+          <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 24 }}>We have a dedicated support team. Tell us a little about your situation and what you'd like help with, and we'll come back to you personally.</p>
         </div>
       </header>
 
@@ -115,6 +115,8 @@ export default function Contact() {
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Call</p>
                   <a href={FIRM.phoneHref} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)' }}>{FIRM.phone}</a>
+                  <br />
+                  <a href={FIRM.phoneAltHref} className="display-s" style={{ display: 'inline-block', borderBottom: '1px solid var(--line-strong)', marginTop: 8 }}>{FIRM.phoneAlt}</a>
                 </div>
               </div>
               <div className="flex gap-16" style={{ borderTop: '1px solid var(--line)', paddingTop: 28, marginBottom: 28 }}>
@@ -123,7 +125,11 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Office</p>
-                  <p className="display-s mb-0">Bengaluru, Karnataka, India</p>
+                  <address className="display-s mb-0" style={{ fontStyle: 'normal', lineHeight: 1.45 }}>
+                    {FIRM.address.street},<br />
+                    {FIRM.address.locality}, {FIRM.city},<br />
+                    {FIRM.region} {FIRM.address.postalCode}, {FIRM.country}
+                  </address>
                 </div>
               </div>
               <div style={{ borderTop: '1px solid var(--line)', paddingTop: 28 }}>
