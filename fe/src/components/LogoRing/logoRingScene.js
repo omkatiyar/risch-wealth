@@ -9,7 +9,7 @@ import {
 import { INNER, SEGMENTS, outline } from './ringGeometry';
 
 // One full, calm revolution. Must match the logoSpin duration in styles.css.
-const PERIOD_SECONDS = 36;
+const PERIOD_SECONDS = 18;
 
 // Returns null if WebGL isn't available, so the caller can fall back.
 export function mountLogoRing(host, readStyle, startAngle = 0) {
@@ -52,12 +52,12 @@ export function mountLogoRing(host, readStyle, startAngle = 0) {
     ring.add(new Mesh(geometry, material));
   }
 
-  // Colour and per-tone opacity come from CSS variables, so the theme
+  // Per-tone colour and opacity come from CSS variables, so the theme
   // (and any future palette change) lives in the stylesheet.
   const applyStyle = () => {
     const style = readStyle();
     for (const m of materials) {
-      m.color.set(style.color);
+      m.color.set(style[`${m.userData.tone}Color`]);
       m.opacity = style[m.userData.tone];
     }
   };

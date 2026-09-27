@@ -13,7 +13,7 @@
 :root{
   /* header geometry: the ring must contain the whole 104x32 wordmark
      (diagonal ~109px), so it's 116px and the header is a little taller */
-  --logo-h:32px; --ring-d:116px;
+  --logo-h:28px; --ring-d:116px;
   --nav-h:124px; --nav-h-scrolled:94px; --logo-scrolled-scale:.76;
   /* ---- palette : warm ivory + charcoal, orange as accent ---- */
   --white:      #FFFFFF;  /* constant — never themed, used for text-on-accent & the report */
@@ -221,8 +221,15 @@ section{ position:relative; }
   transform-origin:left center; transition:transform .35s cubic-bezier(.16,1,.3,1);
 }
 .nav.scrolled .nav-logo{ transform:scale(var(--logo-scrolled-scale)); }
-.nav-logo img{
-  position:relative; height:var(--logo-h); width:auto; display:block;
+.nav-wordmark{
+  position:relative; display:block; white-space:nowrap;
+  font-family:var(--f-serif); font-weight:600;
+  font-size:calc(var(--logo-h) * 1.32); line-height:1; letter-spacing:0.05em;
+  /* solid ink, not a gradient: the ring underneath is already busy and
+     orange, so a matching gradient washed the letters out. Solid ink
+     reads crisply against every segment, light or dark theme. */
+  color:var(--ink);
+  text-shadow:0 1px 1px rgba(28,26,23,0.14);
   /* a thin halo in the page colour keeps every letter crisp over the ring */
   filter:drop-shadow(0 0 .6px var(--bg)) drop-shadow(0 0 1.2px var(--bg));
 }
@@ -232,28 +239,28 @@ section{ position:relative; }
    RISCH wordmark sits inside it, spinning slowly about its centre
    (components/LogoRing: Three.js once idle, static SVG before that). */
 .logo-ring{
-  --lr-color:#EE7A1E;
-  --lr-strong:.52; --lr-medium:.34; --lr-light:.19; --lr-faint:.1;
+  --lr-strong-color:var(--orange-deep); --lr-medium-color:var(--orange); --lr-light-color:var(--orange-2); --lr-faint-color:#F7DCB8;
+  --lr-strong:.94; --lr-medium:.82; --lr-light:.66; --lr-faint:.46;
   position:absolute; z-index:-1; left:50%; top:50%;
   width:var(--ring-d); height:var(--ring-d);
   transform:translate(-50%, -50%); pointer-events:none;
+  filter:drop-shadow(0 6px 14px rgba(178,74,7,0.16));
 }
-html[data-theme="dark"] .logo-ring{ --lr-strong:.5; --lr-medium:.34; --lr-light:.21; --lr-faint:.12; }
+html[data-theme="dark"] .logo-ring{ --lr-faint-color:#5A3418; --lr-strong:.92; --lr-medium:.8; --lr-light:.62; --lr-faint:.5; }
 .logo-ring-svg, .logo-ring-gl, .logo-ring-gl canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
-.logo-ring-svg path{ fill:var(--lr-color); }
-.logo-ring-svg .lr-strong{ fill-opacity:var(--lr-strong); }
-.logo-ring-svg .lr-medium{ fill-opacity:var(--lr-medium); }
-.logo-ring-svg .lr-light{ fill-opacity:var(--lr-light); }
-.logo-ring-svg .lr-faint{ fill-opacity:var(--lr-faint); }
+.logo-ring-svg .lr-strong{ fill:var(--lr-strong-color); fill-opacity:var(--lr-strong); }
+.logo-ring-svg .lr-medium{ fill:var(--lr-medium-color); fill-opacity:var(--lr-medium); }
+.logo-ring-svg .lr-light{ fill:var(--lr-light-color); fill-opacity:var(--lr-light); }
+.logo-ring-svg .lr-faint{ fill:var(--lr-faint-color); fill-opacity:var(--lr-faint); }
 /* WebGL fades in over the identical static ring, so the swap is invisible */
 .logo-ring-svg{ transition:opacity .8s ease; }
 .logo-ring-gl{ opacity:0; transition:opacity .8s ease; }
 .logo-ring.is-live .logo-ring-gl{ opacity:1; }
 .logo-ring.is-live .logo-ring-svg{ opacity:0; }
 /* the CSS spin runs from first paint; Three.js takes over at the same angle.
-   36s must match PERIOD in LogoRing.jsx / logoRingScene.js. Reduced motion
+   18s must match PERIOD in LogoRing.jsx / logoRingScene.js. Reduced motion
    stops it via the global prefers-reduced-motion rule. */
-.logo-ring-svg{ animation:logoSpin 36s linear infinite; }
+.logo-ring-svg{ animation:logoSpin 18s linear infinite; }
 @keyframes logoSpin{ to{ transform:rotate(360deg); } }
 .nav-links{
   display:flex; align-items:center; gap:22px;
@@ -746,5 +753,5 @@ html[data-theme="dark"] .portfolio-rings{ --o-medium:.6; --o-light:.3; --o-faint
 
 /* phones: slightly smaller wordmark, ring and header */
 @media (max-width:560px){
-  :root{ --logo-h:28px; --ring-d:102px; --nav-h:108px; --nav-h-scrolled:84px; --logo-scrolled-scale:.8; }
+  :root{ --logo-h:24px; --ring-d:102px; --nav-h:108px; --nav-h-scrolled:84px; --logo-scrolled-scale:.8; }
 }

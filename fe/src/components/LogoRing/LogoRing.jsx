@@ -13,7 +13,7 @@ import { SEGMENTS, svgPath } from './ringGeometry';
 
 // Delay after the load event before Three.js is fetched.
 const HANDOFF_DELAY_MS = 4000;
-const PERIOD_MS = 36000; // keep in step with logoSpin in styles.css
+const PERIOD_MS = 18000; // keep in step with logoSpin in styles.css
 
 export default function LogoRing() {
   const rootRef = useRef(null);
@@ -30,8 +30,12 @@ export default function LogoRing() {
     const readStyle = () => {
       const cs = getComputedStyle(root);
       const num = (name) => parseFloat(cs.getPropertyValue(name));
+      const color = (name) => cs.getPropertyValue(name).trim();
       return {
-        color: cs.getPropertyValue('--lr-color').trim(),
+        strongColor: color('--lr-strong-color'),
+        mediumColor: color('--lr-medium-color'),
+        lightColor: color('--lr-light-color'),
+        faintColor: color('--lr-faint-color'),
         strong: num('--lr-strong'),
         medium: num('--lr-medium'),
         light: num('--lr-light'),
