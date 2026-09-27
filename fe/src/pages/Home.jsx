@@ -8,7 +8,7 @@ import { FAQS } from '../seo';
 import { FIRM } from '../data/firm';
 import { SEGMENTS } from '../data/segments';
 import { PRINCIPLES } from '../data/principles';
-import PortfolioRings from '../components/PortfolioRings';
+import HeroTrendLine from '../components/HeroTrendLine';
 
 const Arrow = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
@@ -84,7 +84,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-visual">
-            <PortfolioRings />
+            <HeroTrendLine />
           </div>
         </div>
       </header>
