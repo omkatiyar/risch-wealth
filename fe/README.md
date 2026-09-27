@@ -252,12 +252,19 @@ Newest first.
   (light copy-edits only), not written for this redesign. The data now
   lives in `src/data/principles.jsx` (icon + title + body), shared with
   the home page hero below.
-- Home page hero: the seven principle titles now run right-aligned
-  beside "Capital deserves a considered hand" (a numbered list with
-  hairline dividers, linking to the Solutions page for the full text).
-  Stacks below the CTAs on mobile. The decorative wave graph under the
-  hero is shorter (viewBox height 300 → 150, same curve, just
-  compressed) to make room.
+- Home page: the seven principles now get the most prominent section
+  on the site, their own tinted band directly after the hero — before
+  the trust bar, before everything else — as a bold 4-column card grid
+  (icon, large serif number, heading, body), 3 columns down to ~1180px,
+  2 down to ~860px, 1 on phones. An earlier version crammed the titles
+  into a right-aligned sidebar list next to the hero headline; that
+  looked cramped and was replaced with this. The hero itself is back to
+  its original single-column layout. The decorative wave graph under the
+  hero is slightly shorter (viewBox height 300 → 220, same curve, just
+  compressed) to tighten the space above the new section.
+- The full principles data (icon + title + body) now lives in
+  `src/data/principles.jsx`, shared between this new home page section
+  and the Solutions page's own (smaller) version.
 - The Allocation Universe section lost its `on-dark`/tint background
   (it would otherwise sit directly against the new tinted Investment
   Principles section with no visual break) and its icons dropped the
