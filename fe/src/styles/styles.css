@@ -910,3 +910,17 @@ html[data-theme="dark"] .alloc-layer-0{ color:#1C1A17; }
   .exp-current, .exp-edu{ grid-template-columns:1fr; gap:8px; }
   .exp-list{ grid-template-columns:1fr; }
 }
+
+/* ===================== ABOUT: LEADERSHIP ===================== */
+.team-section{ border-top:1px solid var(--line); }
+.team-member{ display:grid; grid-template-columns:minmax(240px, 0.8fr) 1.4fr; gap:clamp(36px, 6vw, 88px); align-items:start; }
+.team-photo{ width:100%; max-width:400px; height:auto; aspect-ratio:4 / 5; object-fit:cover; object-position:center top; border-radius:6px; display:block; box-shadow:0 30px 60px -36px rgba(28,26,23,.4); }
+.team-name{ font-family:var(--f-serif); font-weight:500; font-size:clamp(32px, 3vw, 42px); line-height:1.1; color:var(--ink); margin:0 0 6px; }
+.team-role{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 24px; }
+.team-member p{ max-width:60ch; }
+.team-lead{ font-size:19px; line-height:1.6; color:var(--ink-2); }
+.team-facts{ margin:28px 0 0; border-top:1px solid var(--line-strong); }
+.team-facts > div{ display:grid; grid-template-columns:130px 1fr; gap:16px; padding:16px 0; border-bottom:1px solid var(--line-strong); }
+.team-facts dt{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); padding-top:3px; }
+.team-facts dd{ margin:0; font-size:15.5px; line-height:1.6; color:var(--ink-2); }
+@media (max-width:860px){ .team-member{ grid-template-columns:1fr; } .team-photo{ max-width:320px; } .team-facts > div{ grid-template-columns:1fr; gap:4px; } }

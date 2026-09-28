@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import founderHeadshot from '../assets/founder-headshot.jpg';
+import kratikaPhoto from '../assets/kratika-maheshwari.jpg';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { FIRM } from '../data/firm';
 
@@ -111,6 +112,28 @@ export default function About() {
             <p><strong>MBA, Marketing &amp; Systems</strong> · Canara Bank School of Management Studies</p>
             <p><strong>BCA</strong> · DAVV University</p>
           </div>
+        </div>
+      </section>
+
+      <section className="section team-section" id="team">
+        <div className="wrap">
+          <p className="eyebrow reveal">Leadership</p>
+          <h2 className="display-l reveal" style={{ maxWidth: '20ch', marginBottom: 56 }}>The people behind every client relationship.</h2>
+
+          <article className="team-member reveal">
+            <img src={kratikaPhoto} alt="Kratika Maheshwari, Co-Founder & Chief Client Experience Officer, RISCH Wealth" className="team-photo" width="640" height="800" loading="lazy" />
+            <div>
+              <h3 className="team-name">Kratika Maheshwari</h3>
+              <p className="team-role">Co-Founder &amp; Chief Client Experience Officer</p>
+              <p className="team-lead">Kratika leads the RISCH client experience end to end: relationship management, portfolio reviews, reporting and day-to-day service, so that every client relationship is proactive, transparent and personal.</p>
+              <p>She brings more than a decade of experience in private banking and wealth management at HDFC Bank Global Private Clients, ICICI Securities Private Wealth and Kotak Securities, where she managed HNI portfolios, worked on cross-border client acquisition and structured business banking relationships.</p>
+              <p>At RISCH, she connects portfolio strategy with how clients actually experience it — the cadence of reviews, the clarity of reporting and the speed of execution.</p>
+              <dl className="team-facts">
+                <div><dt>Previously</dt><dd>HDFC Bank Global Private Clients · ICICI Securities Private Wealth · Kotak Securities</dd></div>
+                <div><dt>Education</dt><dd>MBA, Finance · Christ University<br />BBM · Center for Management Studies, Jain (Deemed-to-be University)<br />Bishop Cotton Girls&rsquo; School, Bengaluru</dd></div>
+              </dl>
+            </div>
+          </article>
         </div>
       </section>
 

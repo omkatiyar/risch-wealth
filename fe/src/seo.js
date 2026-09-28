@@ -155,6 +155,15 @@ const FOUNDER = {
   sameAs: ['https://www.linkedin.com/in/rishiraj-maheshwari-81240b5/'],
 };
 
+const COFOUNDER = {
+  '@type': 'Person',
+  '@id': `${SITE_URL}/#kratika-maheshwari`,
+  name: 'Kratika Maheshwari',
+  jobTitle: 'Co-Founder & Chief Client Experience Officer',
+  worksFor: { '@id': ORG_ID },
+  alumniOf: ['Christ University', 'Jain (Deemed-to-be University)'],
+};
+
 const WEBSITE = {
   '@type': 'WebSite',
   '@id': `${SITE_URL}/#website`,
@@ -168,7 +177,7 @@ const WEBSITE = {
 // every page; the FAQ only on the home page, where it's visible.
 export function getJsonLd(pathname) {
   const page = getPage(pathname);
-  const graph = [ORGANIZATION, FOUNDER, WEBSITE];
+  const graph = [ORGANIZATION, FOUNDER, COFOUNDER, WEBSITE];
   if (!page.noindex) {
     graph.push({
       '@type': pathname === '/about' ? 'AboutPage' : pathname === '/contact' ? 'ContactPage' : 'WebPage',

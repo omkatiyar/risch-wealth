@@ -240,6 +240,14 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**About: Leadership — Kratika Maheshwari**
+- New "Leadership" section on the About page (after Experience):
+  Kratika Maheshwari, Co-Founder & Chief Client Experience Officer, with
+  portrait (`assets/kratika-maheshwari.jpg`), a tightened bio from the
+  supplied copy, prior institutions (HDFC Bank Global Private Clients,
+  ICICI Securities Private Wealth, Kotak Securities) and education.
+  Added as a `Person` in the schema.org graph. Styles: `.team-*`.
+
 **About: Career Path → Experience**
 - Replaced the two-column dated timeline (which listed education as a
   career step, gave junior roles equal weight, and read out of order)
