@@ -888,3 +888,25 @@ html[data-theme="dark"] .alloc-layer-0{ color:#1C1A17; }
 .legal-clause h3 span{ font-size:12px; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; }
 .legal-clause p{ font-size:15px; line-height:1.7; color:var(--muted); margin:0 0 8px; max-width:68ch; }
 @media (max-width:860px){ .legal-doc{ grid-template-columns:1fr; } .legal-toc{ position:static; } }
+
+/* ===================== ABOUT: EXPERIENCE =====================
+   Current role first, prior institutions as a quiet two-column list,
+   education as a separate credential line (not a career step). */
+.exp-head{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:clamp(32px, 6vw, 96px); align-items:end; margin-bottom:56px; }
+.exp-label{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+.exp-current{ display:grid; grid-template-columns:160px 1fr; gap:24px; align-items:baseline; padding:32px 0; border-top:1px solid var(--ink); border-bottom:1px solid var(--line-strong); }
+.exp-current h3{ font-family:var(--f-serif); font-weight:500; font-size:clamp(30px, 2.8vw, 40px); line-height:1.1; color:var(--ink); margin:0 0 6px; }
+.exp-current p{ margin:0; font-size:16px; color:var(--muted); }
+.exp-label-prior{ display:block; margin:40px 0 8px; }
+.exp-list{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; column-gap:64px; }
+.exp-list li{ padding:22px 0; border-bottom:1px solid var(--line-strong); }
+.exp-list h3{ font-family:var(--f-sans); font-weight:600; font-size:18px; line-height:1.35; color:var(--ink); margin:0 0 4px; }
+.exp-list p{ margin:0; font-size:15.5px; color:var(--muted); }
+.exp-edu{ display:grid; grid-template-columns:160px 1fr 1fr; gap:8px 24px; align-items:baseline; margin-top:40px; padding-top:24px; border-top:1px solid var(--line-strong); }
+.exp-edu p{ margin:0; font-size:15.5px; color:var(--muted); }
+.exp-edu strong{ color:var(--ink); font-weight:600; }
+@media (max-width:860px){
+  .exp-head{ grid-template-columns:1fr; gap:16px; margin-bottom:36px; }
+  .exp-current, .exp-edu{ grid-template-columns:1fr; gap:8px; }
+  .exp-list{ grid-template-columns:1fr; }
+}

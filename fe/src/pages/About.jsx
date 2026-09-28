@@ -42,7 +42,7 @@ export default function About() {
             <div className="reveal" style={{ transitionDelay: '.08s' }}>
               <p className="eyebrow">The Founder</p>
               <h2 className="display-l" style={{ marginBottom: 20 }}>Two decades in private banking.</h2>
-              <p className="lede" style={{ marginBottom: 18 }}>Rishiraj founded RISCH after more than two decades in private banking — most recently as Vice President in the family office group at Edelweiss Financial Services, and before that as a Senior Private Banker at ICICI Securities.</p>
+              <p className="lede" style={{ marginBottom: 18 }}>Rishiraj founded RISCH after more than two decades in private banking — most recently at Edelweiss Financial Services, and before that as a Senior Private Banker at ICICI Securities.</p>
               <p style={{ maxWidth: '58ch', marginBottom: 28 }}>That career is why RISCH is built the way it is: risk understood first, in a documented and repeatable way, before a single recommendation is made.</p>
 
               <div className="flex gap-12" style={{ flexWrap: 'wrap' }}>
@@ -82,51 +82,34 @@ export default function About() {
 
       <section className="section on-paper-2">
         <div className="wrap">
-          <p className="eyebrow reveal">Career Path</p>
-          <h2 className="display-l reveal" style={{ maxWidth: '16ch', marginBottom: 56 }}>From relationship manager to founder.</h2>
-
-          <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1fr', gap: 64 }}>
-            <div className="timeline reveal">
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-period">2001 – 2006</div>
-                <div className="timeline-role">BCA · MBA, Marketing &amp; Systems</div>
-                <div className="timeline-org">DAVV University · Canara Bank School of Management &amp; Studies</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-period">2006 – 2007</div>
-                <div className="timeline-role">Relationship Manager</div>
-                <div className="timeline-org">Indiabulls Securities · Edelweiss Financial Services</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-period">2007 – 2010</div>
-                <div className="timeline-role">Assistant Vice President, Private Wealth</div>
-                <div className="timeline-org">Unicon Investment Solutions — Bengaluru</div>
-              </div>
+          <div className="exp-head">
+            <div className="reveal">
+              <p className="eyebrow">Experience</p>
+              <h2 className="display-l">Two decades across India&rsquo;s leading wealth institutions.</h2>
             </div>
+            <p className="lede reveal" style={{ maxWidth: '44ch' }}>Private banking and family-office advisory at ICICI Securities and Edelweiss, before founding RISCH in {FIRM.foundedYear}.</p>
+          </div>
 
-            <div className="timeline reveal" style={{ transitionDelay: '.08s' }}>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-period">2010 – 2014</div>
-                <div className="timeline-role">Senior Private Banker</div>
-                <div className="timeline-org">ICICI Securities — Bengaluru</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-period">2018 – 2019</div>
-                <div className="timeline-role">Vice President, Family Office Group</div>
-                <div className="timeline-org">Edelweiss Financial Services — Mumbai</div>
-              </div>
-              <div className="timeline-item is-current">
-                <div className="timeline-dot"></div>
-                <div className="timeline-period">2014 — Present</div>
-                <div className="timeline-role">Founder &amp; CEO</div>
-                <div className="timeline-org">RISCH Wealth — Bengaluru</div>
-              </div>
+          <div className="exp-current reveal">
+            <span className="exp-label">Current</span>
+            <div>
+              <h3>Founder &amp; CEO</h3>
+              <p>RISCH Wealth Private Limited · Bengaluru · Since {FIRM.foundedYear}</p>
             </div>
+          </div>
+
+          <p className="exp-label exp-label-prior reveal">Previously</p>
+          <ul className="exp-list reveal-stagger">
+            <li><h3>Edelweiss Financial Services</h3><p>Mumbai</p></li>
+            <li><h3>Senior Private Banker</h3><p>ICICI Securities · Bengaluru</p></li>
+            <li><h3>Assistant Vice President, Private Wealth</h3><p>Unicon Investment Solutions · Bengaluru</p></li>
+            <li><h3>Relationship Manager</h3><p>Indiabulls Securities</p></li>
+          </ul>
+
+          <div className="exp-edu reveal">
+            <span className="exp-label">Education</span>
+            <p><strong>MBA, Marketing &amp; Systems</strong> · Canara Bank School of Management Studies</p>
+            <p><strong>BCA</strong> · DAVV University</p>
           </div>
         </div>
       </section>

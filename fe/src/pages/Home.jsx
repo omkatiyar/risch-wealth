@@ -272,7 +272,7 @@ export default function Home() {
               </ul>
               <ol className="ceo-career">
                 <li><span className="cc-year">2010 – 2014</span><span className="cc-role">Senior Private Banker<small>ICICI Securities</small></span></li>
-                <li><span className="cc-year">2018 – 2019</span><span className="cc-role">Vice President, Family Office Group<small>Edelweiss Financial Services</small></span></li>
+                <li><span className="cc-year">2018 – 2019</span><span className="cc-role">Edelweiss Financial Services<small>Mumbai</small></span></li>
                 <li><span className="cc-year">2014 – Present</span><span className="cc-role">Founder &amp; CEO<small>RISCH Wealth</small></span></li>
               </ol>
               <Link to="/about" className="btn ceo-btn">Read the founder&rsquo;s story <Arrow /></Link>

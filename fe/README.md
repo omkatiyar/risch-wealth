@@ -240,6 +240,15 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**About: Career Path → Experience**
+- Replaced the two-column dated timeline (which listed education as a
+  career step, gave junior roles equal weight, and read out of order)
+  with a senior-profile layout: heading "Two decades across India's
+  leading wealth institutions.", the current role (Founder & CEO, since
+  2014) set large, prior roles as a quiet two-column list (most senior
+  first, without year ranges), and education on a separate credential
+  line. Styles: `.exp-*`.
+
 **CEO's Desk rebuilt to the founder's mockup**
 - New office portrait (`assets/founder-office.jpg`, cropped from the
   supplied mockup) in a rounded frame with a captioned name band
