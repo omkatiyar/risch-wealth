@@ -720,11 +720,22 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 @media (max-width:768px){ .final-cta{ padding:88px 0; } }
 
 /* ===================== FROM THE CEO'S DESK (home) =====================
-   A charcoal band in both themes, like the footer and the printed
-   brochures; the portrait's night background runs into it. */
-.ceo-desk{ background:var(--footer-bg); color:var(--footer-ink); padding:110px 0; }
+   A deep navy band sampled from the portrait's own night-sky background
+   (#021124), as on the brochure's CEO page, so photo and section read as
+   one. The photo's edges fade into it rather than ending in a hard box. */
+.ceo-desk{
+  --ceo-bg:#03122A;
+  background:radial-gradient(ellipse 70% 90% at 22% 45%, #0A2140 0%, var(--ceo-bg) 55%, #020B1B 100%);
+  color:var(--footer-ink); padding:110px 0;
+}
 .ceo-grid{ display:grid; grid-template-columns:minmax(260px, 0.85fr) 1.3fr; gap:clamp(36px, 6vw, 96px); align-items:center; }
-.ceo-photo{ width:100%; max-width:420px; aspect-ratio:4 / 5; object-fit:cover; object-position:center top; border-radius:4px; display:block; box-shadow:0 40px 80px -40px rgba(0,0,0,.7); }
+.ceo-photo{
+  width:100%; max-width:420px; aspect-ratio:4 / 5; object-fit:cover; object-position:center top; display:block;
+  -webkit-mask-image:linear-gradient(to bottom, #000 72%, transparent 100%), linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to bottom, #000 72%, transparent 100%), linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-composite:intersect;
+}
 .ceo-desk .eyebrow{ color:#F08A4B; margin-bottom:58px; }
 .ceo-quote{ margin:0 0 30px; padding:0; position:relative; }
 .ceo-quote::before{ content:'\201C'; position:absolute; left:-6px; top:-46px; font-family:var(--f-serif); font-size:110px; line-height:1; color:#F08A4B; opacity:.55; }
@@ -732,8 +743,8 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .ceo-name{ font-family:var(--f-serif); font-weight:600; font-size:26px; color:#F08A4B; margin:0 0 4px; }
 .ceo-role{ font-size:13px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--footer-muted); margin:0 0 22px; }
 .ceo-body{ color:var(--footer-muted); font-size:16px; line-height:1.7; max-width:56ch; }
-.ceo-desk .career{ border-top-color:var(--footer-line); }
-.ceo-desk .career li{ border-bottom-color:var(--footer-line); color:var(--footer-ink); }
+.ceo-desk .career{ border-top-color:rgba(239,232,220,.14); }
+.ceo-desk .career li{ border-bottom-color:rgba(239,232,220,.14); color:var(--footer-ink); }
 .ceo-desk .career li span{ color:var(--footer-muted); }
 .ceo-desk .text-link{ color:#F08A4B; }
 @media (max-width:860px){

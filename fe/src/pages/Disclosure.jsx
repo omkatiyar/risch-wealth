@@ -71,9 +71,9 @@ function buildSections() {
       title: 'Registration',
       body: (
         <>
-          <p style={{ marginBottom: 12 }}>{FIRM.legalName} is {FIRM.registrationNote.replace(/^Registered/, 'registered').replace(/\.$/, '')}.</p>
+          <p style={{ marginBottom: 12 }}>{FIRM.legalName}. {FIRM.registrationNote}</p>
           {FIRM.registrations.map((r) => (
-            <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.label}:</strong> {r.id}{r.label === 'EUIN' ? ' (Rishiraj Maheshwari)' : ''}</p>
+            <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.label}:</strong> {r.id}</p>
           ))}
         </>
       ),

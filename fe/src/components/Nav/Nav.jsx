@@ -98,7 +98,7 @@ export default function Nav({ showMobileProfilerLink = true }) {
           <div className="nav-login-dropdown">
             <a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer" onClick={() => setLoginOpen(false)}>
               Client Login
-              <span>Your portfolio on Wealth Elite</span>
+              <span>View your portfolio</span>
             </a>
             <NavLink to="/employee-login" onClick={() => setLoginOpen(false)}>
               Employee Login

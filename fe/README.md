@@ -240,6 +240,23 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Brand line, registrations, allocation universe, CEO band**
+- "RISCH Wealth & RISCH Family Office" is now "RISCH Private Wealth"
+  (home hero eyebrow, footer).
+- Registration text (`FIRM.registrationNote`): Mutual Fund Distributor;
+  registered with APMI as a Distributor of Portfolio Management Services;
+  distributor of Alternative Investment Funds (AIF). Worded so the APMI
+  registration is only claimed for PMS distribution. The EUIN is no
+  longer shown. AMFI ARN-156886 is listed first, before the APRN.
+- Allocation universe (Solutions): domestic equity adds thematic and
+  sectoral funds; international adds Taiwan; "Fixed Income & Liquidity"
+  is now "Fixed Income"; new Commodities (gold, silver) and Real Estate
+  (REITs, InvITs). The same list is updated in the FAQ answer/schema,
+  the Portfolio Construction copy and `llms.txt`.
+- CEO's Desk band is now a deep navy sampled from the portrait's own
+  background, and the photo's edges fade into it, instead of the photo
+  sitting as a blue box on warm charcoal.
+
 **Logo ring (Three.js)**
 - Behind the RISCH wordmark in the nav: the single large ring from the
   brochure cover (4 segments, the brochure's tones), sized so the whole

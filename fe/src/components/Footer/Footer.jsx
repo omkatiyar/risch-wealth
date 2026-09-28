@@ -13,7 +13,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
           <div>
             <div className="f-logo"><img src={logo} alt="RISCH Wealth" /></div>
             <p className="f-tagline">Private Wealth. Family Capital. Enduring Legacies.</p>
-            <p className="f-meta">RISCH Wealth &amp; RISCH Family Office</p>
+            <p className="f-meta">RISCH Private Wealth</p>
             {showSocials && (
               <div className="f-social">
                 <a href="https://www.linkedin.com/in/rishiraj-maheshwari-81240b5/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">

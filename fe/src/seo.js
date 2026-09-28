@@ -93,7 +93,7 @@ export const FAQS = [
   },
   {
     q: 'Which asset classes does RISCH allocate across?',
-    a: 'Portfolios are built across domestic equity (large, mid and small cap), international equity (US, Europe and Asia ex-Japan), fixed income (short, medium and long duration), and cash and liquid equivalents, sized to the client rather than a model.',
+    a: 'Portfolios are built across domestic equity (large, mid and small cap, plus thematic and sectoral funds), international equity (US, Europe, Asia ex-Japan and Taiwan), fixed income (short, medium and long duration), commodities (gold and silver) and real estate (REITs and InvITs), sized to the client rather than a model.',
   },
   {
     q: 'Does RISCH Wealth sell its own investment products?',

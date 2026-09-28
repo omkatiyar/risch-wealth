@@ -40,7 +40,7 @@ const PROCESS = [
 const DISCIPLINES = [
   { t: 'Private Wealth Solutions', d: 'Portfolios built on a documented suitability process, not a house view.' },
   { t: 'Wealth Coordination', d: 'Consolidated reporting, succession and governance, with one point of contact for your legal and tax advisers.' },
-  { t: 'Portfolio Construction', d: 'Granular allocation across domestic and international equity, fixed income and liquidity — sized to you, not a model.' },
+  { t: 'Portfolio Construction', d: 'Granular allocation across domestic and international equity, fixed income, commodities and real estate — sized to you, not a model.' },
   { t: 'Risk Profiling', d: 'Time horizon and risk preference scored independently, then matched to a portfolio.' },
 ];
 
@@ -67,7 +67,7 @@ export default function Home() {
         <div className="pattern-dots" style={{ top: 0, height: 600 }}></div>
         <div className="wrap hero-grid" style={{ position: 'relative' }}>
           <div className="hero-copy">
-            <p className="eyebrow reveal in">RISCH Wealth &amp; RISCH Family Office</p>
+            <p className="eyebrow reveal in">RISCH Private Wealth</p>
             <h1 className="display-xxl reveal in">Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
             <p className="hero-tagline reveal in" style={{ transitionDelay: '.05s' }}>We manage portfolios.</p>
             <div className="hero-body">

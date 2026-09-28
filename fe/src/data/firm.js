@@ -42,15 +42,17 @@ export const FIRM = {
   minimumInvestable: null,
 
   // Regulatory standing, shown in the footer on every page, on the
-  // Disclosure, About and Contact pages. Source: APMI acknowledgement and
-  // EUIN confirmation emails (June 2025).
-  registrationNote: 'Registered with APMI (Association of Portfolio Managers in India) as a Distributor of Portfolio Management Services.',
+  // Disclosure, About and Contact pages. APMI details: acknowledgement and
+  // registration emails (June 2025). Written so the APMI registration is
+  // only claimed for PMS distribution, which is what APMI registers.
+  registrationNote: 'Mutual Fund Distributor. Registered with APMI (Association of Portfolio Managers in India) as a Distributor of Portfolio Management Services. Distributor of Alternative Investment Funds (AIF).',
   registrations: [
+    // AMFI ARN (mutual fund distribution)
+    { label: 'ARN', id: 'ARN-156886' },
     { label: 'APRN', id: 'APRN05916' },
-    // Rishiraj Maheshwari's EUIN, valid 24/05/2025 – 23/05/2028. Renew before expiry.
-    { label: 'EUIN', id: 'E11449' },
-    // Add when available: { label: 'CIN', id: '…' }, { label: 'ARN', id: 'ARN-…' } (AMFI)
   ],
+  // The founder's EUIN (E11449, valid 24/05/2025 – 23/05/2028) is no longer
+  // shown on the site, but renew it before it expires.
   // e.g. 'Grievance Officer: Name, grievance@…, +91 …'
   grievance: null,
 };
