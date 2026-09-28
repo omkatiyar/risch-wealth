@@ -4,6 +4,19 @@ import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { PRINCIPLES } from '../data/principles';
 
+// What RISCH actually does for a client, in plain terms. The risk
+// assessment supports Portfolio Construction; it isn't a service of its own.
+const SERVICES = [
+  { t: 'Portfolio Construction', d: 'A portfolio built around your objectives, liquidity needs, time horizon and ability to withstand losses — sized to you, not a model.',
+    icon: <><rect x="3" y="3" width="7" height="7" rx="1.2" /><rect x="14" y="3" width="7" height="7" rx="1.2" /><rect x="3" y="14" width="7" height="7" rx="1.2" /><rect x="14" y="14" width="7" height="7" rx="1.2" /></> },
+  { t: 'Fund & Strategy Selection', d: 'Mutual funds, PMS and AIFs from across the market, each chosen for the role it plays in your portfolio. Our risk assessment is where that conversation starts.',
+    icon: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5L21 21M7.5 10.5h6M7.5 13h4" /></> },
+  { t: 'Global Diversification', d: 'Access to opportunities beyond Indian markets — the US, Europe, Asia and Taiwan — held as part of one plan rather than as a separate bet.',
+    icon: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></> },
+  { t: 'Wealth Coordination', d: 'Investments, liquidity, succession and your legal and tax advisers brought into one view, with one point of contact and regular reviews.',
+    icon: <><circle cx="9" cy="8" r="3.2" /><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" /><circle cx="17" cy="8.5" r="2.6" /><path d="M15 14.2c2.7.4 4.7 2.5 4.7 5.8" /></> },
+];
+
 export default function Solutions() {
   useScrollReveal();
 
@@ -21,57 +34,20 @@ export default function Solutions() {
 
       <section className="section-tight">
         <div className="wrap">
-          <div className="numbered-row reveal" style={{ padding: '44px 0' }}>
-            <div className="num">01</div>
-            <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-              <div className="flex gap-16 items-center">
-                <div className="icon-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z" /><path d="M3 12l9 5 9-5" /><path d="M3 17l9 5 9-5" /></svg>
+          {SERVICES.map((svc, i) => (
+            <div className="numbered-row reveal" style={{ padding: '44px 0' }} key={svc.t}>
+              <div className="num">{String(i + 1).padStart(2, '0')}</div>
+              <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
+                <div className="flex gap-16 items-center">
+                  <div className="icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{svc.icon}</svg>
+                  </div>
+                  <h2 className="display-s">{svc.t}</h2>
                 </div>
-                <h2 className="display-s">Private Wealth Solutions</h2>
+                <p className="mb-0" style={{ maxWidth: '56ch' }}>{svc.d}</p>
               </div>
-              <p className="mb-0" style={{ maxWidth: '52ch' }}>Portfolios built on a documented suitability process — reviewed against your objectives at every rebalancing.</p>
             </div>
-          </div>
-
-          <div className="numbered-row reveal" style={{ padding: '44px 0' }}>
-            <div className="num">02</div>
-            <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-              <div className="flex gap-16 items-center">
-                <div className="icon-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="8" r="3.2" /><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" /><circle cx="17" cy="8.5" r="2.6" /><path d="M15 14.2c2.7.4 4.7 2.5 4.7 5.8" /></svg>
-                </div>
-                <h2 className="display-s">Wealth Coordination</h2>
-              </div>
-              <p className="mb-0" style={{ maxWidth: '52ch' }}>Consolidated reporting, succession and governance structuring — one point of contact for your legal and tax advisers.</p>
-            </div>
-          </div>
-
-          <div className="numbered-row reveal" style={{ padding: '44px 0' }}>
-            <div className="num">03</div>
-            <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-              <div className="flex gap-16 items-center">
-                <div className="icon-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2" /><rect x="14" y="3" width="7" height="7" rx="1.2" /><rect x="3" y="14" width="7" height="7" rx="1.2" /><rect x="14" y="14" width="7" height="7" rx="1.2" /></svg>
-                </div>
-                <h2 className="display-s">Portfolio Construction</h2>
-              </div>
-              <p className="mb-0" style={{ maxWidth: '52ch' }}>Granular allocation across domestic and international equity, fixed income, commodities and real estate — sized to you, not a model.</p>
-            </div>
-          </div>
-
-          <div className="numbered-row reveal" style={{ padding: '44px 0' }}>
-            <div className="num">04</div>
-            <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-              <div className="flex gap-16 items-center">
-                <div className="icon-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" /></svg>
-                </div>
-                <h2 className="display-s">Risk Profiling</h2>
-              </div>
-              <p className="mb-0" style={{ maxWidth: '52ch' }}>An eight-question diagnostic scores time horizon and risk preference independently, then matches you to a portfolio.</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -98,8 +74,21 @@ export default function Solutions() {
 
       <section className="section">
         <div className="wrap">
-          <p className="eyebrow reveal">Allocation Universe</p>
-          <h2 className="display-l reveal" style={{ maxWidth: '18ch', marginBottom: 56 }}>What we allocate across.</h2>
+          <div className="alloc-intro">
+            <div className="reveal">
+              <p className="eyebrow">Allocation Universe</p>
+              <h2 className="display-l" style={{ maxWidth: '18ch' }}>What we allocate across.</h2>
+              <p className="alloc-statement">There is no model portfolio.</p>
+              <p style={{ maxWidth: '46ch' }}>How much sits in each layer depends on your objectives, liquidity needs, time horizon and capacity for risk — so the proportions are set with you, not in advance.</p>
+            </div>
+            {/* Deliberately without percentages: allocation is personal. */}
+            <div className="alloc-stack reveal" aria-label="Your portfolio: domestic equity, international equity, fixed income, commodities, real estate">
+              <p className="alloc-stack-label">Your portfolio</p>
+              {['Domestic Equity', 'International Equity', 'Fixed Income', 'Commodities', 'Real Estate'].map((layer, i) => (
+                <div className={`alloc-layer alloc-layer-${i}`} key={layer}><span>{layer}</span></div>
+              ))}
+            </div>
+          </div>
 
           <div className="grid g-3 reveal-stagger">
             <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>

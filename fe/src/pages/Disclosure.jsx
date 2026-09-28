@@ -16,7 +16,7 @@ function buildSections() {
     },
     {
       title: 'About RISCH Wealth',
-      body: `${FIRM.legalName} is an independent private wealth practice based in ${FIRM.city}, ${FIRM.region}, ${FIRM.country}, founded in ${FIRM.foundedYear}. Nothing on this site is an offer or solicitation to buy or sell any security in any jurisdiction where such an offer would be unlawful.`,
+      body: `${FIRM.legalName} is a private wealth practice based in ${FIRM.city}, ${FIRM.region}, ${FIRM.country}, founded in ${FIRM.foundedYear}. Nothing on this site is an offer or solicitation to buy or sell any security in any jurisdiction where such an offer would be unlawful.`,
     },
     {
       title: 'Regulatory compliance',
@@ -31,11 +31,11 @@ function buildSections() {
       body: 'The assessment is a starting point, not a complete financial picture. Overall net worth, debt obligations, illiquid holdings, tax position and family or succession considerations are reviewed in conversation before any allocation is finalised.',
     },
     {
-      title: 'Independence and conflicts of interest',
+      title: 'No proprietary products',
       body: 'RISCH Wealth holds no proprietary fund or product to sell. Where any institutional holding or third-party arrangement exists, it is managed under information barriers designed to prevent conflicts of interest from influencing a recommendation.',
     },
     {
-      title: 'Portfolio deviation policy',
+      title: 'Bounded deviation',
       body: 'Where a client or RISCH Wealth elects to deviate from a recommended portfolio, that deviation is bounded to one tier above or below the recommendation, with the basis for it documented and signed by both parties.',
     },
     {
@@ -72,6 +72,7 @@ function buildSections() {
       body: (
         <>
           <p style={{ marginBottom: 12 }}>{FIRM.legalName}. {FIRM.registrationNote}</p>
+          <p style={{ marginBottom: 12 }}>{FIRM.roleNote}</p>
           {FIRM.registrations.map((r) => (
             <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.label}:</strong> {r.id}</p>
           ))}
@@ -93,12 +94,34 @@ function buildSections() {
     ),
   });
 
-  return sections;
+  // Grouped like a formal institutional disclosure. Clause numbers run
+  // continuously across the groups.
+  const groupOf = {
+    'About RISCH Wealth': 'Regulatory Information',
+    'Regulatory compliance': 'Regulatory Information',
+    'Registration': 'Regulatory Information',
+    'Grievance redressal': 'Regulatory Information',
+    'General risk warning': 'Risk Disclosure',
+    'Mutual fund risk disclosure': 'Risk Disclosure',
+    'No guarantee of returns': 'Risk Disclosure',
+    'The risk assessment: methodology and scope': 'Methodology',
+    'Context this tool cannot capture': 'Methodology',
+    'No proprietary products': 'Conflicts of Interest',
+    'Bounded deviation': 'Portfolio Deviation Policy',
+  };
+  const order = ['Regulatory Information', 'Risk Disclosure', 'Methodology', 'Conflicts of Interest', 'Portfolio Deviation Policy', 'Important Investor Information'];
+  let n = 0;
+  return order
+    .map((group) => ({
+      group,
+      clauses: sections.filter((s) => (groupOf[s.title] || 'Important Investor Information') === group).map((s) => ({ ...s, n: ++n })),
+    }))
+    .filter((g) => g.clauses.length);
 }
 
 export default function Disclosure() {
   useScrollReveal();
-  const sections = buildSections();
+  const groups = buildSections();
 
   return (
     <>
@@ -114,18 +137,28 @@ export default function Disclosure() {
       </header>
 
       <section className="section-tight">
-        <div className="wrap" style={{ maxWidth: 880 }}>
-          {sections.map((s, i) => (
-            <div className="numbered-row reveal" key={s.title}>
-              <div className="num">{String(i + 1).padStart(2, '0')}</div>
-              <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'baseline' }}>
-                <h2 className="display-s">{s.title}</h2>
-                <div className="mb-0" style={{ maxWidth: '62ch' }}>
-                  {typeof s.body === 'string' ? <p className="mb-0">{s.body}</p> : s.body}
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="wrap legal-doc">
+          <nav className="legal-toc reveal" aria-label="Disclosure sections">
+            <p>Contents</p>
+            <ol>
+              {groups.map((g) => (
+                <li key={g.group}><a href={`#${g.group.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{g.group}</a></li>
+              ))}
+            </ol>
+          </nav>
+          <div className="legal-body">
+            {groups.map((g) => (
+              <section className="legal-group" id={g.group.toLowerCase().replace(/[^a-z]+/g, '-')} key={g.group}>
+                <h2>{g.group}</h2>
+                {g.clauses.map((s) => (
+                  <div className="legal-clause" key={s.title}>
+                    <h3><span>{String(s.n).padStart(2, '0')}</span>{s.title}</h3>
+                    {typeof s.body === 'string' ? <p>{s.body}</p> : <div>{s.body}</div>}
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
         </div>
       </section>
 

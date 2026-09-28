@@ -97,8 +97,8 @@ body{
   background:var(--bg);
   color:var(--ink);
   font-family:var(--f-sans);
-  font-size:16px;
-  line-height:1.6;
+  font-size:17px;
+  line-height:1.7;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
@@ -133,27 +133,28 @@ h1,h2,h3,h4{
 }
 /* Display sizes use the serif. Cormorant has a small x-height, so these
    run ~10% larger than a sans would at the same visual size. */
-.display-xxl, .display-xl, .display-l, .display-m{ font-family:var(--f-serif); font-weight:600; letter-spacing:-0.01em; }
+/* editorial weight: large serif headings at 500, never bold */
+.display-xxl, .display-xl, .display-l, .display-m{ font-family:var(--f-serif); font-weight:500; letter-spacing:-0.01em; }
 /* Cormorant defaults to old-style figures (2014 dips below the line); use lining. */
 .display-xxl, .display-xl, .display-l, .display-m, .trust-n, .process-n, .numbered-row .num, .testimonial-quote, .footer .f-tagline{ font-variant-numeric:lining-nums; }
 .display-xxl{ font-size:clamp(44px, 6.6vw, 92px); line-height:1.0; }
 .display-xl{ font-size:clamp(38px, 5.4vw, 74px); line-height:1.04; }
 .display-l{ font-size:clamp(32px, 3.6vw, 52px); line-height:1.08; }
 .display-m{ font-size:clamp(25px, 2.4vw, 35px); line-height:1.15; }
-.display-s{ font-size:clamp(19px, 1.5vw, 23px); font-weight:600; line-height:1.25; }
+.display-s{ font-size:clamp(20px, 1.6vw, 24px); font-weight:600; line-height:1.25; }
 
 .accent{ color:var(--accent); }
 .italic{ font-style:normal; color:var(--accent); } /* legacy class kept: now an orange emphasis, not a serif italic */
 
 p{ margin:0 0 1em; color:var(--muted); }
 .lede{ font-size:clamp(17px, 1.4vw, 21px); line-height:1.6; color:var(--ink-2); font-weight:400; }
-.body-s{ font-size:14.5px; }
+.body-s{ font-size:15.5px; line-height:1.65; }
 
 .eyebrow{
   font-family:var(--f-sans);
   font-weight:700;
-  font-size:12.5px;
-  letter-spacing:0.06em;
+  font-size:12px;
+  letter-spacing:0.14em;
   text-transform:uppercase;
   color:var(--accent);
   display:flex;
@@ -173,11 +174,11 @@ p{ margin:0 0 1em; color:var(--muted); }
 
 /* ===================== SECTIONS ===================== */
 section{ position:relative; }
-.section{ padding:110px 0; }
-.section-tight{ padding:76px 0; }
+.section{ padding:128px 0; }
+.section-tight{ padding:88px 0; }
 @media (max-width:768px){
-  .section{ padding:64px 0; }
-  .section-tight{ padding:48px 0; }
+  .section{ padding:80px 0; }
+  .section-tight{ padding:60px 0; }
 }
 
 /* NOTE: .on-dark is kept only as an alias for tinted (light) sections —
@@ -264,7 +265,7 @@ html[data-theme="dark"] .logo-ring{ --lr-faint-color:#5A3418; --lr-strong:.92; -
 @keyframes logoSpin{ to{ transform:rotate(360deg); } }
 .nav-links{
   display:flex; align-items:center; gap:22px;
-  font-family:var(--f-sans); font-weight:500; font-size:13.5px;
+  font-family:var(--f-sans); font-weight:500; font-size:14px;
 }
 .nav-links a{
   position:relative; padding:4px 0; color:var(--ink-2);
@@ -360,8 +361,8 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 /* ===================== BUTTONS (squared, private-bank style) ===================== */
 .btn{
   display:inline-flex; align-items:center; gap:10px;
-  font-family:var(--f-sans); font-weight:600; font-size:14.5px; letter-spacing:0.01em;
-  padding:15px 26px; border-radius:4px; border:1px solid var(--ink);
+  font-family:var(--f-sans); font-weight:600; font-size:14px; letter-spacing:0.02em;
+  padding:16px 28px; border-radius:4px; border:1px solid var(--ink);
   background:transparent; color:var(--ink); transition:background .25s ease, color .25s ease, border-color .25s ease;
 }
 .btn svg{ transition:transform .3s ease; }
@@ -629,7 +630,18 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .faq-item p{ max-width:68ch; margin:0 0 26px; }
 
 /* ===================== HOME (v3 private-wealth layout) ===================== */
-.hero{ padding:calc(var(--nav-h) + 52px) 0 88px; }
+.hero{ padding:calc(var(--nav-h) + 52px) 0 72px; }
+/* proposition, three credibility points, then action; registrations as fine print */
+.hero-lede{ max-width:50ch; color:var(--ink-2); }
+.hero-points{ list-style:none; margin:26px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:10px 28px; }
+.hero-points li{ position:relative; padding-left:26px; font-size:15.5px; font-weight:500; color:var(--ink); }
+.hero-points li::before{
+  content:''; position:absolute; left:0; top:.2em; width:17px; height:17px; border-radius:50%;
+  background:var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.3l2.2 2.2 4.8-5' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 13px no-repeat;
+}
+.hero-reg{ margin:26px 0 0; padding-top:16px; border-top:1px solid var(--line); max-width:620px; display:flex; flex-wrap:wrap; gap:6px 24px; font-size:13px; line-height:1.6; color:var(--muted); }
+.hero-reg .reg-item{ white-space:nowrap; }
+.hero-reg strong{ color:var(--ink); font-weight:600; letter-spacing:.02em; margin-left:4px; }
 .hero-grid{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:clamp(32px, 3.5vw, 48px); align-items:center; }
 /* the headline shares its row with the rings, so it runs a little smaller */
 .hero-copy .display-xxl{ font-size:clamp(44px, 5.3vw, 76px); }
@@ -637,7 +649,7 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 /* the rings bleed slightly past the text column edge, like the brochure cover */
 .hero-visual{ justify-self:end; width:calc(100% + 56px); max-width:600px; margin-right:-56px; }
 .hero-body{ margin-top:26px; }
-.hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-top:34px; }
+.hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-top:30px; }
 .hero-note{ margin:18px 0 0; font-size:14px; font-weight:600; letter-spacing:0.02em; color:var(--ink-2); padding-left:14px; border-left:2px solid var(--orange); }
 @media (max-width:920px){
   .hero{ padding:calc(var(--nav-h) + 40px) 0 56px; }
@@ -659,8 +671,9 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .principle-row{ background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:30px 26px; }
 .principle-row-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
 .principle-num{ font-family:var(--f-serif); font-weight:600; font-size:30px; color:var(--orange-line); font-variant-numeric:lining-nums; }
-.principle-row h3{ margin-bottom:10px; }
-.principle-row p{ font-size:14.5px; }
+/* card headings in the serif, sized so the longest principle wraps to 2–3 lines */
+.principle-row h3{ margin-bottom:12px; font-size:clamp(22px, 1.9vw, 27px); line-height:1.2; }
+.principle-row p{ font-size:15.5px; line-height:1.65; }
 @media (max-width:1180px){ .principles-list{ grid-template-columns:repeat(3,1fr); } }
 @media (max-width:860px){
   .principles-feature{ padding:64px 0 76px; }
@@ -674,7 +687,9 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .trust-item{ padding:34px 28px; border-left:1px solid var(--line); }
 .trust-item:first-child{ border-left:0; padding-left:0; }
 .trust-n{ font-family:var(--f-serif); font-weight:600; font-size:clamp(30px,3vw,42px); line-height:1; color:var(--ink); margin-bottom:10px; }
-.trust-l{ font-size:13.5px; line-height:1.5; color:var(--muted); max-width:24ch; }
+/* a longer value set a size down so it stays on one line; line box matches .trust-n so the labels align */
+.trust-n-compact{ font-size:clamp(22px, 2.3vw, 33px); white-space:nowrap; line-height:clamp(30px, 3vw, 42px); }
+.trust-l{ font-size:14.5px; line-height:1.5; color:var(--muted); max-width:26ch; }
 @media (max-width:920px){
   .trust-grid{ grid-template-columns:1fr 1fr; }
   .trust-item{ padding:26px 18px; }
@@ -720,44 +735,69 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 @media (max-width:768px){ .final-cta{ padding:88px 0; } }
 
 /* ===================== FROM THE CEO'S DESK (home) =====================
-   A deep navy band sampled from the portrait's own night-sky background
-   (#021124), as on the brochure's CEO page, so photo and section read as
-   one. The photo's edges fade into it rather than ending in a hard box. */
-.ceo-desk{
-  --ceo-bg:#03122A;
-  background:radial-gradient(ellipse 70% 90% at 22% 45%, #0A2140 0%, var(--ceo-bg) 55%, #020B1B 100%);
-  color:var(--footer-ink); padding:110px 0;
+   Warm ivory, an office portrait with a captioned name band, the note as
+   a hanging quote, four quick facts, a career timeline and a solid CTA.
+   A faint serif "R" sits behind the left edge as a watermark. */
+.ceo-desk{ position:relative; overflow:hidden; background:var(--bg); color:var(--ink); padding:120px 0; border-top:1px solid var(--line); }
+.ceo-watermark{
+  position:absolute; left:-90px; top:50%; transform:translateY(-50%); pointer-events:none;
+  font-family:var(--f-serif); font-weight:500; font-size:clamp(360px, 42vw, 620px); line-height:1;
+  color:var(--ink); opacity:.035;
 }
-.ceo-grid{ display:grid; grid-template-columns:minmax(260px, 0.85fr) 1.3fr; gap:clamp(36px, 6vw, 96px); align-items:center; }
-.ceo-photo{
-  width:100%; max-width:420px; aspect-ratio:4 / 5; object-fit:cover; object-position:center top; display:block;
-  -webkit-mask-image:linear-gradient(to bottom, #000 72%, transparent 100%), linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-  -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(to bottom, #000 72%, transparent 100%), linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-  mask-composite:intersect;
+.ceo-grid{ position:relative; display:grid; grid-template-columns:minmax(300px, 1fr) 1.12fr; gap:clamp(40px, 5vw, 72px); align-items:center; }
+.ceo-figure{ position:relative; margin:0; max-width:560px; border-radius:6px; overflow:hidden; box-shadow:0 30px 60px -36px rgba(28,26,23,.45); }
+.ceo-photo{ width:100%; height:auto; aspect-ratio:4 / 5.1; object-fit:cover; object-position:center top; display:block; }
+.ceo-figure figcaption{
+  position:absolute; left:0; right:0; bottom:0; padding:48px 32px 26px;
+  background:linear-gradient(to top, rgba(18,16,14,.92) 0%, rgba(18,16,14,.75) 55%, transparent 100%);
+  display:flex; flex-direction:column; gap:6px;
 }
-.ceo-desk .eyebrow{ color:#F08A4B; margin-bottom:58px; }
-.ceo-quote{ margin:0 0 30px; padding:0; position:relative; }
-.ceo-quote::before{ content:'\201C'; position:absolute; left:-6px; top:-46px; font-family:var(--f-serif); font-size:110px; line-height:1; color:#F08A4B; opacity:.55; }
-.ceo-quote p{ font-family:var(--f-serif); font-weight:500; font-size:clamp(26px, 2.6vw, 38px); line-height:1.25; color:var(--footer-ink); margin:0; max-width:24ch; }
-.ceo-name{ font-family:var(--f-serif); font-weight:600; font-size:26px; color:#F08A4B; margin:0 0 4px; }
-.ceo-role{ font-size:13px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--footer-muted); margin:0 0 22px; }
-.ceo-body{ color:var(--footer-muted); font-size:16px; line-height:1.7; max-width:56ch; }
-.ceo-desk .career{ border-top-color:rgba(239,232,220,.14); }
-.ceo-desk .career li{ border-bottom-color:rgba(239,232,220,.14); color:var(--footer-ink); }
-.ceo-desk .career li span{ color:var(--footer-muted); }
-.ceo-desk .text-link{ color:#F08A4B; }
+.ceo-cap-name{ font-family:var(--f-serif); font-weight:500; font-size:21px; letter-spacing:.14em; text-transform:uppercase; color:#F7F2EA; }
+.ceo-cap-role{ font-size:12px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:#E9B98F; }
+.ceo-desk .eyebrow{ margin-bottom:26px; }
+.ceo-quote{ margin:0 0 28px; padding:0 0 0 54px; position:relative; }
+.ceo-quote::before{ content:'\201C'; position:absolute; left:-4px; top:-18px; font-family:var(--f-serif); font-size:96px; line-height:1; color:var(--orange); opacity:.5; }
+.ceo-quote p{ font-family:var(--f-serif); font-weight:500; font-size:clamp(28px, 2.5vw, 38px); line-height:1.18; color:var(--ink); margin:0; max-width:25ch; }
+.ceo-desk .ceo-quote ~ *{ margin-left:54px; }
+.ceo-name{ font-family:var(--f-serif); font-weight:500; font-size:30px; color:var(--accent); margin:0 0 4px; }
+.ceo-role{ font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2); margin:0 0 18px; }
+.ceo-body{ color:var(--ink-2); font-size:16px; line-height:1.7; max-width:58ch; margin-bottom:26px; }
+.ceo-facts{ list-style:none; padding:0; margin-bottom:26px; display:grid; grid-template-columns:repeat(4, 1fr); }
+.ceo-facts li{ display:flex; flex-direction:column; gap:3px; padding:4px 14px; border-left:1px solid var(--line-strong); }
+.ceo-facts li:first-child{ border-left:0; padding-left:0; }
+.ceo-facts svg{ width:28px; height:28px; color:var(--accent); margin-bottom:10px; }
+.ceo-facts strong{ font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); line-height:1.35; }
+.ceo-facts span{ font-size:11px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); line-height:1.45; }
+.ceo-career{ list-style:none; padding:0; margin-bottom:28px; border-top:1px solid var(--line-strong); position:relative; }
+.ceo-career::before{ content:''; position:absolute; left:4px; top:22px; bottom:22px; width:1px; background:var(--orange); opacity:.6; }
+.ceo-career li{ position:relative; display:grid; grid-template-columns:150px 1fr; gap:16px; align-items:baseline; padding:12px 0 12px 32px; border-bottom:1px solid var(--line-strong); }
+.ceo-career li::before{ content:''; position:absolute; left:0; top:20px; width:9px; height:9px; border-radius:50%; background:var(--accent); }
+.cc-year{ font-size:13.5px; letter-spacing:.04em; color:var(--muted); }
+.cc-role{ font-size:15.5px; color:var(--ink); line-height:1.4; }
+.cc-role small{ display:block; margin-top:2px; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.ceo-btn{ background:var(--accent); border-color:var(--accent); color:#fff; text-transform:uppercase; letter-spacing:.14em; font-size:13px; padding:17px 30px; }
+.ceo-btn:hover{ background:var(--ink); border-color:var(--ink); color:var(--bg); }
+html[data-theme="dark"] .ceo-btn{ color:#1C1A17; }
 @media (max-width:860px){
   .ceo-desk{ padding:72px 0; }
   .ceo-grid{ grid-template-columns:1fr; }
-  .ceo-photo{ max-width:340px; }
-  .ceo-desk .eyebrow{ margin-bottom:50px; }
-  .ceo-quote::before{ top:-40px; font-size:92px; }
+  .ceo-figure{ max-width:380px; }
+  .ceo-desk .ceo-quote ~ *{ margin-left:0; }
+  .ceo-quote{ padding-left:0; padding-top:44px; }
+  .ceo-quote::before{ top:-24px; }
+  .ceo-facts{ grid-template-columns:1fr 1fr; gap:18px 0; }
+  .ceo-facts li:nth-child(3){ border-left:0; padding-left:0; }
+  .ceo-career li{ grid-template-columns:1fr; gap:2px; }
+  .ceo-watermark{ display:none; }
 }
 
 /* Registration line (About page, Governance & Standing) */
 .reg-strip{ margin-top:32px; padding:22px 26px; border:1px solid var(--line-strong); border-left:3px solid var(--orange); border-radius:4px; background:var(--surface); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px 32px; }
 .reg-strip p{ color:var(--ink-2); font-size:15px; }
+.reg-strip .reg-role{ margin-top:8px; color:var(--muted); font-size:14.5px; max-width:70ch; }
+.about-story-body p{ max-width:56ch; }
+.about-story-body .lede{ margin-bottom:18px; }
+.about-creed{ margin-top:26px; padding-left:18px; border-left:3px solid var(--orange); font-family:var(--f-serif); font-weight:600; font-size:clamp(22px, 2vw, 27px); line-height:1.35; color:var(--ink); }
 .reg-strip .reg-ids{ display:flex; gap:10px 28px; flex-wrap:wrap; font-weight:600; color:var(--ink); letter-spacing:0.02em; }
 .reg-strip .reg-ids em{ font-style:normal; font-weight:500; font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-right:6px; }
 .serve-motto{ margin:64px auto 0; text-align:center; font-family:var(--f-serif); font-weight:500; font-size:clamp(22px, 2.2vw, 30px); line-height:1.35; color:var(--ink); }
@@ -766,3 +806,85 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 @media (max-width:560px){
   :root{ --logo-h:24px; --ring-d:102px; --nav-h:108px; --nav-h-scrolled:84px; --logo-scrolled-scale:.8; }
 }
+
+/* ===================== THE RISCH FRAMEWORK (home) =====================
+   The signature method, drawn as four connected stages on one rule so it
+   reads as a framework rather than another list. Stacks on phones. */
+.framework{ list-style:none; margin:64px 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:0 36px; position:relative; }
+.framework::before{ content:''; position:absolute; left:0; right:0; top:27px; height:1px; background:var(--line-strong); }
+.framework > li{ position:relative; padding-top:0; }
+.fw-n{
+  position:relative; z-index:1; display:inline-flex; align-items:center; justify-content:center;
+  width:56px; height:56px; border-radius:50%; background:var(--bg); border:1px solid var(--orange);
+  font-family:var(--f-serif); font-weight:600; font-size:22px; color:var(--accent); font-variant-numeric:lining-nums;
+}
+.framework > li:first-child .fw-n{ background:var(--orange); border-color:var(--orange); color:#fff; }
+.fw-t{ font-family:var(--f-serif); font-weight:600; font-size:clamp(24px, 2vw, 28px); line-height:1.15; color:var(--ink); margin:26px 0 12px; }
+.fw-d{ font-size:16.5px; line-height:1.65; color:var(--muted); margin:0; }
+.fw-chips{ list-style:none; margin:16px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+.fw-chips li{ font-size:13px; font-weight:500; color:var(--ink-2); padding:5px 10px; border:1px solid var(--line-strong); border-radius:999px; background:var(--surface); }
+@media (max-width:980px){
+  .framework{ grid-template-columns:1fr; gap:36px; padding-left:0; }
+  .framework::before{ left:27px; right:auto; top:0; bottom:0; width:1px; height:auto; }
+  .framework > li{ padding-left:84px; }
+  .fw-n{ position:absolute; left:0; top:0; }
+  .fw-t{ margin-top:12px; }
+}
+
+/* ===================== ALLOCATION DIAGRAM (Solutions) =====================
+   A stacked "your portfolio" diagram with no percentages, next to the
+   statement that there is no model portfolio. */
+.alloc-intro{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:clamp(40px, 6vw, 96px); align-items:center; margin-bottom:72px; }
+.alloc-statement{ font-family:var(--f-serif); font-weight:600; font-size:clamp(26px, 2.4vw, 34px); line-height:1.2; color:var(--accent); margin:26px 0 12px; }
+.alloc-stack{ border:1px solid var(--line-strong); border-radius:8px; padding:20px; background:var(--surface); }
+.alloc-stack-label{ margin:0 0 14px; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); text-align:center; }
+.alloc-layer{ display:flex; align-items:center; justify-content:center; height:52px; border-radius:4px; font-size:15px; font-weight:600; letter-spacing:.01em; }
+.alloc-layer + .alloc-layer{ margin-top:6px; }
+.alloc-layer{ color:var(--ink); }
+.alloc-layer-0{ background:var(--accent); color:#fff; }
+.alloc-layer-1{ background:rgba(238,122,30,.5); }
+.alloc-layer-2{ background:rgba(238,122,30,.32); }
+.alloc-layer-3{ background:rgba(238,122,30,.18); }
+.alloc-layer-4{ background:rgba(238,122,30,.09); }
+html[data-theme="dark"] .alloc-layer-0{ color:#1C1A17; }
+@media (max-width:860px){ .alloc-intro{ grid-template-columns:1fr; margin-bottom:48px; } }
+
+/* ===================== WHO WE SERVE cards =====================
+   Six equal cards: eyebrow, large serif title, two-line description, a
+   quiet call to action, and a restrained lift on hover. */
+.serve-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.serve-card{
+  display:flex; flex-direction:column; padding:34px 32px 30px; min-height:300px;
+  background:var(--surface); border:1px solid var(--line); border-radius:6px; color:inherit;
+  transition:border-color .3s ease, transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
+}
+.serve-card:hover{ border-color:var(--orange-line); transform:translateY(-4px); box-shadow:0 24px 48px -30px rgba(28,26,23,.35); }
+.serve-card-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; }
+.serve-eyebrow{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+.serve-icon{ color:var(--muted); }
+.serve-icon svg{ width:22px; height:22px; display:block; }
+.serve-title{ font-family:var(--f-serif); font-weight:600; font-size:clamp(26px, 2.2vw, 31px); line-height:1.15; color:var(--ink); margin:0 0 12px; }
+.serve-body{ font-size:16.5px; line-height:1.65; color:var(--muted); margin:0; flex:1; }
+.serve-cta{ margin-top:22px; font-size:14px; font-weight:600; color:var(--accent); }
+.serve-cta span{ display:inline-block; transition:transform .3s ease; }
+.serve-card:hover .serve-cta span{ transform:translateX(4px); }
+@media (max-width:1000px){ .serve-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:640px){ .serve-grid{ grid-template-columns:1fr; } .serve-card{ min-height:0; } }
+
+/* ===================== DISCLOSURE (formal document) =====================
+   Grouped clauses, a sticky contents list, and smaller, denser type than
+   the marketing pages so it reads as an institutional document. */
+.legal-doc{ display:grid; grid-template-columns:220px minmax(0, 720px); gap:clamp(32px, 6vw, 88px); align-items:start; }
+.legal-toc{ position:sticky; top:calc(var(--nav-h-scrolled) + 24px); }
+.legal-toc p{ margin:0 0 12px; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.legal-toc ol{ list-style:none; margin:0; padding:0; border-left:1px solid var(--line-strong); }
+.legal-toc a{ display:block; padding:7px 0 7px 16px; font-size:14px; color:var(--ink-2); }
+.legal-toc a:hover{ color:var(--accent); }
+.legal-group{ padding-bottom:40px; margin-bottom:40px; border-bottom:1px solid var(--line); scroll-margin-top:calc(var(--nav-h-scrolled) + 24px); }
+.legal-group:last-child{ border-bottom:0; }
+.legal-group h2{ font-family:var(--f-serif); font-weight:600; font-size:clamp(26px, 2.2vw, 32px); line-height:1.2; color:var(--ink); margin:0 0 22px; }
+.legal-clause{ margin-bottom:22px; }
+.legal-clause h3{ display:flex; gap:12px; align-items:baseline; font-family:var(--f-sans); font-size:16px; font-weight:600; letter-spacing:0; line-height:1.4; color:var(--ink); margin:0 0 6px; }
+.legal-clause h3 span{ font-size:12px; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; }
+.legal-clause p{ font-size:15px; line-height:1.7; color:var(--muted); margin:0 0 8px; max-width:68ch; }
+@media (max-width:860px){ .legal-doc{ grid-template-columns:1fr; } .legal-toc{ position:static; } }

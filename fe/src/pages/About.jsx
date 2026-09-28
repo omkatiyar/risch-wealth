@@ -64,6 +64,22 @@ export default function About() {
         </div>
       </section>
 
+      <section className="section about-story">
+        <div className="wrap">
+          <div className="grid g-2" style={{ gridTemplateColumns: '0.9fr 1.1fr', alignItems: 'start' }}>
+            <div className="reveal">
+              <p className="eyebrow">About RISCH</p>
+              <h2 className="display-l">Built from private banking.<br /><span className="italic">Designed around the client.</span></h2>
+            </div>
+            <div className="reveal about-story-body">
+              <p className="lede">RISCH was founded in {FIRM.foundedYear} by Rishiraj Maheshwari, after a career advising wealthy individuals and families at some of India&rsquo;s best-known financial institutions.</p>
+              <p>Today, RISCH works with a select group of clients who want a more disciplined, personal approach to their wealth: fewer products, clearer reasoning, and one accountable relationship.</p>
+              <p className="about-creed">Understand the client.<br />Build around the client.<br />Stay accountable to the client.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section on-paper-2">
         <div className="wrap">
           <p className="eyebrow reveal">Career Path</p>
@@ -162,7 +178,7 @@ export default function About() {
               <div className="icon-badge icon-badge-sm" style={{ marginBottom: 16 }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M15 9l-2 6-6 2 2-6 6-2z" /></svg>
               </div>
-              <p className="display-s" style={{ marginBottom: 4 }}>Independent</p>
+              <p className="display-s" style={{ marginBottom: 4 }}>Open Architecture</p>
               <p className="body-s mb-0">No proprietary product.</p>
             </div>
             <div className="card">
@@ -189,7 +205,10 @@ export default function About() {
           </div>
           {FIRM.registrations.length > 0 && (
             <div className="reg-strip reveal">
-              <p className="mb-0">{FIRM.registrationNote}</p>
+              <div>
+                <p className="mb-0">{FIRM.registrationNote}</p>
+                <p className="mb-0 reg-role">{FIRM.roleNote}</p>
+              </div>
               <p className="reg-ids mb-0">
                 {FIRM.registrations.map((r) => (
                   <span key={r.id}><em>{r.label}</em> {r.id}</span>

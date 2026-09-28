@@ -240,6 +240,126 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**CEO's Desk rebuilt to the founder's mockup**
+- New office portrait (`assets/founder-office.jpg`, cropped from the
+  supplied mockup) in a rounded frame with a captioned name band
+  (name + "Founder & CEO, RISCH Wealth" as real text on a dark
+  gradient), a faint serif "R" watermark behind it, hanging quote,
+  name/title, stewardship paragraph, four quick facts (`CEO_FACTS`:
+  years in wealth management, Client-First, India + Global, Built for
+  Generations), a dotted career timeline, and a solid "Read the
+  founder's story" button. "Independent" from the mockup is shown as
+  "Client-First / No product shelf" (distributor registration).
+- `founder-portrait.jpg` is no longer used on the home page (About still
+  uses `founder-headshot.jpg`).
+
+**CEO's Desk on the page background**
+- The section now uses the page background (ivory, or the dark theme's
+  background) like "Why RISCH", with a hairline above it, instead of the
+  navy band. Text colours come from the theme variables.
+- The portrait is a plain 4:5 photo with lightly rounded corners, the
+  same layout as before (an arch/keyline frame was tried and removed).
+  `height:auto` keeps it 4:5; the img's height attribute was stretching
+  it.
+
+**Fourth review (points 4–30): framework, services, proof, type system**
+- Home: "Our Approach" became **The RISCH Framework**, a four-stage
+  diagram on one rule (`.framework`, stacks vertically on phones):
+  Understand Risk, Define the Objective, Build the Allocation (with the
+  asset-class chips), Review & Rebalance.
+- Services (home + Solutions, `SERVICES` in Solutions.jsx): Portfolio
+  Construction, Fund & Strategy Selection, Global Diversification,
+  Wealth Coordination. "Private Wealth Solutions" (too generic) is gone.
+- Solutions: a "Your portfolio" stacked diagram with no percentages and
+  the statement "There is no model portfolio."
+- Who We Serve: six premium cards (eyebrow, serif title, description,
+  "Start a conversation →", hover lift); segments gained an `eyebrow`.
+- "Client Experiences" → "The Client Experience".
+- About: new "Built from private banking. Designed around the client."
+  story section; the Governance strip adds `FIRM.roleNote`, a plain
+  statement that the recommended funds/PMS/AIFs are run by their own
+  SEBI-registered managers and RISCH selects, arranges and reviews them.
+- Disclosure: now a formal document in six groups (Regulatory
+  Information, Risk Disclosure, Methodology, Conflicts of Interest,
+  Portfolio Deviation Policy, Important Investor Information) with a
+  sticky contents list, continuous clause numbers and smaller type.
+- FAQ: added "Can NRIs work with RISCH?".
+- "Independent" removed wherever it described the firm (meta
+  descriptions, schema, FAQ, About, Disclosure, llms.txt); the principle
+  "We're independent-minded." stays.
+- Type system per the review: body 16 → 17px / 1.7; serif display
+  headings weight 600 → 500; H3 20–24px; eyebrows 12px, 0.14em
+  tracking; nav and buttons 14px; section padding 110 → 128px (80px on
+  phones).
+- Not applied, by decision: olive/bronze palette (brand orange kept);
+  Instrument Serif (Cormorant is on the review's own list); nav and
+  "Start Risk Profile" CTA changes (the founder chose these); "Founder
+  & Private Wealth Advisor" title (Founder & CEO kept).
+
+**Third review: wealth management first, risk profiling as a tool**
+- Home: "Our Philosophy — Risk first. Return follows." is replaced by
+  "Our Approach — Understand first. Allocate second. Compound over
+  time." with four steps (`APPROACH` in Home.jsx): Understand, Construct,
+  Monitor, Coordinate. "Construct" lists the actual allocation universe
+  (Indian and international equity, fixed income, commodities, real
+  estate) rather than the review's "liquidity", which was removed from
+  the site earlier.
+- The "How We Work With You" 5-step section is removed from the home
+  page: sitting right after the new 4-step approach it said the same
+  thing twice.
+- "Risk Profiling" is no longer one of the four core services (home and
+  Solutions). The fourth is "Fund & Strategy Selection": mutual funds,
+  PMS and AIFs from across the market, matching the firm's
+  registrations. The risk assessment band and nav button stay, as a
+  tool.
+- Trust bar: "8-point risk diagnostic" becomes "MF · PMS · AIF"
+  (`.trust-n-compact` keeps the longer value on one line and aligned).
+- FAQ "What does a risk-first approach mean?" becomes "How does RISCH
+  build and manage a portfolio?" (also the FAQPage schema). Testimonials
+  and Perspective meta descriptions no longer say "risk-first".
+
+**Hero, second review: brand → proposition → credibility → action**
+- H1 back to the brand line "Capital deserves a considered hand.", with
+  a plain proposition under it ("Private wealth management for
+  entrepreneurs, business owners, professionals and families. We manage
+  portfolios built around your goals, your risk and your long-term
+  wealth, across Indian and global markets.").
+- Three credibility points with orange ticks: years of private-banking
+  experience (computed from `FIRM.careerStartYear`), open-architecture
+  portfolios with no in-house products, Indian & global allocation. The
+  review's "Independent portfolio construction" is phrased as
+  "open-architecture" for the same distributor-registration reason.
+- CTAs: "Start Your Wealth Review" (contact page, which opens on the
+  "Portfolio review" topic) and "Meet the Founder" (About). The risk
+  profiler stays one click away via the nav's "Start Risk Profile".
+- ARN and APRN as fine print under the CTAs; each registration wraps as
+  a unit. The tagline "Built around your life…" and the founder
+  sentence from the previous version are removed to keep the hierarchy
+  tight.
+- "We manage portfolios." (from the client brochure) is kept as the
+  serif tagline directly under the H1, at the founder's request. Keep it
+  in the hero through any future rework. The proposition paragraph no
+  longer repeats "We manage portfolios" so it isn't said twice.
+
+**Hero repositioning + typography pass** (from an external site review)
+- Hero now answers who / what / for whom / why trust / next step:
+  eyebrow "RISCH Private Wealth · Bengaluru · Since 2014"; H1 "Private
+  Wealth Management"; tagline "Built around your life, not a product
+  shelf."; lede "We manage portfolios for entrepreneurs, business owners,
+  professionals, families and global Indians…"; CTAs "Build My
+  Portfolio" (risk profiler, primary) and "Speak With RISCH" (contact).
+  A credentials block under the CTAs names the founder's background and
+  the AMFI ARN / APMI APRN. The review suggested "Independent Wealth
+  Management"; "Private" is used instead because the firm is registered
+  as a distributor, where "independent" is a sensitive term.
+- Home page `<title>`: "RISCH Wealth | Private Wealth Management in
+  Bengaluru".
+- Type sizes raised for a senior audience: `.body-s` 14.5 → 15.5px
+  (cards, process steps, allocation), trust-bar labels 13.5 → 14.5px,
+  nav links 13.5 → 14.5px, eyebrows 12.5 → 13px. Principle-card
+  headings reduced to 22–27px so the longest wraps to 2–3 lines instead
+  of 4. All text measured at ≥ 4.6:1 contrast.
+
 **Brand line, registrations, allocation universe, CEO band**
 - "RISCH Wealth & RISCH Family Office" is now "RISCH Private Wealth"
   (home hero eyebrow, footer).

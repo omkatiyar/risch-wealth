@@ -16,21 +16,25 @@ export default function WhoWeServe() {
         <div className="wrap" style={{ position: 'relative' }}>
           <p className="eyebrow kicker reveal in">Who We Serve</p>
           <h1 className="display-xxl reveal in" style={{ maxWidth: '16em' }}>Built around <span className="italic">your</span> balance sheet, whatever shape it takes.</h1>
-          <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>RISCH works with a small number of clients directly — the profiles below are the ones we see most often, not a checklist you need to fit.</p>
+          <p className="lede reveal in" style={{ maxWidth: '46ch', marginTop: 26 }}>RISCH works with a small number of clients directly. These are the people we work with most often — not a checklist you need to fit.</p>
         </div>
       </header>
 
       <section className="section-tight">
         <div className="wrap">
-          <div className="grid g-3 reveal-stagger">
-            {SEGMENTS.map((s) => (
-              <div className="card" key={s.title}>
-                <div className="icon-badge" style={{ marginBottom: 22 }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
+          <div className="serve-grid reveal-stagger">
+            {SEGMENTS.map((s, i) => (
+              <Link to="/contact" className="serve-card" key={s.title}>
+                <div className="serve-card-top">
+                  <span className="serve-eyebrow">{String(i + 1).padStart(2, '0')} · {s.eyebrow}</span>
+                  <span className="serve-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
+                  </span>
                 </div>
-                <h2 className="display-s" style={{ marginBottom: 10 }}>{s.title}</h2>
-                <p className="body-s mb-0">{s.body}</p>
-              </div>
+                <h2 className="serve-title">{s.title}</h2>
+                <p className="serve-body">{s.body}</p>
+                <span className="serve-cta">Start a conversation <span aria-hidden="true">→</span></span>
+              </Link>
             ))}
           </div>
           <p className="serve-motto reveal">Every relationship is built on trust.<br />Every strategy is built for the long term.</p>

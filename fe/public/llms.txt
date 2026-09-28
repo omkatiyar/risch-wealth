@@ -1,10 +1,10 @@
 # RISCH Wealth
 
-> RISCH Wealth Private Limited is an independent private wealth firm in Bengaluru, India, founded in 2014 by Rishiraj Maheshwari, a career private banker in private banking since 2006 (ICICI Securities, Edelweiss Financial Services). Its approach is risk first: a client's capacity for risk is measured before their willingness, and the best, expected and worst case are shown before any money is invested.
+> RISCH Wealth Private Limited is a private wealth management firm in Bengaluru, India, founded in 2014 by Rishiraj Maheshwari, a career private banker in private banking since 2006 (ICICI Securities, Edelweiss Financial Services). Its approach is risk first: a client's capacity for risk is measured before their willingness, and the best, expected and worst case are shown before any money is invested.
 
 Key facts:
 
-- Independent: no proprietary fund; recommendations align to the client, not a product shelf.
+- Open architecture: no proprietary fund; recommendations align to the client, not a product shelf.
 - Services: private wealth solutions, wealth coordination (consolidated reporting, succession, governance), portfolio construction, and risk profiling.
 - Allocation universe: domestic equity (large, mid and small cap, plus thematic and sectoral funds), international equity (US, Europe, Asia ex-Japan, Taiwan), fixed income (short, medium and long duration), commodities (gold, silver), real estate (REITs, InvITs).
 - Clients: business owners, entrepreneurs and founders, private clients and families, NRIs and global Indians, senior executives and professionals, and family offices.

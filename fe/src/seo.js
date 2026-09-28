@@ -17,8 +17,8 @@ export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export const PAGES = {
   '/': {
-    title: 'RISCH Wealth | Independent Private Wealth Firm in Bengaluru',
-    description: 'RISCH Wealth is an independent private wealth firm in Bengaluru, led by a career private banker. Your risk profile first, then a portfolio built around it.',
+    title: 'RISCH Wealth | Private Wealth Management in Bengaluru',
+    description: 'RISCH Wealth is a private wealth management firm in Bengaluru, led by a career private banker, for entrepreneurs, families, professionals and global Indians.',
   },
   '/about': {
     title: 'About RISCH Wealth | Founder & CEO Rishiraj Maheshwari',
@@ -38,11 +38,11 @@ export const PAGES = {
   },
   '/testimonials': {
     title: 'Client Testimonials | RISCH Wealth Private Wealth Firm',
-    description: 'What clients say about working with RISCH Wealth, an independent, risk-first private wealth firm in Bengaluru led by career private banker Rishiraj Maheshwari.',
+    description: 'What clients say about working with RISCH Wealth, a private wealth management firm in Bengaluru led by career private banker Rishiraj Maheshwari.',
   },
   '/perspective': {
     title: 'Perspective | Notes on Risk and Portfolio Strategy | RISCH',
-    description: 'Notes from RISCH Wealth on risk profiling, portfolio construction and wealth coordination: how a risk-first private wealth process works in practice.',
+    description: 'Notes from RISCH Wealth on portfolio construction, asset allocation and wealth coordination: how private wealth management works in practice.',
   },
   '/disclosure': {
     title: 'Disclosures & Disclaimers | RISCH Wealth Private Limited',
@@ -77,15 +77,19 @@ export function canonicalUrl(pathname) {
 export const FAQS = [
   {
     q: 'What is RISCH Wealth?',
-    a: 'RISCH Wealth Private Limited is an independent private wealth firm based in Bengaluru. It was founded in 2014 by Rishiraj Maheshwari, a career private banker whose roles include Senior Private Banker at ICICI Securities and Vice President in the Family Office Group at Edelweiss Financial Services.',
+    a: 'RISCH Wealth Private Limited is a private wealth management firm based in Bengaluru. It was founded in 2014 by Rishiraj Maheshwari, a career private banker whose roles include Senior Private Banker at ICICI Securities and Vice President in the Family Office Group at Edelweiss Financial Services.',
   },
   {
     q: 'Who does RISCH Wealth work with?',
-    a: 'RISCH works with a small number of clients directly. The profiles we see most often are business owners, entrepreneurs and founders, private clients and families, NRIs and global Indians, senior executives and professionals, and family offices looking for an independent second opinion.',
+    a: 'RISCH works with a small number of clients directly. The profiles we see most often are business owners, entrepreneurs and founders, private clients and families, NRIs and global Indians, senior executives and professionals, and family offices looking for a second opinion.',
   },
   {
-    q: 'What does a risk-first approach mean?',
-    a: 'Most portfolios start with a return target. Ours start with what you can actually withstand. We measure your capacity for risk before your willingness, match the portfolio to your time horizon and risk preference, and show the best, expected and worst case before a rupee is invested.',
+    q: 'Can NRIs work with RISCH?',
+    a: 'Yes. NRIs and global Indians are among the clients RISCH works with most often, typically where holdings sit across countries and the Indian portfolio needs a single point of accountability. Which funds and strategies are available depends on your country of residence and each product\'s rules, which we check before recommending anything.',
+  },
+  {
+    q: 'How does RISCH build and manage a portfolio?',
+    a: 'In four steps that repeat for as long as you are a client. We understand your goals, liquidity needs, time horizon and ability to withstand losses; construct a diversified portfolio across Indian and international equity, fixed income, commodities and real estate; monitor it with regular reviews and rebalancing; and coordinate it with the rest of your family wealth and long-term financial decisions.',
   },
   {
     q: 'How does the RISCH risk profiler work?',
@@ -117,7 +121,7 @@ const ORGANIZATION = {
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/logo.png`,
   image: OG_IMAGE,
-  description: 'Independent private wealth firm in Bengaluru, led by a career private banker. Risk understood first, then a portfolio built around it.',
+  description: 'Private wealth management firm in Bengaluru, led by a career private banker. Portfolios built around each client\'s goals, risk and long-term wealth.',
   foundingDate: '2014',
   founder: { '@id': FOUNDER_ID },
   email: FIRM.email,
