@@ -240,6 +240,11 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Footer: deep navy**
+- Footer background changed from charcoal (#1C1A17) to deep private-bank
+  navy (#0F1E33), with muted text #A9B1BF and rules #243650 retuned for
+  it (contrast: text 13.8:1, muted 7.8:1, orange 6.7:1).
+
 **About: Leadership — Kratika Maheshwari**
 - New "Leadership" section on the About page (after Experience):
   Kratika Maheshwari, Co-Founder & Chief Client Experience Officer, with

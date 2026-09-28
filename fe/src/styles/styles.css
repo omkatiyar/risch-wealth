@@ -38,10 +38,10 @@
   --line-strong:#D8CCBB;
 
   /* fixed (not themed): the footer is always charcoal */
-  --footer-bg:  #1C1A17;
+  --footer-bg:  #0F1E33;  /* deep private-bank navy */
   --footer-ink: #EFE8DC;
-  --footer-muted:#A99F90;
-  --footer-line:#34302A;
+  --footer-muted:#A9B1BF;
+  --footer-line:#243650;
 
   --pos:        #2F8F52;
   --neg:        #C7401F;
