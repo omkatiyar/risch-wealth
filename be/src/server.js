@@ -6,6 +6,8 @@ import authRoutes from './auth/routes.js';
 import adminRoutes from './admin/routes.js';
 import clientRoutes from './client/routes.js';
 import staffRoutes from './staff/routes.js';
+import orderRoutes from './admin/orders.js';
+import { scheduleNavRefresh } from './portfolio/amfi.js';
 import { migrate, waitForDatabase } from './db/migrate.js';
 import { purgeExpiredSessions } from './auth/sessions.js';
 
@@ -61,7 +63,7 @@ const requireJson = (req, res, next) => {
   return next();
 };
 app.use('/api/auth', requireJson, authRoutes);
-app.use('/api/admin', requireJson, adminRoutes);
+app.use('/api/admin', requireJson, adminRoutes, orderRoutes);
 app.use('/api/client', requireJson, clientRoutes);
 app.use('/api/staff', requireJson, staffRoutes);
 
@@ -71,12 +73,14 @@ app.use('/api/staff', requireJson, staffRoutes);
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(err.status || 500).json({ error: 'Request failed.' });
+  // Only messages explicitly marked safe (err.expose) reach the client.
+  res.status(err.status || 500).json({ error: err.expose ? err.message : 'Request failed.' });
 });
 
 // Bring the database schema up to date before accepting requests.
 await waitForDatabase();
 await migrate();
+scheduleNavRefresh();
 setInterval(() => purgeExpiredSessions().catch((e) => console.error(e.message)), 6 * 60 * 60 * 1000).unref();
 
 app.listen(PORT, HOST, () => {

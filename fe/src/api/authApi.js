@@ -43,3 +43,20 @@ export const sendClientRequest = (topic, message) => post('/client/requests', { 
 // Staff (employees and admins): client request inbox.
 export const listClientRequests = (status) => call(`/staff/requests${status ? `?status=${status}` : ''}`);
 export const setClientRequestStatus = (id, status) => call(`/staff/requests/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
+export const clientPortfolio = () => call('/client/portfolio');
+export const clientTransactions = ({ page = 1, from = '', to = '', fund = '' } = {}) => {
+  const q = new URLSearchParams({ page: String(page) });
+  if (from) q.set('from', from);
+  if (to) q.set('to', to);
+  if (fund) q.set('fund', fund);
+  return call(`/client/transactions?${q}`);
+};
+
+// Admin only: client portfolios built from recorded purchase orders.
+export const searchClients = (q) => call(`/admin/clients?q=${encodeURIComponent(q)}`);
+export const searchSchemes = (q) => call(`/admin/schemes?q=${encodeURIComponent(q)}`);
+export const clientPortfolioAdmin = (id) => call(`/admin/clients/${id}/portfolio`);
+export const createOrder = (data) => post('/admin/orders', data);
+export const voidOrder = (id, reason) => post(`/admin/orders/${id}/void`, { reason });
+export const navStatus = () => call('/admin/nav-status');
+export const refreshNavs = () => post('/admin/nav-refresh');

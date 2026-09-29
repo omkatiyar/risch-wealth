@@ -6,6 +6,10 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not set. See be/README.md → Database.');
 }
 
+// Return DATE columns (trade dates, NAV dates) as 'YYYY-MM-DD' strings.
+// Converting them to JS Dates would shift them by the server's timezone.
+pg.types.setTypeParser(pg.types.builtins.DATE, (v) => v);
+
 export const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   max: 10,

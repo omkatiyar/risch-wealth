@@ -115,10 +115,12 @@ and this frontend is just a client of it now.
 | Nav: Contact, "Start a conversation" buttons     | `/contact`        |
 | Nav: "Start Risk Profile" button, "Take the risk assessment" buttons | `/risk-profiler` |
 | Footer: Employee sign-in                         | `/employee-login` (noindex) |
+| Nav: Login → Client                              | `/client-login` (noindex) |
+| After client sign-in                             | `/client-portal` and `/client-portal/{portfolio,transactions,statements,risk-profile,messages,profile}` (noindex) |
 | anything else                                   | 404 page (noindex, real 404 status) |
 
-"Client Login" (nav and footer) opens `FIRM.clientLoginUrl` (Wealth Elite)
-in a new tab.
+"Client Login" (nav and footer) goes to `/client-login`; its "View your
+portfolio" button opens `FIRM.clientLoginUrl` (Wealth Elite) in a new tab.
 
 ## Design system
 
@@ -236,6 +238,34 @@ to `--accent`. White on the logo orange was only 3.2:1.
 ## Change log
 
 Newest first.
+
+**Client dashboard and admin order entry**
+- `/client-portal` is now a full dashboard (`src/pages/ClientPortal/`,
+  styles in `src/styles/portal.css`) with its own navy sidebar instead
+  of the site nav and footer. Screens:
+  - **Overview:** greeting, value, invested, XIRR and absolute return,
+    allocation donut, top holdings, recent activity, risk profile gauge,
+    RISCH team.
+  - **Portfolio:** summary, allocation, returns (XIRR) by asset class,
+    holdings table with asset-class filters and search.
+  - **Transactions:** date and fund filters, 10 per page.
+  - **Statements:** valuation and transaction statement (by financial
+    year) as CSV downloads; formal statements (CAS, capital gains) are
+    requested from the team.
+  - **Risk Profile**, **Messages & requests**, **Profile & Security**.
+  - One route, `/client-portal/:section?`; each section is prerendered
+    (the prerender script now creates sub-folders). The dashboard code
+    loads after mount, so it isn't in the public pages' bundle and
+    hydration stays clean.
+  - Not built yet, so not shown: search, notifications, 2FA, the
+    performance chart (needs NAV history to build up).
+- `/employee-login` (admins): a **Client portfolios** panel
+  (`src/components/admin/ClientOrders.jsx`, also loaded on demand):
+  - Pick a client, then record a purchase: fund search (name, AMC,
+    scheme code or ISIN), asset class, buying date, amount, buying NAV,
+    units (auto), folio, notes.
+  - Warns when the buying NAV is far from the fund's current NAV.
+  - Order list with Void, NAV status and "Update now".
 
 **Show/hide password**
 - `components/PasswordInput.jsx`: password field with an eye toggle

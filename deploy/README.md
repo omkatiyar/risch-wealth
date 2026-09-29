@@ -117,6 +117,14 @@ Docker only rebuilds the images whose source actually changed, and
 replaces just those containers — the other one keeps running. Host
 nginx and the TLS cert are untouched by this.
 
+Database migrations (`be/migrations/*.sql`) run automatically when the
+backend starts; nothing to do by hand.
+
+The backend needs outbound HTTPS to `portal.amfiindia.com` for the daily
+mutual fund NAV update. Check it after a deploy with
+`docker compose logs backend | grep NAV`: you should see
+`NAV refresh: N funds updated`.
+
 ## Stopping / restarting manually
 
 ```bash

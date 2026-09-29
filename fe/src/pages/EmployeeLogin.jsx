@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
@@ -7,6 +7,8 @@ import {
 } from '../api/authApi';
 import PasswordCard from '../components/PasswordCard';
 import PasswordInput from '../components/PasswordInput';
+
+const ClientOrders = lazy(() => import('../components/admin/ClientOrders'));
 
 const Arrow = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
@@ -66,6 +68,7 @@ export default function EmployeeLogin() {
                 <p style={{ marginBottom: 26 }}>{user.fullName} · {user.employeeId} · {user.email}</p>
                 <button type="button" className="btn" onClick={async () => { await logout().catch(() => {}); setUser(null); }}>Sign out</button>
               </div>
+              {user.role === 'admin' && <Suspense fallback={null}><ClientOrders /></Suspense>}
               <ClientRequests />
               <PasswordCard className="auth-card" />
               {user.role === 'admin' && <TeamAccounts selfId={user.id} />}

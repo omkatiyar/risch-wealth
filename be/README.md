@@ -38,6 +38,8 @@ directly on the server. Full steps: `../deploy/README.md`.
   + `https://www.rischwealth.com`. Any `localhost`/`127.0.0.1` origin
   (any port) is always allowed, for local dev. Same-origin requests
   through the nginx/Vite proxy don't need this at all.
+- `AMFI_NAV_URL` — optional. Defaults to AMFI's public daily NAV file,
+  `https://portal.amfiindia.com/spages/NAVAll.txt`.
 
 ## Endpoints
 
@@ -185,6 +187,55 @@ docker compose exec backend npm run user:disable -- RW101
   signed-in user; signs out their other devices.
 - Tables (003_client_portal.sql): `risk_profiles`, `client_requests`.
 
+## Client portfolios (`src/portfolio/`, `src/admin/orders.js`)
+
+Portfolios are built from **purchase orders that admins record** for
+each client (no external APIs). Current values come from AMFI's free
+daily NAV file.
+
+- **Tables** (004_portfolio.sql):
+  - `funds`: **only the funds clients hold**. A fund is added the first
+    time an order uses it, with its AMFI scheme code, name, AMC,
+    category, asset class (Equity, Debt, Hybrid, Commodities,
+    International, Other) and latest NAV.
+  - `nav_history`: the daily NAV of those funds (for a performance
+    chart later).
+  - `transactions`: each client's orders. Type is `purchase` only for
+    now. Orders are never deleted; a mistake is **voided** with a reason,
+    and who entered or voided it is recorded.
+  - `nav_imports`: one row per NAV update run.
+- **NAV updates** (`src/portfolio/amfi.js`): the backend downloads the
+  AMFI file (about 1.5 MB, around 14,000 schemes) and updates the NAV
+  of the funds in `funds` only. It runs 10 s after start and then every
+  hour, but only if no successful update happened in the last 6 hours.
+  Admins can also run it with "Update now". Fund search for the order
+  form uses an in-memory copy of the file (refreshed every 6 hours);
+  nothing else from it is stored.
+- **Maths** (`src/portfolio/calc.js`): units, invested, current value,
+  gain, absolute return, and XIRR per fund, per asset class and overall.
+  XIRR is shown only once money has been invested for 30 days. A fund
+  with no NAV yet is valued at cost.
+- **Admin API** (`/api/admin/*`, admins only):
+  - `GET clients?q=`: search clients.
+  - `GET schemes?q=`: search AMFI funds by name, AMC, scheme code or
+    ISIN. Returns a suggested asset class, plus the stored class if a
+    client already holds the fund.
+  - `GET clients/:id/portfolio`: holdings plus every order, including
+    voided ones.
+  - `POST orders { userId, schemeCode, assetClass?, tradeDate, amount, nav, units?, folio?, notes? }`.
+    The date can't be in the future. Units default to amount ÷ NAV; an
+    override must be within 1% of that (stamp duty). A buying NAV more
+    than 20× away from the fund's current NAV is rejected, which catches
+    a NAV typed for the wrong fund. Passing `assetClass` sets it for the
+    fund (so for every client holding it).
+  - `POST orders/:id/void { reason }`.
+  - `GET nav-status`, `POST nav-refresh`.
+- **Client API:** `GET /api/client/portfolio` (summary, allocation with
+  per-class XIRR, holdings) and
+  `GET /api/client/transactions?page=&from=&to=&fund=` (10 per page).
+- DATE columns are returned as `YYYY-MM-DD` strings (`src/db/pool.js`),
+  so trade dates never shift with the server's timezone.
+
 **Backups:** not automated yet. Manual dump:
 
 ```bash
@@ -194,6 +245,12 @@ docker compose exec db pg_dump -U risch risch > backup-$(date +%F).sql
 ## Change log
 
 Newest first. Frontend changes are listed in `../fe/README.md`.
+
+**Client portfolios**
+- Migration 004 (`funds`, `nav_history`, `transactions`, `nav_imports`).
+  Admin order entry and void API, AMFI daily NAV import for held funds
+  only, portfolio and XIRR calculations, client portfolio and
+  transactions endpoints. See "Client portfolios" above.
 
 **Client portal**
 - Migration 003 (`risk_profiles`, `client_requests`), client portal API,

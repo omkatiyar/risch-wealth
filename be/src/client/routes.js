@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { query } from '../db/pool.js';
 import { requireRole } from '../auth/routes.js';
+import { buildPortfolio } from '../portfolio/calc.js';
 
 // Client portal: everything here is scoped to the signed-in client
 // (req.user.id); a client can never read another client's rows.
@@ -8,6 +9,8 @@ import { requireRole } from '../auth/routes.js';
 //   PATCH /api/client/profile    { fullName?, phone? }
 //   GET   /api/client/risk-profiles
 //   POST  /api/client/requests   { topic, message }
+//   GET   /api/client/portfolio  summary, allocation, holdings
+//   GET   /api/client/transactions?page=&from=&to=&fund=
 
 const router = Router();
 router.use(requireRole('client'));
@@ -91,6 +94,55 @@ router.post('/requests', async (req, res, next) => {
     return res.status(201).json({ request: requestRow(rows[0]) });
   } catch (err) {
     return next(err);
+  }
+});
+
+const activeRows = (userId) => query(
+  `SELECT t.*, f.name AS fund_name, f.amc, f.asset_class, f.nav AS fund_nav, f.nav_date
+     FROM transactions t JOIN funds f USING (scheme_code)
+    WHERE t.user_id = $1 AND t.status = 'active'`,
+  [userId],
+);
+
+router.get('/portfolio', async (req, res, next) => {
+  try {
+    const { rows } = await activeRows(req.user.id);
+    res.json(buildPortfolio(rows));
+  } catch (err) {
+    next(err);
+  }
+});
+
+const PAGE_SIZE = 10;
+router.get('/transactions', async (req, res, next) => {
+  try {
+    const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
+    const dateOk = (d) => /^\d{4}-\d{2}-\d{2}$/.test(d || '');
+    const from = dateOk(req.query.from) ? req.query.from : null;
+    const to = dateOk(req.query.to) ? req.query.to : null;
+    const fund = /^\d+$/.test(req.query.fund || '') ? req.query.fund : null;
+    const where = `t.user_id = $1 AND t.status = 'active'
+      AND ($2::date IS NULL OR t.trade_date >= $2) AND ($3::date IS NULL OR t.trade_date <= $3)
+      AND ($4::text IS NULL OR t.scheme_code = $4)`;
+    const params = [req.user.id, from, to, fund];
+    const [{ rows }, { rows: count }, { rows: funds }] = await Promise.all([
+      query(`SELECT t.id, t.type, t.trade_date, t.amount, t.nav, t.units, t.folio, t.scheme_code, f.name AS fund_name
+               FROM transactions t JOIN funds f USING (scheme_code) WHERE ${where}
+              ORDER BY t.trade_date DESC, t.id DESC LIMIT ${PAGE_SIZE} OFFSET ${(page - 1) * PAGE_SIZE}`, params),
+      query(`SELECT count(*)::int AS n FROM transactions t WHERE ${where}`, params),
+      query(`SELECT DISTINCT f.scheme_code, f.name FROM transactions t JOIN funds f USING (scheme_code)
+              WHERE t.user_id = $1 AND t.status = 'active' ORDER BY f.name`, [req.user.id]),
+    ]);
+    res.json({
+      transactions: rows.map((r) => ({
+        id: r.id, type: r.type, date: r.trade_date, fundName: r.fund_name, schemeCode: r.scheme_code,
+        amount: Number(r.amount), nav: Number(r.nav), units: Number(r.units), folio: r.folio,
+      })),
+      total: count[0].n, page, pageSize: PAGE_SIZE,
+      funds: funds.map((f) => ({ schemeCode: f.scheme_code, name: f.name })),
+    });
+  } catch (err) {
+    next(err);
   }
 });
 

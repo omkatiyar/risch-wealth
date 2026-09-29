@@ -55,7 +55,9 @@ for (const route of Object.keys(PAGES)) {
   const html = template
     .replace('<!--app-head-->', headHtml(route))
     .replace('<!--app-html-->', render(route === '/404' ? '/__not-found__' : route));
-  fs.writeFileSync(path.join(dist, outFile(route)), html);
+  const file = path.join(dist, outFile(route));
+  fs.mkdirSync(path.dirname(file), { recursive: true }); // /client-portal/portfolio -> client-portal/portfolio.html
+  fs.writeFileSync(file, html);
 
   if (!page.noindex) {
     if (page.title.length < 50 || page.title.length > 60) warnings.push(`${route}: title is ${page.title.length} chars (aim for 50–60)`);

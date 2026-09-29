@@ -8,6 +8,7 @@ import '@fontsource-variable/inter';
 import '@fontsource-variable/cormorant-garamond';
 import './styles/styles.css';
 import './styles/profiler.css';
+import './styles/portal.css';
 import App from './App.jsx';
 
 const app = (
