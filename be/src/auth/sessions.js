@@ -56,6 +56,11 @@ export async function userFromRequest(req) {
   return rows[0] || null;
 }
 
+export function currentTokenHash(req) {
+  const token = readCookie(req, COOKIE_NAME);
+  return token ? hashToken(token) : '';
+}
+
 export async function destroySession(req) {
   const token = readCookie(req, COOKIE_NAME);
   if (token) await query('DELETE FROM sessions WHERE token_hash = $1', [hashToken(token)]);

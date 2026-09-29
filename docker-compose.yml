@@ -15,8 +15,11 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
-    # No `ports:` — only the backend can reach Postgres, over the internal
-    # Docker network. Nothing on the host or the internet can.
+    # Published on the server's loopback only, so admins can reach it through
+    # an SSH tunnel (DBeaver, TablePlus, VS Code). NOT on 0.0.0.0: nothing on
+    # the internet can connect. The backend still uses the internal network.
+    ports:
+      - "127.0.0.1:5432:5432"
 
   backend:
     build: ./be

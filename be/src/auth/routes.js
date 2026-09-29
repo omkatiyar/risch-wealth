@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import rateLimit from 'express-rate-limit';
 import { query } from '../db/pool.js';
 import {
-  clearSessionCookie, createSession, destroySession, setSessionCookie, userFromRequest,
+  clearSessionCookie, createSession, currentTokenHash, destroySession, setSessionCookie, userFromRequest,
 } from './sessions.js';
 
 // Accounts for two separate portals that share one users table:
@@ -15,6 +15,7 @@ import {
 //   POST /api/auth/login   { identifier, password, portal: 'client'|'staff' }
 //   POST /api/auth/logout
 //   GET  /api/auth/me
+//   POST /api/auth/password  { currentPassword, newPassword }   (any signed-in user)
 
 const router = Router();
 export const BCRYPT_COST = 12;
@@ -111,6 +112,24 @@ router.get('/me', async (req, res, next) => {
     const user = await userFromRequest(req);
     if (!user) return res.status(401).json({ error: 'Not signed in.' });
     return res.json({ user: publicUser(user) });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.post('/password', authLimiter, async (req, res, next) => {
+  try {
+    const user = await userFromRequest(req);
+    if (!user) return res.status(401).json({ error: 'Not signed in.' });
+    const current = String(req.body?.currentPassword || '');
+    const next_ = String(req.body?.newPassword || '');
+    if (next_.length < 10 || next_.length > 128) return res.status(400).json({ error: 'New password must be at least 10 characters.' });
+    const { rows } = await query('SELECT password_hash FROM users WHERE id = $1', [user.id]);
+    if (!(await bcrypt.compare(current, rows[0].password_hash))) return res.status(400).json({ error: 'Your current password is incorrect.' });
+    await query('UPDATE users SET password_hash = $2, updated_at = now() WHERE id = $1', [user.id, await bcrypt.hash(next_, BCRYPT_COST)]);
+    // Sign out every other device; keep this one.
+    await query('DELETE FROM sessions WHERE user_id = $1 AND token_hash <> $2', [user.id, currentTokenHash(req)]);
+    return res.json({ message: 'Password updated.' });
   } catch (err) {
     return next(err);
   }

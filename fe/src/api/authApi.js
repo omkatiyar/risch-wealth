@@ -30,3 +30,16 @@ export const me = () => call('/auth/me');
 export const listStaff = () => call('/admin/staff');
 export const createStaff = (data) => post('/admin/staff', data);
 export const updateStaff = (id, data) => call(`/admin/staff/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+
+// Any signed-in user.
+export const changePassword = (currentPassword, newPassword) => post('/auth/password', { currentPassword, newPassword });
+
+// Client portal (signed-in clients only).
+export const clientOverview = () => call('/client/overview');
+export const updateClientProfile = (data) => call('/client/profile', { method: 'PATCH', body: JSON.stringify(data) });
+export const listRiskProfiles = () => call('/client/risk-profiles');
+export const sendClientRequest = (topic, message) => post('/client/requests', { topic, message });
+
+// Staff (employees and admins): client request inbox.
+export const listClientRequests = (status) => call(`/staff/requests${status ? `?status=${status}` : ''}`);
+export const setClientRequestStatus = (id, status) => call(`/staff/requests/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });

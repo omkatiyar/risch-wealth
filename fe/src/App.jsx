@@ -10,6 +10,7 @@ import Disclosure from './pages/Disclosure';
 import Contact from './pages/Contact';
 import EmployeeLogin from './pages/EmployeeLogin';
 import ClientLogin from './pages/ClientLogin';
+import ClientPortal from './pages/ClientPortal';
 import NotFound from './pages/NotFound';
 import RiskProfiler from './pages/RiskProfiler/RiskProfiler';
 import ScrollToTop from './components/ScrollToTop';
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/employee-login" element={<EmployeeLogin />} />
         <Route path="/client-login" element={<ClientLogin />} />
+        <Route path="/client-portal" element={<ClientPortal />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>

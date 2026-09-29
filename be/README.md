@@ -95,8 +95,11 @@ reject anything except a known option id.
 
 ## Database (PostgreSQL)
 
-Postgres 17 runs as the `db` service in `docker-compose.yml`, on the
-internal Docker network only (no published port). Data lives in the
+Postgres 17 runs as the `db` service in `docker-compose.yml`. The
+backend reaches it over the internal Docker network; it's also published
+on the server's loopback (`127.0.0.1:5432`) so admins can connect with
+DBeaver / TablePlus / VS Code through an SSH tunnel. Never publish it on
+0.0.0.0. Data lives in the
 `pgdata` named volume, so it survives restarts and `--build` redeploys.
 **`docker compose down -v` deletes the volume and all data — never use
 `-v` in production.**
@@ -165,6 +168,23 @@ docker compose exec backend npm run user:approve -- RW101
 docker compose exec backend npm run user:disable -- RW101
 ```
 
+## Client portal and staff inbox (`src/client/`, `src/staff/`)
+
+- `/api/client/*` (clients only; every query is scoped to the signed-in
+  client): `GET overview` (profile, latest risk profile, recent
+  requests, request topics), `PATCH profile { fullName?, phone? }`,
+  `GET risk-profiles`, `POST requests { topic, message }` (max 10 open).
+- Risk profiler: `POST /api/risk-profiler/score` still works for anyone;
+  when a signed-in client submits, the result (answers, scores, tier,
+  allocation, optional amount, config version) is saved to
+  `risk_profiles` and the response includes `savedToAccount: true`.
+- `/api/staff/*` (employees and admins): `GET requests?status=` (default
+  open + in progress; `open`, `in_progress`, `closed`, `all`),
+  `PATCH requests/:id { status }`.
+- `POST /api/auth/password { currentPassword, newPassword }` for any
+  signed-in user; signs out their other devices.
+- Tables (003_client_portal.sql): `risk_profiles`, `client_requests`.
+
 **Backups:** not automated yet. Manual dump:
 
 ```bash
@@ -174,6 +194,11 @@ docker compose exec db pg_dump -U risch risch > backup-$(date +%F).sql
 ## Change log
 
 Newest first. Frontend changes are listed in `../fe/README.md`.
+
+**Client portal**
+- Migration 003 (`risk_profiles`, `client_requests`), client portal API,
+  staff request inbox API, self-service password change, risk-profiler
+  results saved for signed-in clients.
 
 **Client accounts, admin-managed staff**
 - Migration 002: `client` role, nullable employee_id (required for

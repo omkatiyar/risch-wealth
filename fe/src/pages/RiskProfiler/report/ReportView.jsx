@@ -46,6 +46,9 @@ export default function ReportView({ basics, answers, questions, scoreResult, on
 
       <div className="report-notice">
         <p><strong>This is a preliminary assessment, not a final investment recommendation.</strong> It's based only on your answers here. A suitable portfolio also depends on your wider net worth, liabilities, illiquid assets, taxes and liquidity needs, which we'd go through with you in conversation.</p>
+        {scoreResult.savedToAccount && (
+          <p style={{ marginTop: 10 }}>This result has been saved to your <Link to="/client-portal">client portal</Link>.</p>
+        )}
       </div>
 
       <div className="report-actions">

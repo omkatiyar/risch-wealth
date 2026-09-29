@@ -2,7 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
-import { createStaff, listStaff, login, logout, me, updateStaff } from '../api/authApi';
+import {
+  createStaff, listClientRequests, listStaff, login, logout, me, setClientRequestStatus, updateStaff,
+} from '../api/authApi';
+import PasswordCard from '../components/PasswordCard';
+import PasswordInput from '../components/PasswordInput';
 
 const Arrow = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
@@ -62,6 +66,8 @@ export default function EmployeeLogin() {
                 <p style={{ marginBottom: 26 }}>{user.fullName} · {user.employeeId} · {user.email}</p>
                 <button type="button" className="btn" onClick={async () => { await logout().catch(() => {}); setUser(null); }}>Sign out</button>
               </div>
+              <ClientRequests />
+              <PasswordCard className="auth-card" />
               {user.role === 'admin' && <TeamAccounts selfId={user.id} />}
             </>
           ) : (
@@ -74,7 +80,7 @@ export default function EmployeeLogin() {
                 </div>
                 <div className="field">
                   <label htmlFor="ePassword">Password</label>
-                  <input id="ePassword" type="password" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+                  <PasswordInput id="ePassword" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
                 </div>
                 <button type="submit" className="btn btn-primary btn-block" disabled={busy}>{busy ? 'Signing in…' : <>Sign in <Arrow /></>}</button>
                 {note && <p className="auth-note" role="status">{note}</p>}
@@ -194,6 +200,68 @@ function TeamAccounts({ selfId }) {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+const REQ_STATUS = { open: 'New', in_progress: 'In progress', closed: 'Closed' };
+
+// Inbox of requests clients send from the client portal (all staff).
+function ClientRequests() {
+  const [filter, setFilter] = useState('');
+  const [rows, setRows] = useState([]);
+  const [err, setErr] = useState('');
+
+  const load = useCallback(() => listClientRequests(filter)
+    .then((r) => { setRows(r.requests); setErr(''); })
+    .catch((e) => setErr(e.message)), [filter]);
+  useEffect(() => { load(); }, [load]);
+
+  const move = (id, status) => setClientRequestStatus(id, status).then(load).catch((e) => setErr(e.message));
+
+  return (
+    <div className="admin-panel">
+      <div className="inbox-head">
+        <div>
+          <p className="eyebrow">Client portal</p>
+          <h2 className="display-m" style={{ margin: 0 }}>Client requests</h2>
+        </div>
+        <select aria-label="Show" value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="">Open and in progress</option>
+          <option value="open">New only</option>
+          <option value="closed">Closed</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+      {err && <p className="auth-note" role="status">{err}</p>}
+      {rows.length === 0 ? (
+        <p className="portal-fine">No requests to show.</p>
+      ) : (
+        <ul className="inbox-list">
+          {rows.map((r) => (
+            <li key={r.id}>
+              <div className="inbox-meta">
+                <strong>{r.client.name}</strong>
+                <span>{r.client.email}{r.client.phone ? ` · ${r.client.phone}` : ''}</span>
+                <span>{fmtDate(r.createdAt)}</span>
+              </div>
+              <div className="inbox-body">
+                <div className="rq-top">
+                  <strong>{r.topic}</strong>
+                  <span className={'status-pill ' + (r.status === 'closed' ? 'disabled' : r.status === 'in_progress' ? 'progress' : 'active')}>{REQ_STATUS[r.status]}</span>
+                </div>
+                <p>{r.message}</p>
+                <div className="admin-actions" style={{ textAlign: 'left' }}>
+                  {r.status !== 'in_progress' && r.status !== 'closed' && <button type="button" style={{ paddingLeft: 0 }} onClick={() => move(r.id, 'in_progress')}>Mark in progress</button>}
+                  {r.status !== 'closed'
+                    ? <button type="button" style={r.status === 'in_progress' ? { paddingLeft: 0 } : undefined} onClick={() => move(r.id, 'closed')}>Close</button>
+                    : <button type="button" style={{ paddingLeft: 0 }} onClick={() => move(r.id, 'open')}>Reopen</button>}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

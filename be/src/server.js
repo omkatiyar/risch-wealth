@@ -4,6 +4,8 @@ import cors from 'cors';
 import riskProfilerRoutes from './riskProfiler/routes.js';
 import authRoutes from './auth/routes.js';
 import adminRoutes from './admin/routes.js';
+import clientRoutes from './client/routes.js';
+import staffRoutes from './staff/routes.js';
 import { migrate, waitForDatabase } from './db/migrate.js';
 import { purgeExpiredSessions } from './auth/sessions.js';
 
@@ -60,6 +62,8 @@ const requireJson = (req, res, next) => {
 };
 app.use('/api/auth', requireJson, authRoutes);
 app.use('/api/admin', requireJson, adminRoutes);
+app.use('/api/client', requireJson, clientRoutes);
+app.use('/api/staff', requireJson, staffRoutes);
 
 // Catches the CORS rejection above (and anything else unhandled) so we
 // never leak a stack trace / file paths to the client, in production or

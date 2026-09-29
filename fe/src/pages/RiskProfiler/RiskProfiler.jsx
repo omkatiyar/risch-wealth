@@ -97,11 +97,11 @@ function RiskProfilerQuiz({ questions }) {
       Object.entries(answers).map(([id, opt]) => [id, opt.points])
     );
     let cancelled = false;
-    submitRiskProfilerAnswers(pointsByQuestion)
+    submitRiskProfilerAnswers(pointsByQuestion, Number(basics.amount) || undefined)
       .then((result) => { if (!cancelled) setScoreResult(result); })
       .catch((err) => { if (!cancelled) setScoreError(err.message); });
     return () => { cancelled = true; };
-  }, [currentStepKey, scoreResult, answers]);
+  }, [currentStepKey, scoreResult, answers, basics.amount]);
 
   const goToStep = (index) => {
     const clamped = Math.max(0, Math.min(index, STEP_ORDER.length - 1));

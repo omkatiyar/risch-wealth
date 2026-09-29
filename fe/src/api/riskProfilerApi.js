@@ -17,10 +17,13 @@ export function fetchRiskProfilerConfig() {
   return fetch(`${API_BASE_URL}/api/risk-profiler/config`).then(handleResponse);
 }
 
-export function submitRiskProfilerAnswers(answers) {
+// `amount` is only stored when a signed-in client's result is saved to
+// their portal; the scoring itself doesn't use it.
+export function submitRiskProfilerAnswers(answers, amount) {
   return fetch(`${API_BASE_URL}/api/risk-profiler/score`, {
     method: 'POST',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ answers }),
+    body: JSON.stringify({ answers, amount }),
   }).then(handleResponse);
 }

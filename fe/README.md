@@ -237,6 +237,26 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Show/hide password**
+- `components/PasswordInput.jsx`: password field with an eye toggle
+  (accessible label, `aria-pressed`). Used for every password box:
+  client sign-in and sign-up, employee sign-in, change password.
+
+**Client portal**
+- New `/client-portal` (noindex): signed-in clients land here after
+  login (and `/client-login` redirects here if already signed in;
+  signed-out visitors are sent to `/client-login`). Cards: Your
+  portfolio (Wealth Elite link), Your risk profile (latest saved
+  result with allocation bars, or a prompt to take it), Your RISCH
+  team, Requests (send a request, see status of recent ones), Your
+  details (name, mobile), Security (change password;
+  `components/PasswordCard.jsx`, also on the staff page).
+- The risk-profiler report says "saved to your client portal" when a
+  signed-in client completes it.
+- `/employee-login` (signed in): a Client requests inbox for all staff
+  (filter, mark in progress, close, reopen), then change password, then
+  the admin-only Team accounts panel.
+
 **Client Login page; employee login is sign-in only, with admin panel**
 - New `/client-login` (noindex): sign in with email and password; under
   the Login button, "Sign up" (client account form: name, email, mobile,

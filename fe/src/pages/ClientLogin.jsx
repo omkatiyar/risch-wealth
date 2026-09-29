@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { FIRM } from '../data/firm';
-import { login, logout, me, signupClient } from '../api/authApi';
+import { login, me, signupClient } from '../api/authApi';
+import PasswordInput from '../components/PasswordInput';
 
 const EMPTY = { fullName: '', email: '', phone: '', password: '', confirm: '' };
 
@@ -14,15 +16,16 @@ const Arrow = () => (
 // external platform (FIRM.clientLoginUrl), reached via "View your portfolio".
 export default function ClientLogin() {
   const [mode, setMode] = useState('signin');
-  const [user, setUser] = useState(null);
   const [signin, setSignin] = useState({ email: '', password: '' });
   const [reg, setReg] = useState(EMPTY);
   const [note, setNote] = useState({ text: '', ok: false });
   const [busy, setBusy] = useState(false);
+  const navigate = useNavigate();
 
+  // Signed-in clients belong in their portal.
   useEffect(() => {
-    me().then((r) => { if (r.user.role === 'client') setUser(r.user); }).catch(() => {});
-  }, []);
+    me().then((r) => { if (r.user.role === 'client') navigate('/client-portal', { replace: true }); }).catch(() => {});
+  }, [navigate]);
 
   const go = (m) => { setMode(m); setNote({ text: '', ok: false }); };
 
@@ -31,10 +34,8 @@ export default function ClientLogin() {
     if (!signin.email.trim() || !signin.password) { setNote({ text: 'Please enter your email and password.', ok: false }); return; }
     setBusy(true);
     try {
-      const r = await login(signin.email.trim(), signin.password, 'client');
-      setUser(r.user);
-      setSignin({ email: '', password: '' });
-      setNote({ text: '', ok: false });
+      await login(signin.email.trim(), signin.password, 'client');
+      navigate('/client-portal');
     } catch (err) {
       setSignin((s) => ({ ...s, password: '' }));
       setNote({ text: err.message, ok: false });
@@ -66,7 +67,7 @@ export default function ClientLogin() {
   const field = (id, label, props) => (
     <div className="field">
       <label htmlFor={id}>{label}</label>
-      <input id={id} {...props} />
+      {props.type === 'password' ? <PasswordInput id={id} {...props} /> : <input id={id} {...props} />}
     </div>
   );
 
@@ -89,17 +90,7 @@ export default function ClientLogin() {
       <section className="section-tight" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="auth-card">
-            {user ? (
-              <div>
-                <p className="eyebrow" style={{ marginBottom: 10 }}>Signed in</p>
-                <h2 className="auth-welcome">Welcome, {user.fullName.split(' ')[0]}.</h2>
-                <p style={{ marginBottom: 26 }}>{user.email}</p>
-                <div className="auth-actions">
-                  {portfolioLink}
-                  <button type="button" className="btn" onClick={async () => { await logout().catch(() => {}); setUser(null); }}>Sign out</button>
-                </div>
-              </div>
-            ) : mode === 'signin' ? (
+            {mode === 'signin' ? (
               <form noValidate onSubmit={onSignin}>
                 <h2 className="auth-title">Sign in to your account</h2>
                 {field('cEmail', 'Email', { type: 'email', autoComplete: 'email', value: signin.email, onChange: (e) => setSignin({ ...signin, email: e.target.value }) })}
