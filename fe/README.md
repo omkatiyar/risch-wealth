@@ -223,9 +223,6 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 ## Known gaps (by design, until more of the backend exists)
 
-- Employee login (`/employee-login`) is UI only. There are no staff
-  accounts or auth yet; submitting shows a "not available yet" message,
-  and nothing is sent or stored.
 
 - The contact form has no backend. On submit it opens the visitor's
   email app with a pre-filled message to `FIRM.email`. Once the API can
@@ -239,6 +236,18 @@ to `--accent`. White on the logo orange was only 3.2:1.
 ## Change log
 
 Newest first.
+
+**Client Login page; employee login is sign-in only, with admin panel**
+- New `/client-login` (noindex): sign in with email and password; under
+  the Login button, "Sign up" (client account form: name, email, mobile,
+  password) and "View your portfolio" (opens `FIRM.clientLoginUrl`,
+  Wealth Elite). The nav Login menu and footer now point Client Login
+  here.
+- `/employee-login`: sign-in only (employee ID or email), no public
+  sign-up. Admins see a "Team accounts" panel after signing in: create
+  employee/admin accounts, reset passwords, disable/activate.
+- All account calls are in `src/api/authApi.js`; sessions are httpOnly
+  cookies, nothing in browser storage. Styles: `.auth-*`, `.admin-*`.
 
 **Footer: deep navy**
 - Footer background changed from charcoal (#1C1A17) to deep private-bank

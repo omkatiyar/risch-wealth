@@ -924,3 +924,35 @@ html[data-theme="dark"] .alloc-layer-0{ color:#1C1A17; }
 .team-facts dt{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); padding-top:3px; }
 .team-facts dd{ margin:0; font-size:15.5px; line-height:1.6; color:var(--ink-2); }
 @media (max-width:860px){ .team-member{ grid-template-columns:1fr; } .team-photo{ max-width:320px; } .team-facts > div{ grid-template-columns:1fr; gap:4px; } }
+
+/* ===================== EMPLOYEE SIGN-IN / SIGN-UP ===================== */
+.auth-card{ max-width:520px; padding:36px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
+.auth-tabs{ display:flex; gap:28px; margin-bottom:28px; border-bottom:1px solid var(--line-strong); }
+.auth-tabs button{ background:none; border:0; padding:0 0 12px; margin-bottom:-1px; font-size:15px; font-weight:600; color:var(--muted); border-bottom:2px solid transparent; cursor:pointer; }
+.auth-tabs button.active{ color:var(--ink); border-bottom-color:var(--orange); }
+.auth-note{ margin:18px 0 0; padding:12px 14px; border-radius:4px; font-size:14.5px; background:rgba(199,64,31,.08); color:var(--neg); }
+.auth-note.ok{ background:rgba(47,143,82,.1); color:var(--pos); }
+.auth-welcome{ font-family:var(--f-serif); font-weight:500; font-size:34px; margin:0 0 8px; color:var(--ink); }
+@media (max-width:560px){ .auth-card{ padding:24px 20px; } }
+
+.auth-title{ font-family:var(--f-serif); font-weight:500; font-size:26px; line-height:1.2; color:var(--ink); margin:0 0 22px; }
+.auth-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:22px; padding-top:22px; border-top:1px solid var(--line); }
+.auth-actions .btn{ flex:1 1 180px; justify-content:center; white-space:nowrap; padding-left:16px; padding-right:16px; }
+.auth-link{ background:none; border:0; padding:0; font:inherit; font-weight:600; color:var(--accent); cursor:pointer; text-decoration:underline; }
+
+/* ===================== ADMIN: TEAM ACCOUNTS ===================== */
+.admin-panel{ margin-top:40px; padding:36px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
+.admin-create{ max-width:720px; padding-bottom:28px; margin-bottom:8px; border-bottom:1px solid var(--line); }
+.admin-create select{ width:100%; }
+.admin-table-wrap{ margin-top:28px; overflow-x:auto; }
+.admin-table{ width:100%; border-collapse:collapse; font-size:14.5px; }
+.admin-table th{ text-align:left; font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); padding:0 14px 12px 0; border-bottom:1px solid var(--line-strong); white-space:nowrap; }
+.admin-table td{ padding:14px 14px 14px 0; border-bottom:1px solid var(--line); color:var(--ink-2); white-space:nowrap; }
+.status-pill{ font-size:12px; font-weight:600; padding:3px 10px; border-radius:999px; text-transform:capitalize; background:var(--bg-tint); color:var(--ink-2); }
+.status-pill.active{ background:rgba(47,143,82,.12); color:var(--pos); }
+.status-pill.disabled{ background:rgba(199,64,31,.1); color:var(--neg); }
+.admin-actions{ text-align:right; }
+.admin-actions button{ background:none; border:0; padding:0 0 0 16px; font:inherit; font-size:13.5px; font-weight:600; color:var(--accent); cursor:pointer; }
+.admin-actions button:hover{ text-decoration:underline; }
+@media (max-width:560px){ .admin-panel{ padding:24px 18px; } }
+.admin-you{ font-size:13px; color:var(--muted); }

@@ -1,9 +1,33 @@
 services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: risch
+      POSTGRES_USER: risch
+      # Required: set POSTGRES_PASSWORD in .env at the repo root (not committed).
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      # Data lives in a named volume, so it survives restarts and rebuilds.
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U risch -d risch"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    # No `ports:` — only the backend can reach Postgres, over the internal
+    # Docker network. Nothing on the host or the internet can.
+
   backend:
     build: ./be
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       PORT: 4000
+      NODE_ENV: production
+      DATABASE_URL: postgres://risch:${POSTGRES_PASSWORD}@db:5432/risch
       # 0.0.0.0, not 127.0.0.1, on purpose: inside its own container,
       # binding to loopback would make it unreachable from the frontend
       # container too. It's still not reachable from outside the Docker
@@ -24,3 +48,6 @@ services:
       # here). Nothing should reach this port directly from outside the
       # server.
       - "127.0.0.1:8080:80"
+
+volumes:
+  pgdata:

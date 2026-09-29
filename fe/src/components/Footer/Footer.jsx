@@ -40,7 +40,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
             <ul>
               <li><Link to="/contact">Start a conversation</Link></li>
               <li><Link to="/risk-profiler">Risk Assessment</Link></li>
-              <li><a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer">Client Login</a></li>
+              <li><Link to="/client-login">Client Login</Link></li>
               <li><Link to="/disclosure">Disclosures</Link></li>
             </ul>
           </div>

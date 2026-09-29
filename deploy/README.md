@@ -29,6 +29,18 @@ git clone <repo-url> /var/www/rischwealth
 Point DNS: `rischwealth.com` and `www.rischwealth.com` A records ->
 `80.225.229.175`. Wait for it to propagate before requesting a cert.
 
+## Database password (one-time, before the first start)
+
+The app includes a PostgreSQL database. Create `.env` next to
+`docker-compose.yml` with its password (the file is git-ignored):
+
+```bash
+echo "POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -d '/+=')" > .env
+```
+
+Keep a copy of it somewhere safe. Never run `docker compose down -v` —
+that deletes the database volume.
+
 ## Start the app (this is the "1-2 commands" part)
 
 ```bash

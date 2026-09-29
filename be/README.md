@@ -93,11 +93,107 @@ reject anything except a known option id.
   — only the frontend container can reach it, over the internal Docker
   network.
 
+## Database (PostgreSQL)
+
+Postgres 17 runs as the `db` service in `docker-compose.yml`, on the
+internal Docker network only (no published port). Data lives in the
+`pgdata` named volume, so it survives restarts and `--build` redeploys.
+**`docker compose down -v` deletes the volume and all data — never use
+`-v` in production.**
+
+**Setup (once per server):** create `.env` at the repo root (next to
+`docker-compose.yml`, not committed):
+
+```bash
+echo "POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -d '/+=')" > .env
+```
+
+Compose refuses to start without it. Don't change the password after the
+database has been created (Postgres only reads it on first start).
+
+**Schema:** `migrations/*.sql`, applied in filename order on every backend
+start (`src/db/migrate.js`, tracked in `schema_migrations`, guarded by an
+advisory lock). To change the schema, add a new numbered file; never edit
+an applied one.
+
+**Tables (001_users_and_sessions.sql, 002_client_accounts.sql):**
+- `users`: full_name, employee_id (unique, stored upper-case), email
+  (unique, lower-case), phone, password_hash (bcrypt, cost 12), role
+  (`client`/`employee`/`admin`), status (`pending`/`active`/`disabled`),
+  created_by, timestamps. employee_id is required for staff, empty for
+  clients.
+- `sessions`: SHA-256 hash of the session token (the token itself only
+  ever lives in the browser's cookie), user, expiry (7 days), IP, user
+  agent. Expired rows are purged every 6 hours.
+
+## Accounts (`src/auth/`, `src/admin/`)
+
+One `users` table, two portals:
+
+- **Clients** (`role = 'client'`) sign up themselves on `/client-login`:
+  `POST /api/auth/signup { fullName, email, phone?, password }`. Active
+  immediately. No employee ID.
+- **Staff** (`employee` / `admin`) have **no public sign-up**. Admins
+  create them from the Team accounts panel on `/employee-login`
+  (`/api/admin/staff`, admin-only: list, create, reset password,
+  disable/activate, change role; an admin can't change their own
+  account there). Disabling or resetting a password signs the person
+  out everywhere.
+- `POST /api/auth/login { identifier, password, portal }`: portal
+  `client` accepts client emails only; `staff` accepts staff email or
+  employee ID only. A wrong portal looks like a wrong password.
+- `POST /api/auth/logout`, `GET /api/auth/me`.
+- Session: httpOnly, SameSite=Lax cookie `risch_session` (Secure in
+  production), 7 days; only its SHA-256 hash is stored.
+- Sign-up and login are rate-limited to 20 requests per IP per 15 min.
+  `/api/auth` and `/api/admin` reject non-JSON writes (415), which with
+  SameSite cookies blocks cross-site form (CSRF) attacks.
+
+**First admin** (once, on the server):
+
+```bash
+docker compose exec backend npm run user:create-admin -- RW001 you@rischwealth.com "Your Name"
+```
+
+It prints a one-time temporary password. After that, manage everyone
+from the site. The CLI remains for recovery:
+
+```bash
+docker compose exec backend npm run user:list
+docker compose exec backend npm run user:make-admin -- RW101
+docker compose exec backend npm run user:approve -- RW101
+docker compose exec backend npm run user:disable -- RW101
+```
+
+**Backups:** not automated yet. Manual dump:
+
+```bash
+docker compose exec db pg_dump -U risch risch > backup-$(date +%F).sql
+```
+
 ## Change log
 
-Newest first. The backend's own code (`src/`) has not changed in any of
-these; they're about how it's deployed and reached. Frontend changes are
-listed in `../fe/README.md`.
+Newest first. Frontend changes are listed in `../fe/README.md`.
+
+**Client accounts, admin-managed staff**
+- Migration 002: `client` role, nullable employee_id (required for
+  staff), phone, created_by.
+- Public sign-up now creates client accounts only. Staff are created by
+  admins (`src/admin/routes.js`); `SIGNUP_AUTO_APPROVE` is no longer
+  used. Login takes a `portal`. JSON-only guard on account endpoints.
+  New CLI: `user:create-admin`.
+
+**PostgreSQL + employee accounts**
+- New `db` service (postgres:17-alpine, `pgdata` volume, healthcheck;
+  the backend waits for it). Requires `POSTGRES_PASSWORD` in `.env`.
+- Migration runner, `users` and `sessions` tables, sign-up / login /
+  logout / me endpoints, account CLI (`npm run user:*`). See "Database"
+  and "Employee accounts" above.
+- New dependencies: `pg`, `bcryptjs`, `express-rate-limit`. JSON bodies
+  limited to 20 KB.
+
+The earlier entries below didn't change the backend's own code; they're
+about how it's deployed and reached.
 
 **Private-wealth redesign (frontend only)**
 - No API changes. The contact form still has no endpoint here. For now

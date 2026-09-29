@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../../hooks/ThemeContext';
-import { FIRM } from '../../data/firm';
 import LogoRing from '../LogoRing/LogoRing';
 
 const navLinkClass = ({ isActive }) => (isActive ? 'active' : undefined);
@@ -65,7 +64,7 @@ export default function Nav({ showMobileProfilerLink = true }) {
             <NavLink to="/risk-profiler" onClick={closeMenu}>Start Risk Profile</NavLink>
           )}
           <NavLink to="/contact" onClick={closeMenu}>Start a conversation</NavLink>
-          <a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer">Client Login</a>
+          <NavLink to="/client-login" onClick={closeMenu}>Client Login</NavLink>
           <NavLink to="/employee-login" onClick={closeMenu}>Employee Login</NavLink>
         </div>
       </div>
@@ -96,10 +95,10 @@ export default function Nav({ showMobileProfilerLink = true }) {
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4.5L6 7.5L9 4.5" /></svg>
           </button>
           <div className="nav-login-dropdown">
-            <a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer" onClick={() => setLoginOpen(false)}>
+            <NavLink to="/client-login" onClick={() => setLoginOpen(false)}>
               Client Login
-              <span>View your portfolio</span>
-            </a>
+              <span>Sign in or create an account</span>
+            </NavLink>
             <NavLink to="/employee-login" onClick={() => setLoginOpen(false)}>
               Employee Login
               <span>For the RISCH team</span>

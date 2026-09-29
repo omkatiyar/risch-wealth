@@ -52,6 +52,11 @@ export const PAGES = {
     title: 'Contact RISCH Wealth | Private Wealth Firm in Bengaluru',
     description: 'Get in touch with RISCH Wealth in Bengaluru about private wealth solutions, portfolio construction or your risk profile. Email, call or send us a message.',
   },
+  '/client-login': {
+    title: 'Client Login | RISCH Wealth',
+    description: 'Sign in to your RISCH Wealth client account.',
+    noindex: true,
+  },
   '/employee-login': {
     title: 'Employee Login | RISCH Wealth',
     description: 'Sign-in for the RISCH Wealth team.',

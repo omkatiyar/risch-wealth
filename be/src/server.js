@@ -2,6 +2,10 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import riskProfilerRoutes from './riskProfiler/routes.js';
+import authRoutes from './auth/routes.js';
+import adminRoutes from './admin/routes.js';
+import { migrate, waitForDatabase } from './db/migrate.js';
+import { purgeExpiredSessions } from './auth/sessions.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -43,10 +47,19 @@ app.use(cors({
     callback(err);
   },
 }));
-app.use(express.json());
+app.use(express.json({ limit: '20kb' }));
 
 app.get('/health', (req, res) => res.json({ ok: true }));
 app.use('/api/risk-profiler', riskProfilerRoutes);
+// Account endpoints only accept JSON for anything that changes state. A
+// cross-site HTML form can't send application/json, so together with the
+// SameSite=Lax session cookie this blocks CSRF.
+const requireJson = (req, res, next) => {
+  if (req.method !== 'GET' && !req.is('application/json')) return res.status(415).json({ error: 'Expected JSON.' });
+  return next();
+};
+app.use('/api/auth', requireJson, authRoutes);
+app.use('/api/admin', requireJson, adminRoutes);
 
 // Catches the CORS rejection above (and anything else unhandled) so we
 // never leak a stack trace / file paths to the client, in production or
@@ -56,6 +69,11 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(err.status || 500).json({ error: 'Request failed.' });
 });
+
+// Bring the database schema up to date before accepting requests.
+await waitForDatabase();
+await migrate();
+setInterval(() => purgeExpiredSessions().catch((e) => console.error(e.message)), 6 * 60 * 60 * 1000).unref();
 
 app.listen(PORT, HOST, () => {
   console.log(`RISCH backend listening on http://${HOST}:${PORT}`);
