@@ -9,7 +9,8 @@ export default function RouteHead() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const path = PAGES[pathname] ? pathname : '/404';
+    // Staff portal screens (/employee-portal/clients/12 etc.) share one entry.
+    const path = PAGES[pathname] ? pathname : pathname.startsWith('/employee-portal/') ? '/employee-portal' : '/404';
     const { title, canonical, meta } = getHeadTags(path);
     document.title = title;
 

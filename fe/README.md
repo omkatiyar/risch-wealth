@@ -116,6 +116,7 @@ and this frontend is just a client of it now.
 | Nav: "Start Risk Profile" button, "Take the risk assessment" buttons | `/risk-profiler` |
 | Footer: Employee sign-in                         | `/employee-login` (noindex) |
 | Nav: Login → Client                              | `/client-login` (noindex) |
+| After staff sign-in                              | `/employee-portal/*` (noindex; one prerendered page, nginx serves it for every sub-path) |
 | After client sign-in                             | `/client-portal` and `/client-portal/{portfolio,transactions,statements,risk-profile,messages,profile}` (noindex) |
 | anything else                                   | 404 page (noindex, real 404 status) |
 
@@ -238,6 +239,32 @@ to `--accent`. White on the logo orange was only 3.2:1.
 ## Change log
 
 Newest first.
+
+**Staff portal**
+- New `/employee-portal` app (`src/pages/StaffPortal/`), same layout and
+  styles as the client dashboard. `/employee-login` is now sign-in only
+  and sends staff straight to the portal.
+- Screens:
+  - **Dashboard:** welcome banner, stat cards, recent purchases, pending
+    requests, quick actions, NAV update.
+  - **Client portfolios:** search and a paginated list with value and
+    funds.
+  - **Client page:** Overview, Holdings and Transactions tabs. Void is in
+    each order's "⋯" menu.
+  - **Record a purchase:** pick the client, or start from the client's
+    page.
+  - **Client requests:** tabs with counts; click a row to read it;
+    status changes in the "⋯" menu.
+  - **Team accounts** and **Profile & security.**
+- Employees see Dashboard, Client requests and Profile only; admins see
+  everything (the API enforces the same).
+- Phones: a bottom tab bar with a "+" for recording a purchase.
+- URLs: `/employee-portal/clients/12/transactions` etc. `docker/nginx.conf`
+  serves `employee-portal.html` for every `/employee-portal/` path, and
+  `RouteHead` gives them one title.
+- The admin panels that were on `/employee-login`
+  (`components/admin/ClientOrders.jsx`, Team accounts, request inbox)
+  moved into the portal.
 
 **Client dashboard and admin order entry**
 - `/client-portal` is now a full dashboard (`src/pages/ClientPortal/`,

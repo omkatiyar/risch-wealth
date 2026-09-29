@@ -7,6 +7,7 @@ import { buildPortfolio } from '../portfolio/calc.js';
 // Admin order entry for client portfolios (admins only).
 //   GET  /api/admin/clients?q=              search client accounts
 //   GET  /api/admin/schemes?q=              search AMFI's fund list (in memory)
+//   GET  /api/admin/portfolios?q=&page=     every client with value, funds, last order
 //   GET  /api/admin/clients/:id/portfolio   holdings + orders for one client
 //   POST /api/admin/orders                  { userId, schemeCode, assetClass?, tradeDate, amount, nav, units?, folio?, notes? }
 //   POST /api/admin/orders/:id/void         { reason }
@@ -37,6 +38,41 @@ router.get('/clients', async (req, res, next) => {
   }
 });
 
+const PAGE_SIZE = 10;
+router.get('/portfolios', async (req, res, next) => {
+  try {
+    const q = String(req.query.q || '').trim();
+    const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
+    const like = q ? `%${q.replace(/[%_\\]/g, (c) => `\\${c}`)}%` : null;
+    const where = `u.role = 'client' AND u.status = 'active'
+      AND ($1::text IS NULL OR u.full_name ILIKE $1 OR u.email ILIKE $1 OR coalesce(u.phone, '') ILIKE $1)`;
+    const [{ rows }, { rows: count }] = await Promise.all([
+      query(
+        `SELECT u.id, u.full_name, u.email, u.phone,
+                coalesce(sum(coalesce(t.units * f.nav, t.amount)), 0) AS value,
+                coalesce(sum(t.amount), 0) AS invested,
+                count(DISTINCT t.scheme_code)::int AS funds, max(t.created_at) AS last_order
+           FROM users u
+           LEFT JOIN transactions t ON t.user_id = u.id AND t.status = 'active'
+           LEFT JOIN funds f ON f.scheme_code = t.scheme_code
+          WHERE ${where}
+          GROUP BY u.id ORDER BY u.full_name LIMIT ${PAGE_SIZE} OFFSET ${(page - 1) * PAGE_SIZE}`,
+        [like],
+      ),
+      query(`SELECT count(*)::int AS n FROM users u WHERE ${where}`, [like]),
+    ]);
+    res.json({
+      clients: rows.map((r) => ({
+        id: r.id, fullName: r.full_name, email: r.email, phone: r.phone,
+        value: Math.round(Number(r.value) * 100) / 100, invested: Number(r.invested), funds: r.funds, lastOrderAt: r.last_order,
+      })),
+      total: count[0].n, page, pageSize: PAGE_SIZE,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/schemes', async (req, res, next) => {
   try {
     const q = String(req.query.q || '').trim();
@@ -57,7 +93,7 @@ router.get('/clients/:id/portfolio', async (req, res, next) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id)) return res.status(400).json({ error: 'Invalid client.' });
-    const { rows: u } = await query("SELECT id, full_name, email FROM users WHERE id = $1 AND role = 'client'", [id]);
+    const { rows: u } = await query("SELECT id, full_name, email, phone, status, created_at FROM users WHERE id = $1 AND role = 'client'", [id]);
     if (!u.length) return res.status(404).json({ error: 'Client not found.' });
     const { rows } = await query(
       `SELECT t.*, f.name AS fund_name, f.amc, f.asset_class, f.nav AS fund_nav, f.nav_date,
@@ -69,7 +105,9 @@ router.get('/clients/:id/portfolio', async (req, res, next) => {
     );
     const active = rows.filter((r) => r.status === 'active');
     return res.json({
-      client: { id: u[0].id, fullName: u[0].full_name, email: u[0].email },
+      client: {
+        id: u[0].id, fullName: u[0].full_name, email: u[0].email, phone: u[0].phone, status: u[0].status, clientSince: u[0].created_at,
+      },
       portfolio: buildPortfolio(active),
       orders: rows.map((r) => ({
         id: r.id, fundName: r.fund_name, schemeCode: r.scheme_code, tradeDate: r.trade_date,
@@ -179,9 +217,12 @@ router.get('/nav-status', async (req, res, next) => {
     const { rows } = await query(
       `SELECT (SELECT row_to_json(i) FROM (SELECT finished_at, funds_updated, nav_date, error FROM nav_imports
                 ORDER BY started_at DESC LIMIT 1) i) AS last,
-              (SELECT count(*)::int FROM funds) AS funds`,
+              (SELECT count(*)::int FROM funds) AS funds,
+              (SELECT max(nav_date) FROM funds) AS nav_date`,
     );
-    res.json({ lastImport: rows[0].last, funds: rows[0].funds });
+    // navDate: the latest NAV any held fund has (a fund added between
+    // imports already carries AMFI's current NAV).
+    res.json({ lastImport: rows[0].last, funds: rows[0].funds, navDate: rows[0].nav_date });
   } catch (err) {
     next(err);
   }

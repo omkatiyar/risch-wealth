@@ -60,3 +60,5 @@ export const createOrder = (data) => post('/admin/orders', data);
 export const voidOrder = (id, reason) => post(`/admin/orders/${id}/void`, { reason });
 export const navStatus = () => call('/admin/nav-status');
 export const refreshNavs = () => post('/admin/nav-refresh');
+export const staffDashboard = () => call('/staff/dashboard');
+export const listPortfolios = ({ q = '', page = 1 } = {}) => call(`/admin/portfolios?page=${page}${q ? `&q=${encodeURIComponent(q)}` : ''}`);

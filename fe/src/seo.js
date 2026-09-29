@@ -92,6 +92,11 @@ export const PAGES = {
     description: 'Your RISCH Wealth client portal.',
     noindex: true,
   },
+  '/employee-portal': {
+    title: 'Staff Portal | RISCH Wealth',
+    description: 'The RISCH Wealth staff portal.',
+    noindex: true,
+  },
   '/employee-login': {
     title: 'Employee Login | RISCH Wealth',
     description: 'Sign-in for the RISCH Wealth team.',

@@ -29,6 +29,15 @@ function ClientPortalLoader() {
 }
 const portal = <ClientPortalLoader />;
 
+// Same for the staff portal.
+function StaffPortalLoader() {
+  const [Page, setPage] = useState(null);
+  useEffect(() => {
+    import('./pages/StaffPortal/StaffPortal').then((m) => setPage(() => m.default));
+  }, []);
+  return Page ? <Page /> : null;
+}
+
 // The router itself is supplied by the caller: BrowserRouter in the
 // browser (main.jsx), StaticRouter when prerendering (entry-server.jsx).
 export default function App() {
@@ -49,6 +58,7 @@ export default function App() {
         <Route path="/employee-login" element={<EmployeeLogin />} />
         <Route path="/client-login" element={<ClientLogin />} />
         <Route path="/client-portal/:section?" element={portal} />
+        <Route path="/employee-portal/*" element={<StaffPortalLoader />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>

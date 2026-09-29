@@ -180,8 +180,11 @@ docker compose exec backend npm run user:disable -- RW101
   when a signed-in client submits, the result (answers, scores, tier,
   allocation, optional amount, config version) is saved to
   `risk_profiles` and the response includes `savedToAccount: true`.
-- `/api/staff/*` (employees and admins): `GET requests?status=` (default
-  open + in progress; `open`, `in_progress`, `closed`, `all`),
+- `/api/staff/*` (employees and admins): `GET dashboard` (client count,
+  pending requests, latest requests; admins also get active portfolios,
+  held funds, latest NAV date and the latest purchases), `GET
+  requests?status=` (default open + in progress; `open`, `in_progress`,
+  `closed`, `all`; includes `counts` per status),
   `PATCH requests/:id { status }`.
 - `POST /api/auth/password { currentPassword, newPassword }` for any
   signed-in user; signs out their other devices.
@@ -220,8 +223,10 @@ daily NAV file.
   - `GET schemes?q=`: search AMFI funds by name, AMC, scheme code or
     ISIN. Returns a suggested asset class, plus the stored class if a
     client already holds the fund.
-  - `GET clients/:id/portfolio`: holdings plus every order, including
-    voided ones.
+  - `GET portfolios?q=&page=`: every active client with current value,
+    invested, number of funds and last purchase recorded (10 per page).
+  - `GET clients/:id/portfolio`: client details, holdings plus every
+    order, including voided ones.
   - `POST orders { userId, schemeCode, assetClass?, tradeDate, amount, nav, units?, folio?, notes? }`.
     The date can't be in the future. Units default to amount ÷ NAV; an
     override must be within 1% of that (stamp duty). A buying NAV more
@@ -245,6 +250,11 @@ docker compose exec db pg_dump -U risch risch > backup-$(date +%F).sql
 ## Change log
 
 Newest first. Frontend changes are listed in `../fe/README.md`.
+
+**Staff portal**
+- `GET /api/staff/dashboard`, `GET /api/admin/portfolios`, request counts
+  per status, client phone/status in the admin client view, and
+  `nav-status` now reports the latest NAV date across held funds.
 
 **Client portfolios**
 - Migration 004 (`funds`, `nav_history`, `transactions`, `nav_imports`).
