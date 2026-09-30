@@ -198,7 +198,8 @@ const ORGANIZATION = {
   areaServed: { '@type': 'Country', name: 'India' },
   knowsAbout: ['Private wealth management', 'Portfolio construction', 'Risk profiling', 'Wealth coordination', 'Succession planning'],
   // Company profiles only; the founder's personal LinkedIn is on FOUNDER.
-  sameAs: ['https://www.instagram.com/rischwealth/'],
+  // Instagram (https://www.instagram.com/rischwealth/) is hidden for now;
+  // add it back here as sameAs: [...] when it's shown on the site again.
 };
 
 const FOUNDER = {
