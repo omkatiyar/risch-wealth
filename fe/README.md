@@ -240,6 +240,21 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Footer redesign (Figma)**
+- `components/Footer/Footer.jsx` + the `.footer` rules in
+  `styles/styles.css`: RISCH / Private Wealth with the mission ("Our
+  Mission — Investor Success", "Investors Trust Us Because We Put Them
+  First.") and LinkedIn; The Firm and Clients link columns and Our Office
+  with icons, each heading with a short orange rule; a registration band
+  (shield, registration note, ARN and APRN); then the mutual fund risk
+  warning (kept on request, and required for an AMFI-registered
+  distributor) and the bottom line: copyright, the "Trust. Discipline.
+  Performance." motto (kept on request), and legal links.
+- Privacy Policy and Terms of Use (in the design) have no pages yet, so
+  only Disclosures shows; set their `to` in `LEGAL_LINKS` when the pages
+  exist. Instagram stays hidden. The old "Connect" column is gone
+  (LinkedIn sits under the mission).
+
 **Contact page redesign (Figma)**
 - New layout (`pages/Contact.jsx`, "CONTACT (Figma, Sept 2026)" block at
   the end of `styles/styles.css`), built to the Figma's proportions at

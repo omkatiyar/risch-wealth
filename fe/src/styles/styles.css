@@ -136,7 +136,7 @@ h1,h2,h3,h4{
 /* editorial weight: large serif headings at 500, never bold */
 .display-xxl, .display-xl, .display-l, .display-m{ font-family:var(--f-serif); font-weight:500; letter-spacing:-0.01em; }
 /* Cormorant defaults to old-style figures (2014 dips below the line); use lining. */
-.display-xxl, .display-xl, .display-l, .display-m, .trust-n, .process-n, .numbered-row .num, .testimonial-quote, .footer .f-tagline{ font-variant-numeric:lining-nums; }
+.display-xxl, .display-xl, .display-l, .display-m, .trust-n, .process-n, .numbered-row .num, .testimonial-quote, .footer .f-mission{ font-variant-numeric:lining-nums; }
 .display-xxl{ font-size:clamp(44px, 6.6vw, 92px); line-height:1.0; }
 .display-xl{ font-size:clamp(38px, 5.4vw, 74px); line-height:1.04; }
 .display-l{ font-size:clamp(32px, 3.6vw, 52px); line-height:1.08; }
@@ -442,33 +442,85 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .card:hover{ border-color:var(--orange-line); }
 
 /* ===================== FOOTER (charcoal in both themes) ===================== */
-.footer{ background:var(--footer-bg); color:var(--footer-ink); padding:88px 0 32px; }
-.footer .f-top{ display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:48px; padding-bottom:56px; }
-.footer .f-heading{ font-family:var(--f-sans); font-weight:600; font-size:12px; line-height:normal; letter-spacing:0.08em; text-transform:uppercase; color:var(--footer-muted); margin:0 0 20px; }
-.footer ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px; }
-.footer a{ color:var(--footer-ink); font-size:14.5px; transition:color .2s ease; }
+.footer{ background:var(--footer-bg); color:var(--footer-ink); padding:84px 0 34px; }
+/* the footer runs wider than page content, as in the design (~1240px of text) */
+.footer .wrap{ max-width:calc(var(--container) + 2 * var(--pad)); }
+/* Figma, Sept 2026: brand + mission, two link columns and the office,
+   then a registration band, the risk warning and the bottom line */
+.footer .f-top{ display:grid; grid-template-columns:minmax(0, 1.55fr) minmax(0, .85fr) minmax(0, 1fr) minmax(0, 1.3fr); gap:40px; padding-bottom:52px; }
+.footer a{ color:var(--footer-ink); transition:color .2s ease; }
 .footer a:hover{ color:#F08A4B; }
-.footer .f-tagline{ font-family:var(--f-serif); font-weight:500; font-size:24px; line-height:1.2; color:var(--footer-ink); margin:0 0 14px; max-width:16ch; }
-.footer .f-meta{ font-size:13.5px; color:var(--footer-muted); margin:0 0 6px; line-height:1.6; }
-.footer .f-reg{ padding:26px 0; border-top:1px solid var(--footer-line); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:14px 40px; }
-.footer .f-reg-note{ margin:0; font-size:13.5px; color:var(--footer-ink); max-width:62ch; line-height:1.6; }
-.footer .f-reg-ids{ display:flex; flex-wrap:wrap; gap:10px 28px; }
-.footer .f-reg-ids p{ margin:0; font-size:13.5px; font-weight:600; color:var(--footer-ink); letter-spacing:0.02em; }
-.footer .f-reg-ids span{ font-weight:500; color:var(--footer-muted); margin-right:6px; text-transform:uppercase; font-size:11.5px; letter-spacing:0.1em; }
-.footer .f-address{ font-style:normal; display:flex; flex-direction:column; gap:3px; font-size:14px; line-height:1.5; color:var(--footer-ink); }
-.footer .f-motto{ font-family:var(--f-serif); font-size:15px !important; letter-spacing:0.24em; text-transform:uppercase; color:#F08A4B !important; }
-.footer .f-disclaimer{ padding:26px 0; border-top:1px solid var(--footer-line); }
-.footer .f-disclaimer p{ font-size:12.5px; line-height:1.7; color:var(--footer-muted); margin:0; max-width:110ch; }
-.footer .f-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:26px; border-top:1px solid var(--footer-line); flex-wrap:wrap; gap:16px; }
-.footer .f-bottom p{ margin:0; color:var(--footer-muted); font-size:13px; }
-.footer .f-bottom a{ font-size:13px; color:var(--footer-muted); }
-.footer .f-logo img{ height:30px; margin-bottom:26px; display:block; }
-.footer .f-social{ display:flex; gap:10px; margin-top:22px; }
-.footer .f-social a{ width:36px; height:36px; border:1px solid var(--footer-line); border-radius:4px; display:flex; align-items:center; justify-content:center; color:var(--footer-ink); }
+.footer .f-logo{ display:inline-flex; flex-direction:column; align-items:flex-start; }
+.footer .f-logo img{ display:block; height:56px; width:auto; }
+.footer .f-logo span{ margin-top:4px; font-family:var(--f-serif); font-weight:500; font-size:25px; line-height:1.1; letter-spacing:.07em; color:var(--footer-ink); }
+.footer .f-logo:hover span{ color:var(--footer-ink); }
+.footer .f-rule{ display:block; width:38px; height:2px; background:#E8772E; margin:22px 0 20px; }
+.footer .f-eyebrow{ margin:0 0 10px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#F08A4B; }
+.footer .f-mission{ margin:0 0 24px; max-width:17em; font-family:var(--f-serif); font-weight:500; font-size:30px; line-height:1.22; color:var(--footer-ink); font-variant-numeric:lining-nums; }
+.footer .f-social{ display:flex; gap:10px; }
+.footer .f-social a{ width:40px; height:40px; display:flex; align-items:center; justify-content:center; border:1px solid var(--footer-line); border-radius:6px; color:var(--footer-ink); }
 .footer .f-social a:hover{ border-color:#F08A4B; }
-.footer .f-social svg{ width:16px; height:16px; }
-@media (max-width:860px){ .footer .f-top{ grid-template-columns:1fr 1fr; } .footer .f-top > :first-child{ grid-column:1 / -1; } }
-@media (max-width:560px){ .footer .f-top{ grid-template-columns:1fr; } }
+.footer .f-social svg{ width:19px; height:19px; }
+.footer .f-heading{ position:relative; margin:6px 0 32px; font-family:var(--f-sans); font-size:13px; font-weight:600; line-height:normal; letter-spacing:.16em; text-transform:uppercase; color:var(--footer-ink); }
+.footer .f-heading::after{ content:''; position:absolute; left:0; bottom:-14px; width:26px; height:2px; background:#E8772E; }
+.footer .f-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
+.footer .f-col a{ font-size:15.5px; }
+.footer .f-office{ gap:18px !important; }
+.footer .f-office li{ display:grid; grid-template-columns:20px minmax(0, 1fr); gap:14px; align-items:start; font-size:15.5px; line-height:1.55; color:var(--footer-ink); }
+.footer .f-office address{ font-style:normal; }
+.footer .f-office address span{ display:block; }
+.footer .f-ic{ width:20px; height:20px; margin-top:1px; color:#F08A4B; }
+.footer .f-reg{ display:grid; grid-template-columns:56px minmax(0, 1fr) auto; gap:28px; align-items:center; padding:30px 0; border-top:1px solid var(--footer-line); }
+.footer .f-reg-icon{ width:56px; height:56px; display:flex; align-items:center; justify-content:center; border:1px solid var(--footer-line); border-radius:50%; color:#F08A4B; }
+.footer .f-reg-icon svg{ width:24px; height:24px; }
+.footer .f-reg-text p{ margin:0; max-width:74ch; font-size:13.5px; line-height:1.7; color:var(--footer-ink); }
+.footer .f-reg-text .f-reg-grievance{ margin-top:6px; color:var(--footer-muted); }
+.footer .f-reg-ids{ display:flex; margin:0; }
+.footer .f-reg-ids > div{ padding:4px 44px; border-left:1px solid var(--footer-line); }
+.footer .f-reg-ids > div:last-child{ padding-right:8px; }
+.footer .f-reg-ids dt{ font-size:13.5px; color:var(--footer-muted); }
+.footer .f-reg-ids dd{ margin:4px 0 0; font-size:16.5px; font-weight:400; letter-spacing:.01em; color:var(--footer-ink); white-space:nowrap; }
+.footer .f-disclaimer{ padding:22px 0; border-top:1px solid var(--footer-line); }
+.footer .f-disclaimer p{ margin:0; max-width:120ch; font-size:12.5px; line-height:1.7; color:var(--footer-muted); }
+.footer .f-disclaimer a{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
+.footer .f-disclaimer a:hover{ color:#F08A4B; }
+.footer .f-bottom{ display:flex; flex-wrap:wrap; align-items:center; gap:14px 24px; padding-top:24px; border-top:1px solid var(--footer-line); }
+/* copyright and links share the free space equally, so the motto sits in
+   the middle; if everything can't fit on one line it wraps instead */
+.footer .f-bottom > p:first-child{ flex:1 1 0; min-width:max-content; }
+.footer .f-bottom p{ margin:0; font-size:13px; color:var(--footer-muted); }
+.footer .f-motto{ font-family:var(--f-serif); font-size:15px !important; letter-spacing:.24em; text-transform:uppercase; color:#F08A4B !important; text-align:center; }
+.footer .f-legal{ flex:1 1 0; min-width:max-content; display:flex; flex-wrap:wrap; justify-content:flex-end; list-style:none; margin:0; padding:0; }
+.footer .f-legal li + li::before{ content:'|'; margin:0 14px; color:var(--footer-line); }
+.footer .f-legal a{ font-size:13px; color:var(--footer-muted); }
+.footer .f-legal a:hover{ color:#F08A4B; }
+@media (max-width:1100px){
+  .footer .f-top{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+  .footer .f-brand{ grid-column:1 / -1; }
+  .footer .f-mission{ max-width:22em; }
+  .footer .f-reg-ids > div{ padding:4px 28px; }
+}
+@media (max-width:900px){
+  .footer .f-reg{ grid-template-columns:56px minmax(0, 1fr); }
+  .footer .f-reg-ids{ grid-column:1 / -1; }
+  .footer .f-reg-ids > div:first-child{ border-left:0; padding-left:0; }
+  .footer .f-bottom{ flex-direction:column; align-items:flex-start; }
+  .footer .f-bottom > p:first-child, .footer .f-legal{ flex:none; min-width:0; }
+  .footer .f-motto{ text-align:left; }
+  .footer .f-legal{ justify-content:flex-start; }
+}
+@media (max-width:640px){
+  .footer{ padding-top:64px; }
+  .footer .f-top{ grid-template-columns:1fr 1fr; gap:36px 24px; }
+  .footer .f-top > .f-col:last-child{ grid-column:1 / -1; }
+  .footer .f-mission{ font-size:24px; }
+  .footer .f-reg{ gap:18px 20px; }
+  .footer .f-reg-icon{ width:48px; height:48px; }
+  .footer .f-reg{ grid-template-columns:48px minmax(0, 1fr); }
+  .footer .f-col a, .footer .f-office li{ font-size:15px; }
+  .footer .f-motto{ font-size:13px !important; letter-spacing:.14em; }
+}
+@media (max-width:340px){ .footer .f-top{ grid-template-columns:1fr; } }
 
 /* ===================== PAGE HEADER (inner pages) ===================== */
 .page-head{ padding:calc(var(--nav-h) + 60px) 0 72px; }
@@ -1025,15 +1077,6 @@ html[data-theme="dark"] .alloc-layer-0{ color:#1C1A17; }
 .req{ color:var(--accent); font-weight:700; margin-left:3px; }
 .form-legend{ margin:0 0 18px; font-size:13px; color:var(--muted); }
 .form-legend .req{ margin:0 2px 0 0; }
-
-/* footer: LinkedIn in its own "Connect" column */
-.footer .f-top.f-top-connect{ grid-template-columns:1.5fr 1fr 1fr 1.2fr auto; }
-.footer .f-connect .f-social{ margin-top:0; }
-.footer .f-connect .f-social a{ width:44px; height:44px; border-radius:6px; }
-.footer .f-connect .f-social svg{ width:18px; height:18px; }
-@media (max-width:1100px){ .footer .f-top.f-top-connect{ grid-template-columns:1.5fr 1fr 1fr 1.2fr; } }
-@media (max-width:860px){ .footer .f-top.f-top-connect{ grid-template-columns:1fr 1fr; } }
-@media (max-width:560px){ .footer .f-top.f-top-connect{ grid-template-columns:1fr; } }
 
 /* ===================== CONTACT (Figma, Sept 2026) =====================
    Proportions follow the Figma at 1536px: the message card takes about
