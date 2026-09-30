@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import RingLogo from '../../components/RingLogo';
 import { FIRM } from '../../data/firm';
 import { useTheme } from '../../hooks/ThemeContext';
 import { clientOverview, clientPortfolio, clientTransactions, logout } from '../../api/authApi';
@@ -71,10 +71,10 @@ export default function ClientPortal() {
   };
 
   return (
-    <div className={'cp' + (drawer ? ' cp-drawer-open' : '')}>
+    <div className={'cp cp-light' + (drawer ? ' cp-drawer-open' : '')}>
       <aside className="cp-side" aria-label="Client portal">
         <div className="cp-side-top">
-          <Link to="/client-portal" className="cp-logo" aria-label="RISCH, Overview"><img src={logo} alt="RISCH Wealth" /></Link>
+          <RingLogo to="/client-portal" label="RISCH, Overview" />
           <button type="button" className="cp-icon-btn cp-close" aria-label="Close menu" onClick={() => setDrawer(false)}><Icons.close /></button>
         </div>
         <nav className="cp-nav">

@@ -240,6 +240,13 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Light portal sidebars (Figma)**
+- Both portals use a light ivory sidebar (`.cp-light` rules at the end of
+  `styles/portal.css`) with a peach active item and `components/RingLogo.jsx`:
+  the static brochure ring behind the RISCH wordmark (same geometry as the
+  site header's `LogoRing`, without Three.js). The staff sidebar dropped
+  its role label and employee ID, as in the design.
+
 **Required fields marked with \***
 - `components/Req.jsx`: `<Req />` (the orange \* after a label) and
   `<ReqLegend />` ("\* Required" at the top of the form). Required inputs

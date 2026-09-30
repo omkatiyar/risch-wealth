@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import RingLogo from '../../components/RingLogo';
 import { useTheme } from '../../hooks/ThemeContext';
 import { logout, me } from '../../api/authApi';
 import { Icons } from '../ClientPortal/ui';
@@ -62,7 +62,7 @@ export default function StaffPortal() {
   useEffect(() => { setDrawer(false); window.scrollTo(0, 0); }, [pathname]);
 
   const r = route(pathname);
-  if (!user) return <div className="cp"><div /><main className="cp-content"><p className="cp-loading">Loading…</p></main></div>;
+  if (!user) return <div className="cp cp-light"><div /><main className="cp-content"><p className="cp-loading">Loading…</p></main></div>;
   const isAdmin = user.role === 'admin';
   if (r.screen === 'missing' || (!isAdmin && ADMIN_SCREENS.includes(r.screen))) return <Navigate to={BASE} replace />;
 
@@ -83,13 +83,12 @@ export default function StaffPortal() {
   }[r.screen];
 
   return (
-    <div className={'cp sp' + (drawer ? ' cp-drawer-open' : '')}>
+    <div className={'cp cp-light sp' + (drawer ? ' cp-drawer-open' : '')}>
       <aside className="cp-side" aria-label="Staff portal">
         <div className="cp-side-top">
-          <Link to="/employee-portal" className="cp-logo" aria-label="RISCH, Dashboard"><img src={logo} alt="RISCH Wealth" /></Link>
+          <RingLogo to="/employee-portal" label="RISCH, Dashboard" />
           <button type="button" className="cp-icon-btn cp-close" aria-label="Close menu" onClick={() => setDrawer(false)}><Icons.close /></button>
         </div>
-        <p className="sp-side-label">{isAdmin ? 'Admin' : 'Employee'} portal</p>
         <nav className="cp-nav">
           {nav.map((n) => (
             <NavLink key={n.to} to={BASE + n.to} end={n.to === ''} className={({ isActive }) => (isActive ? 'active' : undefined)}>
@@ -99,7 +98,7 @@ export default function StaffPortal() {
         </nav>
         <button type="button" className="cp-help sp-signout" onClick={onLogout}>
           <Icons.signout />
-          <span><strong>Sign out</strong>{user.employeeId}</span>
+          <span><strong>Sign out</strong></span>
         </button>
       </aside>
       <button type="button" className="cp-scrim" aria-label="Close menu" tabIndex={-1} onClick={() => setDrawer(false)} />
