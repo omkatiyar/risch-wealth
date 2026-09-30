@@ -240,6 +240,27 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Contact page redesign (Figma)**
+- New layout (`pages/Contact.jsx`, "CONTACT (Figma, Sept 2026)" block at
+  the end of `styles/styles.css`), built to the Figma's proportions at
+  1536px: "Let's talk about your financial goals.", the message card
+  (about 46% of the width), a ruled details column (email, call, office
+  with "Get directions" to Google Maps, registration, LinkedIn), and the
+  Figma's boardroom image as a full-height panel at the right edge from
+  1360px up. The panel's width follows its height (`aspect-ratio`), so
+  the S-curve drawn into the image is never cropped; the image
+  (`assets/contact-office.webp` + `-2x`) has a transparent, anti-aliased
+  area left of the curve, so it works in dark mode, and the cream band
+  behind it is the same shape (CSS mask). Room for it is reserved with
+  `--ct-reserve`.
+- Form: country code + phone number (India first, then common NRI
+  countries), "I'm interested in" starts unselected, message now required
+  with a 500-character counter. The card stacks its fields when it's
+  narrow (container query). Still hands off to the visitor's email app
+  (no mail backend yet).
+- Footer: LinkedIn moved into its own "Connect" column. Instagram stays
+  hidden.
+
 **Portfolio value chart**
 - `components/ValueChart.jsx`: value (orange) and amount invested (blue
   step line) over time on one ₹ axis, with 1M / 3M / 6M / 1Y / 3Y / All
