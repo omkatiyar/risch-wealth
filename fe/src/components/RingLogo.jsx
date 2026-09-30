@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { SEGMENTS, svgPath } from './LogoRing/ringGeometry';
 
-// The RISCH wordmark over the brochure ring, as in the site header, but
-// static (no Three.js). Used at the top of the portal sidebars.
+// The RISCH wordmark over the brochure ring, as in the site header. The
+// ring spins with the same CSS animation (no Three.js); reduced motion
+// stops it. Used at the top of the portal sidebars.
 export default function RingLogo({ to, label }) {
   return (
     <Link to={to} className="ring-logo" aria-label={label}>
