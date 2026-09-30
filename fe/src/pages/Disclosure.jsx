@@ -74,7 +74,7 @@ function buildSections() {
           <p style={{ marginBottom: 12 }}>{FIRM.legalName}. {FIRM.registrationNote}</p>
           <p style={{ marginBottom: 12 }}>{FIRM.roleNote}</p>
           {FIRM.registrations.map((r) => (
-            <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.label}:</strong> {r.id}</p>
+            <p className="mb-0" key={r.id} style={{ marginBottom: 6 }}><strong>{r.id}</strong></p>
           ))}
         </>
       ),

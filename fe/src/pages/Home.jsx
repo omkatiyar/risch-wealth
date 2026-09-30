@@ -105,8 +105,8 @@ export default function Home() {
                 <Link to="/about" className="btn">Meet the Founder</Link>
               </div>
               <p className="hero-reg reveal in" style={{ transitionDelay: '.3s' }}>
-                <span className="reg-item">AMFI-registered Mutual Fund Distributor <strong>ARN-156886</strong></span>
-                <span className="reg-item">APMI-registered PMS Distributor <strong>APRN05916</strong></span>
+                <span className="reg-item">AMFI-registered Mutual Fund Distributor <strong>{FIRM.registrations[0].id}</strong></span>
+                <span className="reg-item">APMI-registered PMS Distributor <strong>{FIRM.registrations[1].id}</strong></span>
               </p>
             </div>
           </div>

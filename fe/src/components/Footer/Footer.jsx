@@ -62,7 +62,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
             <p className="f-reg-note">{FIRM.legalName}. {FIRM.registrationNote}</p>
             <div className="f-reg-ids">
               {FIRM.registrations.map((r) => (
-                <p key={r.id}><span>{r.label}</span> {r.id}</p>
+                <p key={r.id}>{r.id}</p>
               ))}
               {FIRM.grievance && <p><span>Grievances</span> {FIRM.grievance}</p>}
             </div>

@@ -45,14 +45,14 @@ export const FIRM = {
   // Disclosure, About and Contact pages. APMI details: acknowledgement and
   // registration emails (June 2025). Written so the APMI registration is
   // only claimed for PMS distribution, which is what APMI registers.
-  registrationNote: 'Mutual Fund Distributor. Registered with APMI (Association of Portfolio Managers in India) as a Distributor of Portfolio Management Services. Distributor of Alternative Investment Funds (AIF).',
+  registrationNote: 'AMFI-registered Mutual Fund Distributor. Registered with APMI (Association of Portfolio Managers in India) as a Distributor of Portfolio Management Services. Distributor of Alternative Investment Funds (AIF).',
   // Plain-English statement of what the registrations mean in practice.
   // Shown with the registration details (About, Disclosure).
   roleNote: 'In practice: the mutual funds, portfolio management services and alternative investment funds we recommend are run by their own SEBI-registered asset managers, portfolio managers and fund managers. RISCH helps you choose them, arranges the investment and reviews the portfolio with you over time.',
   registrations: [
     // AMFI ARN (mutual fund distribution)
     { label: 'ARN', id: 'ARN-156886' },
-    { label: 'APRN', id: 'APRN05916' },
+    { label: 'APRN', id: 'APRN-05916' },
   ],
   // The founder's EUIN (E11449, valid 24/05/2025 – 23/05/2028) is no longer
   // shown on the site, but renew it before it expires.

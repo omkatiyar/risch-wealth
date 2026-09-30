@@ -174,7 +174,7 @@ function RiskProfilerQuiz({
               <div className="field-row">
                 <div className="field">
                   <label htmlFor="bName">Full name <Req /></label>
-                  <input type="text" id="bName" aria-required="true" placeholder="Ananya Vodnala" value={basics.name} onChange={(e) => setBasics({ ...basics, name: e.target.value })} />
+                  <input type="text" id="bName" aria-required="true" placeholder="Rishi Maheshwari" value={basics.name} onChange={(e) => setBasics({ ...basics, name: e.target.value })} />
                 </div>
                 <div className="field">
                   <label htmlFor="bEmail">Email address</label>
@@ -184,7 +184,7 @@ function RiskProfilerQuiz({
               <div className="field-row">
                 <div className="field">
                   <label htmlFor="bPhone">Mobile number</label>
-                  <input type="tel" id="bPhone" placeholder="+91 98765 43210" value={basics.phone} onChange={(e) => setBasics({ ...basics, phone: e.target.value })} />
+                  <input type="tel" id="bPhone" placeholder="+91 99999 99999" value={basics.phone} onChange={(e) => setBasics({ ...basics, phone: e.target.value })} />
                 </div>
                 <div className="field">
                   <label htmlFor="bAge">Age</label>

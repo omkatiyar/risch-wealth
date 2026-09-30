@@ -217,7 +217,7 @@ export default function About() {
               </div>
               <p className="reg-ids mb-0">
                 {FIRM.registrations.map((r) => (
-                  <span key={r.id}><em>{r.label}</em> {r.id}</span>
+                  <span key={r.id}>{r.id}</span>
                 ))}
               </p>
             </div>

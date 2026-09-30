@@ -70,7 +70,7 @@ export default function Contact() {
                 <div className="field-row">
                   <div className="field">
                     <label htmlFor="cName">Full name <Req /></label>
-                    <input type="text" id="cName" name="name" required aria-required="true" placeholder="Ananya Vodnala" value={form.name} onChange={handleChange} />
+                    <input type="text" id="cName" name="name" required aria-required="true" placeholder="Rishi Maheshwari" value={form.name} onChange={handleChange} />
                   </div>
                   <div className="field">
                     <label htmlFor="cEmail">Email address <Req /></label>
@@ -80,7 +80,7 @@ export default function Contact() {
                 <div className="field-row">
                   <div className="field">
                     <label htmlFor="cPhone">Phone</label>
-                    <input type="tel" id="cPhone" name="phone" placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} />
+                    <input type="tel" id="cPhone" name="phone" placeholder="+91 99999 99999" value={form.phone} onChange={handleChange} />
                   </div>
                   <div className="field">
                     <label htmlFor="cTopic">I'm interested in</label>
@@ -139,7 +139,7 @@ export default function Contact() {
                   <p className="eyebrow" style={{ marginBottom: 8 }}>Registration</p>
                   <p className="mb-0" style={{ color: 'var(--ink-2)', maxWidth: '40ch' }}>{FIRM.registrationNote}</p>
                   <p className="mb-0" style={{ marginTop: 8, color: 'var(--ink)', fontWeight: 600 }}>
-                    {FIRM.registrations.map((r) => `${r.label} ${r.id}`).join('  ·  ')}
+                    {FIRM.registrations.map((r) => r.id).join(' · ')}
                   </p>
                 </div>
               </div>
