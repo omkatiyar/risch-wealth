@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { sendClientRequest } from '../../api/authApi';
 import { PageHead, fmtDate } from './ui';
+import { Req, ReqLegend } from '../../components/Req';
 
 const STATUS = { open: ['Received', 'active'], in_progress: ['In progress', 'progress'], closed: ['Closed', 'disabled'] };
 
@@ -41,6 +42,7 @@ export default function Messages({ data, reloadOverview }) {
       {tab === 'new' ? (
         <section className="cp-card cp-form-card">
           <form noValidate onSubmit={onSubmit}>
+            <ReqLegend />
             <div className="field">
               <label htmlFor="rqTopic">What is it about?</label>
               <select id="rqTopic" value={topic} onChange={(e) => setTopic(e.target.value)}>
@@ -48,8 +50,8 @@ export default function Messages({ data, reloadOverview }) {
               </select>
             </div>
             <div className="field">
-              <label htmlFor="rqMsg">Message</label>
-              <textarea id="rqMsg" rows={5} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="A few lines on what you need…" />
+              <label htmlFor="rqMsg">Message <Req /></label>
+              <textarea id="rqMsg" aria-required="true" rows={5} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="A few lines on what you need…" />
             </div>
             <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Sending…' : 'Send request'}</button>
             {note.text && <p className={'auth-note' + (note.ok ? ' ok' : '')} role="status">{note.text}</p>}

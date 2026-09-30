@@ -4,6 +4,7 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { login, me } from '../api/authApi';
 import PasswordInput from '../components/PasswordInput';
+import { Req, ReqLegend } from '../components/Req';
 
 
 const Arrow = () => (
@@ -55,13 +56,14 @@ export default function EmployeeLogin() {
           <div className="auth-card">
             <form noValidate onSubmit={onSubmit}>
               <h2 className="auth-title">Sign in with your RISCH account</h2>
+              <ReqLegend />
               <div className="field">
-                <label htmlFor="eId">Employee ID or email</label>
-                <input id="eId" type="text" autoComplete="username" placeholder="e.g. RW1024" value={form.identifier} onChange={(e) => setForm({ ...form, identifier: e.target.value })} />
+                <label htmlFor="eId">Employee ID or email <Req /></label>
+                <input id="eId" aria-required="true" type="text" autoComplete="username" placeholder="e.g. RW1024" value={form.identifier} onChange={(e) => setForm({ ...form, identifier: e.target.value })} />
               </div>
               <div className="field">
-                <label htmlFor="ePassword">Password</label>
-                <PasswordInput id="ePassword" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+                <label htmlFor="ePassword">Password <Req /></label>
+                <PasswordInput id="ePassword" aria-required="true" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
               </div>
               <button type="submit" className="btn btn-primary btn-block" disabled={busy}>{busy ? 'Signing in…' : <>Sign in <Arrow /></>}</button>
               {note && <p className="auth-note" role="status">{note}</p>}

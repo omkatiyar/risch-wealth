@@ -3,6 +3,7 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { FIRM } from '../data/firm';
+import { Req, ReqLegend } from '../components/Req';
 
 const TOPICS = [
   'Portfolio review',
@@ -65,14 +66,15 @@ export default function Contact() {
 
             <div className="reveal">
               <form id="contactForm" noValidate onSubmit={handleSubmit}>
+                <ReqLegend />
                 <div className="field-row">
                   <div className="field">
-                    <label htmlFor="cName">Full name</label>
-                    <input type="text" id="cName" name="name" required placeholder="Ananya Vodnala" value={form.name} onChange={handleChange} />
+                    <label htmlFor="cName">Full name <Req /></label>
+                    <input type="text" id="cName" name="name" required aria-required="true" placeholder="Ananya Vodnala" value={form.name} onChange={handleChange} />
                   </div>
                   <div className="field">
-                    <label htmlFor="cEmail">Email address</label>
-                    <input type="email" id="cEmail" name="email" required placeholder="you@email.com" value={form.email} onChange={handleChange} />
+                    <label htmlFor="cEmail">Email address <Req /></label>
+                    <input type="email" id="cEmail" name="email" required aria-required="true" placeholder="you@email.com" value={form.email} onChange={handleChange} />
                   </div>
                 </div>
                 <div className="field-row">

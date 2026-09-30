@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createOrder, navStatus, refreshNavs, searchSchemes } from '../../api/authApi';
 import { Icons, fmtDate, inr } from '../ClientPortal/ui';
+import { Req, ReqLegend } from '../../components/Req';
 
 // Pieces shared across the staff portal screens.
 
@@ -53,7 +54,7 @@ export function RowMenu({ label, items }) {
 
 // Debounced search box with a results list; `render` draws one result.
 export function Typeahead({
-  id, label, placeholder, minLength, search, render, onPick, hint,
+  id, label, placeholder, minLength, search, render, onPick, hint, required = false,
 }) {
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
@@ -76,8 +77,8 @@ export function Typeahead({
 
   return (
     <div className="field ta">
-      <label htmlFor={id}>{label}</label>
-      <input id={id} type="search" autoComplete="off" placeholder={placeholder} value={q} onChange={(e) => setQ(e.target.value)} />
+      <label htmlFor={id}>{label}{required && <> <Req /></>}</label>
+      <input id={id} aria-required={required ? 'true' : undefined} type="search" autoComplete="off" placeholder={placeholder} value={q} onChange={(e) => setQ(e.target.value)} />
       {hint && state === 'idle' && <p className="ta-hint">{hint}</p>}
       {state === 'loading' && <p className="ta-hint">Searching…</p>}
       {state === 'error' && <p className="ta-hint neg">{err}</p>}
@@ -131,9 +132,10 @@ export function OrderForm({ client, onSaved }) {
 
   return (
     <form className="sp-order-form" noValidate onSubmit={onSubmit}>
+      <ReqLegend />
       {!fund ? (
         <Typeahead
-          id="ordFund" label="Mutual fund" placeholder="Fund name, AMC, scheme code or ISIN" minLength={3}
+          id="ordFund" label="Mutual fund" required placeholder="Fund name, AMC, scheme code or ISIN" minLength={3}
           search={findFunds}
           hint="Tip: include the plan and option, e.g. “parag parikh flexi direct growth”, or paste the ISIN from the statement."
           render={(s) => (
@@ -146,7 +148,7 @@ export function OrderForm({ client, onSaved }) {
         />
       ) : (
         <div className="field">
-          <span className="ord-label">Mutual fund</span>
+          <span className="ord-label">Mutual fund <Req /></span>
           <div className="ord-fund">
             <div>
               <strong>{fund.name}</strong>
@@ -171,18 +173,18 @@ export function OrderForm({ client, onSaved }) {
 
       <div className="field-row">
         <div className="field">
-          <label htmlFor="ordDate">Buying date</label>
-          <input id="ordDate" type="date" max={today()} value={form.tradeDate} onChange={set('tradeDate')} />
+          <label htmlFor="ordDate">Buying date <Req /></label>
+          <input id="ordDate" aria-required="true" type="date" max={today()} value={form.tradeDate} onChange={set('tradeDate')} />
         </div>
         <div className="field">
-          <label htmlFor="ordAmt">Amount invested (₹)</label>
-          <input id="ordAmt" type="number" inputMode="decimal" min="1" step="0.01" value={form.amount} onChange={set('amount')} />
+          <label htmlFor="ordAmt">Amount invested (₹) <Req /></label>
+          <input id="ordAmt" aria-required="true" type="number" inputMode="decimal" min="1" step="0.01" value={form.amount} onChange={set('amount')} />
         </div>
       </div>
       <div className="field-row">
         <div className="field">
-          <label htmlFor="ordNav">Buying NAV</label>
-          <input id="ordNav" type="number" inputMode="decimal" min="0" step="0.0001" value={form.nav} onChange={set('nav')} />
+          <label htmlFor="ordNav">Buying NAV <Req /></label>
+          <input id="ordNav" aria-required="true" type="number" inputMode="decimal" min="0" step="0.0001" value={form.nav} onChange={set('nav')} />
           {farFromCurrent && <p className="ta-hint neg">This is far from the fund’s current NAV ({fund.nav}). Please check the fund and the NAV.</p>}
         </div>
         <div className="field">

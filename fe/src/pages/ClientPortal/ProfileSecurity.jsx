@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { updateClientProfile } from '../../api/authApi';
 import PasswordCard from '../../components/PasswordCard';
 import { PageHead, fmtDate } from './ui';
+import { Req, ReqLegend } from '../../components/Req';
 
 export default function ProfileSecurity({ data, reloadOverview }) {
   const { profile } = data;
@@ -31,9 +32,10 @@ export default function ProfileSecurity({ data, reloadOverview }) {
       {tab === 'details' ? (
         <section className="cp-card cp-form-card">
           <form noValidate onSubmit={onSubmit}>
+            <ReqLegend />
             <div className="field">
-              <label htmlFor="pfName">Full name</label>
-              <input id="pfName" type="text" autoComplete="name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
+              <label htmlFor="pfName">Full name <Req /></label>
+              <input id="pfName" aria-required="true" type="text" autoComplete="name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
             </div>
             <div className="field">
               <label htmlFor="pfEmail">Email</label>
@@ -42,7 +44,7 @@ export default function ProfileSecurity({ data, reloadOverview }) {
             </div>
             <div className="field">
               <label htmlFor="pfPhone">Mobile number</label>
-              <input id="pfPhone" type="tel" autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <input id="pfPhone" type="tel" autoComplete="tel" placeholder="Optional" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             </div>
             <button type="submit" className="btn">Save changes</button>
             {note.text && <p className={'auth-note' + (note.ok ? ' ok' : '')} role="status">{note.text}</p>}

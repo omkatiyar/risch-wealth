@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { createStaff, listStaff, updateStaff } from '../../api/authApi';
 import { Icons, PageHead, fmtDate } from '../ClientPortal/ui';
 import { RowMenu } from './common';
+import { Req, ReqLegend } from '../../components/Req';
 
 const EMPTY = { fullName: '', employeeId: '', email: '', password: '', role: 'employee' };
 
@@ -60,13 +61,14 @@ export default function Team({ selfId }) {
             <button type="button" className="sp-x" aria-label="Cancel" onClick={() => setShowForm(false)}><Icons.close /></button>
           </div>
           <form noValidate onSubmit={onCreate}>
+            <ReqLegend />
             <div className="field-row">
-              <div className="field"><label htmlFor="sName">Full name</label><input id="sName" type="text" value={form.fullName} onChange={set('fullName')} /></div>
-              <div className="field"><label htmlFor="sEmpId">Employee ID</label><input id="sEmpId" type="text" placeholder="e.g. RW1024" value={form.employeeId} onChange={set('employeeId')} /></div>
+              <div className="field"><label htmlFor="sName">Full name <Req /></label><input id="sName" aria-required="true" type="text" value={form.fullName} onChange={set('fullName')} /></div>
+              <div className="field"><label htmlFor="sEmpId">Employee ID <Req /></label><input id="sEmpId" aria-required="true" type="text" placeholder="e.g. RW1024" value={form.employeeId} onChange={set('employeeId')} /></div>
             </div>
             <div className="field-row">
-              <div className="field"><label htmlFor="sEmail">Work email</label><input id="sEmail" type="email" value={form.email} onChange={set('email')} /></div>
-              <div className="field"><label htmlFor="sPassword">Initial password</label><input id="sPassword" type="text" autoComplete="off" placeholder="At least 10 characters" value={form.password} onChange={set('password')} /></div>
+              <div className="field"><label htmlFor="sEmail">Work email <Req /></label><input id="sEmail" aria-required="true" type="email" value={form.email} onChange={set('email')} /></div>
+              <div className="field"><label htmlFor="sPassword">Initial password <Req /></label><input id="sPassword" aria-required="true" type="text" autoComplete="off" placeholder="At least 10 characters" value={form.password} onChange={set('password')} /></div>
             </div>
             <div className="field">
               <label htmlFor="sRole">Role</label>

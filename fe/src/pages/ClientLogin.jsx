@@ -5,6 +5,7 @@ import Footer from '../components/Footer/Footer';
 import { FIRM } from '../data/firm';
 import { login, me, signupClient } from '../api/authApi';
 import PasswordInput from '../components/PasswordInput';
+import { Req, ReqLegend } from '../components/Req';
 
 const EMPTY = { fullName: '', email: '', phone: '', password: '', confirm: '' };
 
@@ -64,12 +65,16 @@ export default function ClientLogin() {
     }
   };
 
-  const field = (id, label, props) => (
-    <div className="field">
-      <label htmlFor={id}>{label}</label>
-      {props.type === 'password' ? <PasswordInput id={id} {...props} /> : <input id={id} {...props} />}
-    </div>
-  );
+  // `req`: required field, marked * (and aria-required for screen readers)
+  const field = (id, label, props, req = false) => {
+    const all = req ? { ...props, 'aria-required': 'true' } : props;
+    return (
+      <div className="field">
+        <label htmlFor={id}>{label}{req && <> <Req /></>}</label>
+        {props.type === 'password' ? <PasswordInput id={id} {...all} /> : <input id={id} {...all} />}
+      </div>
+    );
+  };
 
   const portfolioLink = (
     <a href={FIRM.clientLoginUrl} target="_blank" rel="noopener noreferrer" className="btn">View your portfolio <Arrow /></a>
@@ -93,8 +98,9 @@ export default function ClientLogin() {
             {mode === 'signin' ? (
               <form noValidate onSubmit={onSignin}>
                 <h2 className="auth-title">Sign in to your account</h2>
-                {field('cEmail', 'Email', { type: 'email', autoComplete: 'email', value: signin.email, onChange: (e) => setSignin({ ...signin, email: e.target.value }) })}
-                {field('cPassword', 'Password', { type: 'password', autoComplete: 'current-password', value: signin.password, onChange: (e) => setSignin({ ...signin, password: e.target.value }) })}
+                <ReqLegend />
+                {field('cEmail', 'Email', { type: 'email', autoComplete: 'email', value: signin.email, onChange: (e) => setSignin({ ...signin, email: e.target.value }) }, true)}
+                {field('cPassword', 'Password', { type: 'password', autoComplete: 'current-password', value: signin.password, onChange: (e) => setSignin({ ...signin, password: e.target.value }) }, true)}
                 <button type="submit" className="btn btn-primary btn-block" disabled={busy}>{busy ? 'Signing in…' : <>Login <Arrow /></>}</button>
                 {note.text && <p className={'auth-note' + (note.ok ? ' ok' : '')} role="status">{note.text}</p>}
                 <div className="auth-actions">
@@ -105,13 +111,14 @@ export default function ClientLogin() {
             ) : (
               <form noValidate onSubmit={onSignup}>
                 <h2 className="auth-title">Create your client account</h2>
-                {field('rName', 'Full name', { type: 'text', autoComplete: 'name', value: reg.fullName, onChange: (e) => setReg({ ...reg, fullName: e.target.value }) })}
+                <ReqLegend />
+                {field('rName', 'Full name', { type: 'text', autoComplete: 'name', value: reg.fullName, onChange: (e) => setReg({ ...reg, fullName: e.target.value }) }, true)}
                 <div className="field-row">
-                  {field('rEmail', 'Email', { type: 'email', autoComplete: 'email', value: reg.email, onChange: (e) => setReg({ ...reg, email: e.target.value }) })}
-                  {field('rPhone', 'Mobile (optional)', { type: 'tel', autoComplete: 'tel', placeholder: '+91', value: reg.phone, onChange: (e) => setReg({ ...reg, phone: e.target.value }) })}
+                  {field('rEmail', 'Email', { type: 'email', autoComplete: 'email', value: reg.email, onChange: (e) => setReg({ ...reg, email: e.target.value }) }, true)}
+                  {field('rPhone', 'Mobile', { type: 'tel', autoComplete: 'tel', placeholder: 'Optional', value: reg.phone, onChange: (e) => setReg({ ...reg, phone: e.target.value }) })}
                 </div>
-                {field('rPassword', 'Password', { type: 'password', autoComplete: 'new-password', placeholder: 'At least 10 characters', value: reg.password, onChange: (e) => setReg({ ...reg, password: e.target.value }) })}
-                {field('rConfirm', 'Confirm password', { type: 'password', autoComplete: 'new-password', value: reg.confirm, onChange: (e) => setReg({ ...reg, confirm: e.target.value }) })}
+                {field('rPassword', 'Password', { type: 'password', autoComplete: 'new-password', placeholder: 'At least 10 characters', value: reg.password, onChange: (e) => setReg({ ...reg, password: e.target.value }) }, true)}
+                {field('rConfirm', 'Confirm password', { type: 'password', autoComplete: 'new-password', value: reg.confirm, onChange: (e) => setReg({ ...reg, confirm: e.target.value }) }, true)}
                 <button type="submit" className="btn btn-primary btn-block" disabled={busy}>{busy ? 'Creating account…' : <>Create account <Arrow /></>}</button>
                 {note.text && <p className={'auth-note' + (note.ok ? ' ok' : '')} role="status">{note.text}</p>}
                 <p className="body-s" style={{ marginTop: 18 }}>Already have an account? <button type="button" className="auth-link" onClick={() => go('signin')}>Sign in</button></p>

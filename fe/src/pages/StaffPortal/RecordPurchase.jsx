@@ -31,7 +31,7 @@ export default function RecordPurchase({ id }) {
           id ? <p className="cp-muted">Loading…</p> : (
             <div className="ta-wrap">
               <Typeahead
-                id="purClient" label="Client" placeholder="Search by name, email or mobile" minLength={2}
+                id="purClient" label="Client" required placeholder="Search by name, email or mobile" minLength={2}
                 search={findClients}
                 hint="Clients appear here once they’ve signed up on the Client Login page."
                 render={(c) => <><strong>{c.fullName}</strong><span>{c.email}{c.phone ? ` · ${c.phone}` : ''} · Client ID {c.id}</span></>}

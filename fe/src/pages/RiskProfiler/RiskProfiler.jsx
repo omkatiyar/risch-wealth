@@ -5,6 +5,7 @@ import { fmtINR, pct } from '../../utils/format';
 import { submitRiskProfilerAnswers } from '../../api/riskProfilerApi';
 import { RiskProfilerConfigProvider, useRiskProfilerConfig } from './RiskProfilerConfigContext';
 import ReportView from './report/ReportView';
+import { Req, ReqLegend } from '../../components/Req';
 
 // `embedded`: shown inside the client portal (/client-portal/risk-assessment)
 // instead of as a public page: no site nav or footer, the client's details
@@ -122,8 +123,16 @@ function RiskProfilerQuiz({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Name and amount are required: the proposal is addressed to the name
+  // and sized on the amount. Email, mobile and age are optional.
+  const [basicsError, setBasicsError] = useState('');
   const handleBasicsSubmit = (e) => {
     e.preventDefault();
+    const age = basics.age === '' ? null : Number(basics.age);
+    if (!basics.name.trim()) { setBasicsError('Please enter your full name.'); return; }
+    if (!(Number(basics.amount) >= 10000)) { setBasicsError('Please enter the amount you’re considering investing (at least ₹10,000).'); return; }
+    if (age !== null && !(Number.isInteger(age) && age >= 18 && age <= 100)) { setBasicsError('Please enter an age between 18 and 100, or leave it blank.'); return; }
+    setBasicsError('');
     goToStep(stepIndex + 1);
   };
 
@@ -160,11 +169,12 @@ function RiskProfilerQuiz({
           <section className="p-step is-active" data-step="basics">
             <p className="q-eyebrow">Before We Begin</p>
             <h2 className="display-m" style={{ marginBottom: 36 }}>A little about you.</h2>
-            <form onSubmit={handleBasicsSubmit}>
+            <form noValidate onSubmit={handleBasicsSubmit}>
+              <ReqLegend />
               <div className="field-row">
                 <div className="field">
-                  <label htmlFor="bName">Full name</label>
-                  <input type="text" id="bName" placeholder="Ananya Vodnala" value={basics.name} onChange={(e) => setBasics({ ...basics, name: e.target.value })} />
+                  <label htmlFor="bName">Full name <Req /></label>
+                  <input type="text" id="bName" aria-required="true" placeholder="Ananya Vodnala" value={basics.name} onChange={(e) => setBasics({ ...basics, name: e.target.value })} />
                 </div>
                 <div className="field">
                   <label htmlFor="bEmail">Email address</label>
@@ -183,11 +193,12 @@ function RiskProfilerQuiz({
               </div>
               <div className="field-row">
                 <div className="field">
-                  <label htmlFor="bAmount">Indicative investment amount (₹)</label>
-                  <input type="number" id="bAmount" min="10000" step="10000" placeholder="5,000,000" value={basics.amount} onChange={(e) => setBasics({ ...basics, amount: e.target.value })} />
+                  <label htmlFor="bAmount">Indicative investment amount (₹) <Req /></label>
+                  <input type="number" id="bAmount" aria-required="true" min="10000" step="10000" placeholder="5,000,000" value={basics.amount} onChange={(e) => setBasics({ ...basics, amount: e.target.value })} />
                 </div>
                 <div className="field"></div>
               </div>
+              {basicsError && <p className="auth-note" role="alert">{basicsError}</p>}
               <div className="p-nav">
                 <button type="button" className="btn btn-back" onClick={() => goToStep(stepIndex - 1)}>Back</button>
                 <button type="submit" className="btn btn-primary">Continue

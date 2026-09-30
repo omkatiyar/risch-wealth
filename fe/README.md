@@ -240,6 +240,18 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Required fields marked with \***
+- `components/Req.jsx`: `<Req />` (the orange \* after a label) and
+  `<ReqLegend />` ("\* Required" at the top of the form). Required inputs
+  also get `aria-required` for screen readers.
+- Marked only where the form actually requires the field: Contact (name,
+  email), client sign-in and sign-up, employee sign-in, change password,
+  portal Messages (message) and Your details (full name), staff Record a
+  purchase (client, fund, date, amount, NAV) and Create account.
+- The risk profiler's "A little about you" step now checks its fields:
+  full name and investment amount (at least ₹10,000) are required; email,
+  mobile and age are optional, and age must be 18–100 if given.
+
 **Download a saved risk proposal**
 - Client portal → Risk Profile: "Download proposal (PDF)" and "View
   proposal", plus a PDF link per past assessment. They open
