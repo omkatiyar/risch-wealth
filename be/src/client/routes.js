@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { query } from '../db/pool.js';
 import { requireRole } from '../auth/routes.js';
-import { buildPortfolio } from '../portfolio/calc.js';
+import { buildHistory, buildPortfolio } from '../portfolio/calc.js';
 import { getActiveConfig } from '../riskProfiler/config.js';
 import { scoreSubmission } from '../riskProfiler/scoring.js';
 
@@ -13,6 +13,7 @@ import { scoreSubmission } from '../riskProfiler/scoring.js';
 //   GET   /api/client/risk-profiles/:id/report   a saved assessment's full proposal data
 //   POST  /api/client/requests   { topic, message }
 //   GET   /api/client/portfolio  summary, allocation, holdings
+//   GET   /api/client/portfolio/history   value and amount invested over time
 //   GET   /api/client/transactions?page=&from=&to=&fund=
 
 const router = Router();
@@ -142,6 +143,38 @@ router.get('/portfolio', async (req, res, next) => {
   try {
     const { rows } = await activeRows(req.user.id);
     res.json(buildPortfolio(rows));
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Value over time. `complete` is false while past NAVs are still being
+// fetched for a fund (the chart says so rather than showing a flat line).
+export async function portfolioHistory(userId) {
+  const { rows: txns } = await query(
+    "SELECT scheme_code, trade_date, units, amount, nav FROM transactions WHERE user_id = $1 AND status = 'active'",
+    [userId],
+  );
+  if (!txns.length) return { points: [], complete: true };
+  const codes = [...new Set(txns.map((t) => t.scheme_code))];
+  const first = txns.reduce((m, t) => (t.trade_date < m ? t.trade_date : m), txns[0].trade_date);
+  const [{ rows: navs }, { rows: funds }] = await Promise.all([
+    query(
+      `SELECT scheme_code, nav_date, nav FROM nav_history
+        WHERE scheme_code = ANY($1) AND nav_date >= $2::date - 7 ORDER BY nav_date`,
+      [codes, first],
+    ),
+    query('SELECT scheme_code, history_from FROM funds WHERE scheme_code = ANY($1)', [codes]),
+  ]);
+  const firstBy = new Map();
+  for (const t of txns) if (!firstBy.has(t.scheme_code) || t.trade_date < firstBy.get(t.scheme_code)) firstBy.set(t.scheme_code, t.trade_date);
+  const complete = funds.every((f) => f.history_from && f.history_from <= firstBy.get(f.scheme_code));
+  return { points: buildHistory(txns, navs), complete };
+}
+
+router.get('/portfolio/history', async (req, res, next) => {
+  try {
+    res.json(await portfolioHistory(req.user.id));
   } catch (err) {
     next(err);
   }

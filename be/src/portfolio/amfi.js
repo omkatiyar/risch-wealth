@@ -1,4 +1,5 @@
 import { query } from '../db/pool.js';
+import { backfillHistory } from './history.js';
 
 // AMFI's daily NAV file (every mutual fund scheme in India, one download).
 // Two uses:
@@ -162,6 +163,8 @@ export async function refreshHeldNavs() {
 // the latest NAV the same night.
 export function scheduleNavRefresh() {
   const run = async () => {
+    // Past NAVs for the value chart: a no-op once every fund is filled.
+    backfillHistory().catch((e) => console.error('NAV history:', e.message));
     try {
       const { rows } = await query(
         "SELECT max(finished_at) AS last FROM nav_imports WHERE error IS NULL AND finished_at > now() - interval '6 hours'",

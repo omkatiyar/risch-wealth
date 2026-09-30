@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { clientPortfolioAdmin, voidOrder } from '../../api/authApi';
+import { clientHistoryAdmin, clientPortfolioAdmin, voidOrder } from '../../api/authApi';
+import ValueChart from '../../components/ValueChart';
 import {
   Icons, assetColor, fmtDate, inr, nav, signedPct, tone, units,
 } from '../ClientPortal/ui';
@@ -15,7 +16,11 @@ export default function ClientDetail({ id, tab }) {
   const [d, setD] = useState(null);
   const [err, setErr] = useState('');
   const [note, setNote] = useState(state?.saved || '');
-  const load = useCallback(() => clientPortfolioAdmin(id).then((r) => { setD(r); setErr(''); }).catch((e) => setErr(e.message)), [id]);
+  const [history, setHistory] = useState(null);
+  const load = useCallback(() => {
+    clientHistoryAdmin(id).then(setHistory).catch(() => {});
+    return clientPortfolioAdmin(id).then((r) => { setD(r); setErr(''); }).catch((e) => setErr(e.message));
+  }, [id]);
   useEffect(() => { load(); }, [load]);
 
   if (err && !d) return <p className="auth-note" role="alert">{err}</p>;
@@ -65,6 +70,7 @@ export default function ClientDetail({ id, tab }) {
             <div className="cp-card sp-stat"><strong>{inr(summary.invested)}</strong><span>Total invested</span></div>
             <div className="cp-card sp-stat"><strong className={tone(summary.gain)}>{signedPct(summary.returnPct)}</strong><span>Absolute return · since {fmtDate(summary.sinceDate)}</span></div>
           </div>
+          {history && <ValueChart points={history.points} complete={history.complete} title="Portfolio value" />}
           <div className="cp-grid cp-grid-2">
             <AllocationCard allocation={allocation} total={summary.currentValue} link={false} />
             <section className="cp-card">

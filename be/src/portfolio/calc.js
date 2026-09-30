@@ -113,3 +113,46 @@ export function buildPortfolio(rows, today = new Date()) {
     holdings,
   };
 }
+
+// Portfolio value over time, for the value chart.
+//   txns: active transactions { scheme_code, trade_date, units, amount, nav }
+//   navs: nav_history rows { scheme_code, nav_date, nav } for those funds
+// One point per NAV date from the first purchase on: value = units held
+// that day × that day's NAV (the last known NAV carried over holidays),
+// invested = money put in so far. Before a fund has any NAV on record
+// it's valued at its buying NAV.
+export function buildHistory(txns, navs, today = new Date()) {
+  if (!txns.length) return [];
+  const byDate = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+  const trades = [...txns].sort((a, b) => byDate(a.trade_date, b.trade_date));
+  const first = trades[0].trade_date;
+  const todayIso = today.toISOString().slice(0, 10);
+
+  const navList = [...navs].sort((a, b) => byDate(a.nav_date, b.nav_date));
+  const dates = [...new Set([...navList.map((n) => n.nav_date).filter((d) => d >= first && d <= todayIso), ...trades.map((t) => t.trade_date)])].sort(byDate);
+
+  const units = new Map(); // fund -> units held
+  const lastNav = new Map(); // fund -> last NAV seen
+  const buyNav = new Map(); // fund -> most recent buying NAV
+  let invested = 0;
+  let ti = 0;
+  let ni = 0;
+  const out = [];
+  for (const d of dates) {
+    while (ni < navList.length && navList[ni].nav_date <= d) {
+      lastNav.set(navList[ni].scheme_code, Number(navList[ni].nav));
+      ni += 1;
+    }
+    while (ti < trades.length && trades[ti].trade_date <= d) {
+      const t = trades[ti];
+      units.set(t.scheme_code, (units.get(t.scheme_code) || 0) + Number(t.units));
+      buyNav.set(t.scheme_code, Number(t.nav));
+      invested += Number(t.amount);
+      ti += 1;
+    }
+    let value = 0;
+    for (const [code, u] of units) value += u * (lastNav.get(code) ?? buyNav.get(code));
+    out.push({ date: d, value: Math.round(value * 100) / 100, invested: Math.round(invested * 100) / 100 });
+  }
+  return out;
+}

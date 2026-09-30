@@ -240,6 +240,17 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Portfolio value chart**
+- `components/ValueChart.jsx`: value (orange) and amount invested (blue
+  step line) over time on one ₹ axis, with 1M / 3M / 6M / 1Y / 3Y / All
+  (only ranges the data covers), a hover and arrow-key crosshair with a
+  tooltip, and a "View as table" (month ends). Colours
+  (`--chart-value`, `--chart-invested`) passed the dataviz palette
+  validator in light and dark.
+- Shown on the client Overview and Portfolio pages and on each client's
+  page in the staff portal. While past NAVs are still being fetched for a
+  new fund, a note says so.
+
 **Light portal sidebars (Figma)**
 - Both portals use a light ivory sidebar (`.cp-light` rules at the end of
   `styles/portal.css`) with a peach active item and `components/RingLogo.jsx`:

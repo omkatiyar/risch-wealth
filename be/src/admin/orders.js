@@ -3,12 +3,15 @@ import { pool, query } from '../db/pool.js';
 import { requireRole } from '../auth/routes.js';
 import { findScheme, refreshHeldNavs, searchSchemes } from '../portfolio/amfi.js';
 import { buildPortfolio } from '../portfolio/calc.js';
+import { backfillHistory } from '../portfolio/history.js';
+import { portfolioHistory } from '../client/routes.js';
 
 // Admin order entry for client portfolios (admins only).
 //   GET  /api/admin/clients?q=              search client accounts
 //   GET  /api/admin/schemes?q=              search AMFI's fund list (in memory)
 //   GET  /api/admin/portfolios?q=&page=     every client with value, funds, last order
 //   GET  /api/admin/clients/:id/portfolio   holdings + orders for one client
+//   GET  /api/admin/clients/:id/history     value over time (the chart)
 //   POST /api/admin/orders                  { userId, schemeCode, assetClass?, tradeDate, amount, nav, units?, folio?, notes? }
 //   POST /api/admin/orders/:id/void         { reason }
 //   GET  /api/admin/nav-status              last NAV import
@@ -121,6 +124,16 @@ router.get('/clients/:id/portfolio', async (req, res, next) => {
   }
 });
 
+router.get('/clients/:id/history', async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ error: 'Invalid client.' });
+    return res.json(await portfolioHistory(id));
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.post('/orders', async (req, res, next) => {
   const client = await pool.connect();
   try {
@@ -185,6 +198,8 @@ router.post('/orders', async (req, res, next) => {
         String(b.folio || '').trim().slice(0, 40) || null, String(b.notes || '').trim().slice(0, 500) || null, req.user.id],
     );
     await client.query('COMMIT');
+    // Fetch this fund's past NAVs for the value chart (in the background).
+    backfillHistory().catch((e) => console.error('NAV history:', e.message));
     return res.status(201).json({ id: rows[0].id });
   } catch (err) {
     await client.query('ROLLBACK').catch(() => {});

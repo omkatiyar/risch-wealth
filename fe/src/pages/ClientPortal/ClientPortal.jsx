@@ -3,7 +3,9 @@ import { Link, NavLink, Navigate, useLocation, useNavigate, useParams } from 're
 import RingLogo from '../../components/RingLogo';
 import { FIRM } from '../../data/firm';
 import { useTheme } from '../../hooks/ThemeContext';
-import { clientOverview, clientPortfolio, clientTransactions, logout } from '../../api/authApi';
+import {
+  clientOverview, clientPortfolio, clientPortfolioHistory, clientTransactions, logout,
+} from '../../api/authApi';
 import { Icons } from './ui';
 import Overview from './Overview';
 import Portfolio from './Portfolio';
@@ -41,6 +43,7 @@ export default function ClientPortal() {
   const [data, setData] = useState(null);
   const [portfolio, setPortfolio] = useState(null);
   const [recent, setRecent] = useState(null);
+  const [history, setHistory] = useState(null);
   const [error, setError] = useState('');
   const [drawer, setDrawer] = useState(false);
 
@@ -55,7 +58,12 @@ export default function ClientPortal() {
 
   const loadOverview = useCallback(() => clientOverview().then(setData).catch(onAuthError), [onAuthError]);
   const loadPortfolio = useCallback(() => Promise.all([clientPortfolio(), clientTransactions({ page: 1 })])
-    .then(([p, t]) => { setPortfolio(p); setRecent(t.transactions); })
+    .then(([p, t]) => {
+      setPortfolio(p);
+      setRecent(t.transactions);
+      // the chart loads separately so it never holds up the page
+      clientPortfolioHistory().then(setHistory).catch(() => {});
+    })
     .catch(onAuthError), [onAuthError]);
 
   useEffect(() => { loadOverview(); loadPortfolio(); }, [loadOverview, loadPortfolio]);
@@ -110,6 +118,7 @@ export default function ClientPortal() {
               data={data}
               portfolio={portfolio}
               recent={recent}
+              history={history}
               reloadOverview={loadOverview}
             />
           )}

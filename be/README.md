@@ -254,6 +254,21 @@ docker compose exec db pg_dump -U risch risch > backup-$(date +%F).sql
 
 Newest first. Frontend changes are listed in `../fe/README.md`.
 
+**Portfolio value chart**
+- Migration 006: `funds.history_from` (how far back `nav_history` has been
+  filled for a fund).
+- `src/portfolio/history.js`: fills `nav_history` with past NAVs from
+  AMFI's historical NAV report (same public source, no key), downloaded
+  per fund house (AMFI's fund-house codes are listed in the file; an
+  unknown one is found by a one-off scan) in one-year windows, keeping
+  only held funds' rows. Runs after every recorded purchase and with the
+  hourly NAV check; does nothing once every fund is filled back to its
+  first purchase.
+- `buildHistory` in `calc.js`: value per NAV date = units held that day ×
+  that day's NAV (carried over holidays), plus the amount invested so far.
+- `GET /api/client/portfolio/history` and
+  `GET /api/admin/clients/:id/history` return `{ points, complete }`.
+
 **Risk proposal download**
 - Migration 005: `risk_profiles.age` (saved from now on; older
   assessments have none). `POST /api/risk-profiler/score` accepts `age`

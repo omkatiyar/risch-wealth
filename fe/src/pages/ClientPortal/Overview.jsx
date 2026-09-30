@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import headshot from '../../assets/founder-headshot.jpg';
 import { FIRM } from '../../data/firm';
+import ValueChart from '../../components/ValueChart';
 import {
   Arrow, Donut, RiskGauge, assetColor, fmtDate, inr, signedInr, signedPct, tone,
 } from './ui';
@@ -10,7 +11,9 @@ const greeting = () => {
   return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
 };
 
-export default function Overview({ data, portfolio, recent }) {
+export default function Overview({
+  data, portfolio, recent, history,
+}) {
   const { summary, allocation, holdings } = portfolio;
   const has = holdings.length > 0;
   return (
@@ -25,6 +28,8 @@ export default function Overview({ data, portfolio, recent }) {
       </div>
 
       {has ? <SummaryCard summary={summary} /> : <EmptyPortfolio />}
+
+      {has && history && <ValueChart points={history.points} complete={history.complete} />}
 
       {has && (
         <div className="cp-grid cp-grid-2">

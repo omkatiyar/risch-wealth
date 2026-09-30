@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { AllocationCard, SummaryCard } from './Overview';
+import ValueChart from '../../components/ValueChart';
 import {
   PageHead, assetColor, fmtDate, inr, nav, signedPct, tone, units,
 } from './ui';
 
-export default function Portfolio({ portfolio }) {
+export default function Portfolio({ portfolio, history }) {
   const { summary, allocation, holdings } = portfolio;
   const [cls, setCls] = useState('All');
   const [q, setQ] = useState('');
@@ -31,6 +32,7 @@ export default function Portfolio({ portfolio }) {
     <>
       <PageHead title="Your portfolio" sub={`Your investments across asset classes, valued at the NAV of ${fmtDate(summary.navDate)}.`} />
       <SummaryCard summary={summary} cta={false} />
+      {history && <ValueChart points={history.points} complete={history.complete} />}
 
       <div className="cp-grid cp-grid-2">
         <AllocationCard allocation={allocation} total={summary.currentValue} link={false} />
