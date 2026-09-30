@@ -240,6 +240,34 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Download a saved risk proposal**
+- Client portal → Risk Profile: "Download proposal (PDF)" and "View
+  proposal", plus a PDF link per past assessment. They open
+  `/client-portal/risk-report?id=…` (`ClientPortal/RiskReport.jsx`), which
+  rebuilds the same 4-page proposal from the saved assessment (same
+  `ReportView`, dated the day it was taken) and, with `&print=1`, opens
+  the print dialog to save it as a PDF. The client's age is now sent with
+  new assessments so it appears on the proposal.
+
+**Portals stay inside the signed-in area**
+- Removed the "← rischwealth.com" link from the client and staff portal
+  top bars. The sidebar logo now goes to the portal's own home
+  (Overview / Dashboard) instead of the website.
+- Clients take or retake the risk assessment inside the portal
+  (`/client-portal/risk-assessment`, `ClientPortal/RiskAssessment.jsx`):
+  `RiskProfiler embedded` hides the site nav and footer, pre-fills the
+  client's name, email and mobile, reloads the portal's risk profile once
+  saved, and its links go to the portal (risk profile, Messages). Printing
+  the proposal from the portal hides the portal chrome. The public
+  `/risk-profiler` page is unchanged.
+
+**"Update now" for NAVs on more screens**
+- The NAV line with "Update now" (`NavUpdate` in `StaffPortal/common.jsx`)
+  is now also on Client portfolios, each client's page and Record a
+  purchase, not only the dashboard. After pressing, it says how many funds
+  moved to a newer NAV, or that AMFI hasn't published one yet, and the
+  page's values reload.
+
 **Staff portal**
 - New `/employee-portal` app (`src/pages/StaffPortal/`), same layout and
   styles as the client dashboard. `/employee-login` is now sign-in only

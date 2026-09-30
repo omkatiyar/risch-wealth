@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { clientPortfolioAdmin, searchClients } from '../../api/authApi';
 import { Icons, PageHead } from '../ClientPortal/ui';
-import { OrderForm, Typeahead, initials } from './common';
+import { NavUpdate, OrderForm, Typeahead, initials } from './common';
 
 const B = '/employee-portal';
 
@@ -24,6 +24,7 @@ export default function RecordPurchase({ id }) {
       <Link to={id ? `${B}/clients/${id}` : `${B}/clients`} className="sp-backlink"><Icons.back /> {id ? 'Back to client' : 'Client portfolios'}</Link>
       <PageHead title="Record a purchase" sub={client ? `Add a mutual fund purchase for ${client.fullName}.` : 'Choose the client, then enter the purchase from their statement.'} />
       {err && <p className="auth-note" role="alert">{err}</p>}
+      <NavUpdate compact />
 
       <section className="cp-card sp-purchase">
         {!client ? (

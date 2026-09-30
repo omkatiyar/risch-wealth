@@ -6,21 +6,26 @@ import { submitRiskProfilerAnswers } from '../../api/riskProfilerApi';
 import { RiskProfilerConfigProvider, useRiskProfilerConfig } from './RiskProfilerConfigContext';
 import ReportView from './report/ReportView';
 
-export default function RiskProfiler() {
-  return (
+// `embedded`: shown inside the client portal (/client-portal/risk-assessment)
+// instead of as a public page: no site nav or footer, the client's details
+// pre-filled, and the result links back into the portal. `onSaved` runs
+// once the result has been saved to their account.
+export default function RiskProfiler({ embedded = false, prefill = null, onSaved = null }) {
+  const body = (
     <RiskProfilerConfigProvider>
-      <RiskProfilerBody />
+      <RiskProfilerBody embedded={embedded} prefill={prefill} onSaved={onSaved} />
     </RiskProfilerConfigProvider>
   );
+  return embedded ? <div className="profiler-embedded">{body}</div> : body;
 }
 
-function RiskProfilerBody() {
+function RiskProfilerBody({ embedded, prefill, onSaved }) {
   const { config, error } = useRiskProfilerConfig();
 
   if (error) {
     return (
       <>
-        <Nav showMobileProfilerLink={false} />
+        {!embedded && <Nav showMobileProfilerLink={false} />}
         <main className="wrap profiler-wrap">
           <p className="lede">The risk profiler couldn't load right now ({error}). Please make sure the API server is running and try again.</p>
         </main>
@@ -33,7 +38,7 @@ function RiskProfilerBody() {
   if (!config) {
     return (
       <>
-        <Nav showMobileProfilerLink={false} />
+        {!embedded && <Nav showMobileProfilerLink={false} />}
         <div className="prog-rail">
           <div className="wrap prog-inner">
             <span className="mono prog-label">Introduction</span>
@@ -47,7 +52,7 @@ function RiskProfilerBody() {
     );
   }
 
-  return <RiskProfilerQuiz questions={config.questions} />;
+  return <RiskProfilerQuiz questions={config.questions} embedded={embedded} prefill={prefill} onSaved={onSaved} />;
 }
 
 function ProfilerIntro({ onBegin }) {
@@ -77,11 +82,15 @@ function stepLabel(key, questions) {
   return `${q.group} — Question ${q.groupIndex} of ${q.groupTotal}`;
 }
 
-function RiskProfilerQuiz({ questions }) {
+function RiskProfilerQuiz({
+  questions, embedded, prefill, onSaved,
+}) {
   const STEP_ORDER = ['intro', 'basics', ...questions.map((q) => q.id), 'report'];
 
   const [stepIndex, setStepIndex] = useState(0);
-  const [basics, setBasics] = useState({ name: '', email: '', phone: '', age: '', amount: 5000000 });
+  const [basics, setBasics] = useState({
+    name: prefill?.name || '', email: prefill?.email || '', phone: prefill?.phone || '', age: '', amount: 5000000,
+  });
   const [answers, setAnswers] = useState({});
   const [scoreResult, setScoreResult] = useState(null);
   const [scoreError, setScoreError] = useState(null);
@@ -97,11 +106,15 @@ function RiskProfilerQuiz({ questions }) {
       Object.entries(answers).map(([id, opt]) => [id, opt.points])
     );
     let cancelled = false;
-    submitRiskProfilerAnswers(pointsByQuestion, Number(basics.amount) || undefined)
-      .then((result) => { if (!cancelled) setScoreResult(result); })
+    submitRiskProfilerAnswers(pointsByQuestion, Number(basics.amount) || undefined, Number(basics.age) || undefined)
+      .then((result) => {
+        if (cancelled) return;
+        setScoreResult(result);
+        if (result.savedToAccount && onSaved) onSaved();
+      })
       .catch((err) => { if (!cancelled) setScoreError(err.message); });
     return () => { cancelled = true; };
-  }, [currentStepKey, scoreResult, answers, basics.amount]);
+  }, [currentStepKey, scoreResult, answers, basics.amount, basics.age, onSaved]);
 
   const goToStep = (index) => {
     const clamped = Math.max(0, Math.min(index, STEP_ORDER.length - 1));
@@ -131,7 +144,7 @@ function RiskProfilerQuiz({ questions }) {
 
   return (
     <>
-      <Nav showMobileProfilerLink={false} />
+      {!embedded && <Nav showMobileProfilerLink={false} />}
 
       <div className="prog-rail">
         <div className="wrap prog-inner">
@@ -205,13 +218,13 @@ function RiskProfilerQuiz({ questions }) {
               <p className="lede">Generating your proposal…</p>
             )}
             {scoreResult && (
-              <ReportView basics={basics} answers={answers} questions={questions} scoreResult={scoreResult} onRestart={handleRestart} />
+              <ReportView basics={basics} answers={answers} questions={questions} scoreResult={scoreResult} onRestart={handleRestart} embedded={embedded} />
             )}
           </section>
         )}
       </main>
 
-      {showFooter && <Footer extendedLegal showSocials={false} />}
+      {showFooter && !embedded && <Footer extendedLegal showSocials={false} />}
     </>
   );
 }

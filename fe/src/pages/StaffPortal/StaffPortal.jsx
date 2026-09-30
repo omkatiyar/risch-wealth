@@ -86,7 +86,7 @@ export default function StaffPortal() {
     <div className={'cp sp' + (drawer ? ' cp-drawer-open' : '')}>
       <aside className="cp-side" aria-label="Staff portal">
         <div className="cp-side-top">
-          <Link to="/" className="cp-logo" aria-label="RISCH Wealth home"><img src={logo} alt="RISCH Wealth" /></Link>
+          <Link to="/employee-portal" className="cp-logo" aria-label="RISCH, Dashboard"><img src={logo} alt="RISCH Wealth" /></Link>
           <button type="button" className="cp-icon-btn cp-close" aria-label="Close menu" onClick={() => setDrawer(false)}><Icons.close /></button>
         </div>
         <p className="sp-side-label">{isAdmin ? 'Admin' : 'Employee'} portal</p>
@@ -107,7 +107,6 @@ export default function StaffPortal() {
       <div className="cp-main">
         <header className="cp-top">
           <button type="button" className="cp-icon-btn cp-menu" aria-label="Open menu" onClick={() => setDrawer(true)}><Icons.menu /></button>
-          <Link to="/" className="cp-back">← rischwealth.com</Link>
           <div className="cp-top-right">
             <ThemeButton />
             <UserMenu user={user} onLogout={onLogout} />

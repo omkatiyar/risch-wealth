@@ -127,14 +127,21 @@ export async function refreshHeldNavs() {
     const { byCode } = await getAmfi({ force: true });
     const { rows: held } = await query('SELECT scheme_code FROM funds');
     let updated = 0;
+    let changed = 0; // funds that moved to a newer NAV date
     let latestDate = null;
     for (const { scheme_code: code } of held) {
       const s = byCode.get(code);
       if (!s || s.nav === null || !s.navDate) continue;
-      await query(
-        'UPDATE funds SET nav = $2, nav_date = $3, updated_at = now() WHERE scheme_code = $1 AND (nav_date IS NULL OR nav_date <= $3)',
+      // Same-date rows are rewritten too (AMFI occasionally corrects a
+      // NAV); only a newer date counts as "changed".
+      const { rows: upd } = await query(
+        `UPDATE funds f SET nav = $2, nav_date = $3, updated_at = now()
+           FROM (SELECT nav_date AS old FROM funds WHERE scheme_code = $1) o
+          WHERE f.scheme_code = $1 AND (f.nav_date IS NULL OR f.nav_date <= $3)
+          RETURNING (o.old IS NULL OR o.old < $3) AS newer`,
         [code, s.nav, s.navDate],
       );
+      if (upd[0]?.newer) changed += 1;
       await query(
         'INSERT INTO nav_history (scheme_code, nav_date, nav) VALUES ($1, $2, $3) ON CONFLICT (scheme_code, nav_date) DO UPDATE SET nav = EXCLUDED.nav',
         [code, s.navDate, s.nav],
@@ -143,7 +150,7 @@ export async function refreshHeldNavs() {
       if (!latestDate || s.navDate > latestDate) latestDate = s.navDate;
     }
     await query('UPDATE nav_imports SET finished_at = now(), funds_updated = $2, nav_date = $3 WHERE id = $1', [runId, updated, latestDate]);
-    return { fundsUpdated: updated, navDate: latestDate };
+    return { fundsUpdated: updated, fundsChanged: changed, navDate: latestDate };
   } catch (err) {
     await query('UPDATE nav_imports SET finished_at = now(), error = $2 WHERE id = $1', [runId, err.message.slice(0, 500)]);
     throw err;

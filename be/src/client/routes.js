@@ -2,12 +2,15 @@ import { Router } from 'express';
 import { query } from '../db/pool.js';
 import { requireRole } from '../auth/routes.js';
 import { buildPortfolio } from '../portfolio/calc.js';
+import { getActiveConfig } from '../riskProfiler/config.js';
+import { scoreSubmission } from '../riskProfiler/scoring.js';
 
 // Client portal: everything here is scoped to the signed-in client
 // (req.user.id); a client can never read another client's rows.
 //   GET   /api/client/overview   profile, latest risk profile, requests
 //   PATCH /api/client/profile    { fullName?, phone? }
 //   GET   /api/client/risk-profiles
+//   GET   /api/client/risk-profiles/:id/report   a saved assessment's full proposal data
 //   POST  /api/client/requests   { topic, message }
 //   GET   /api/client/portfolio  summary, allocation, holdings
 //   GET   /api/client/transactions?page=&from=&to=&fund=
@@ -76,6 +79,37 @@ router.get('/risk-profiles', async (req, res, next) => {
     res.json({ riskProfiles: rows.map(riskRow) });
   } catch (err) {
     next(err);
+  }
+});
+
+// Rebuilds the proposal for a saved assessment from its stored answers,
+// with the same scoring the client saw (only possible while the
+// questionnaire version it was taken on is the current one).
+router.get('/risk-profiles/:id/report', async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ error: 'Invalid assessment.' });
+    const [{ rows }, { rows: u }] = await Promise.all([
+      query('SELECT * FROM risk_profiles WHERE id = $1 AND user_id = $2', [id, req.user.id]),
+      query('SELECT full_name, email, phone FROM users WHERE id = $1', [req.user.id]),
+    ]);
+    if (!rows.length) return res.status(404).json({ error: 'Assessment not found.' });
+    const r = rows[0];
+    const config = getActiveConfig();
+    if (r.config_version !== config.version) {
+      return res.status(409).json({ error: 'This assessment was taken on an earlier version of the questionnaire, so its proposal can’t be rebuilt. Please ask the RISCH team for a copy.' });
+    }
+    return res.json({
+      id: r.id,
+      createdAt: r.created_at,
+      answers: r.answers,
+      investmentAmount: r.investment_amount === null ? null : Number(r.investment_amount),
+      age: r.age,
+      client: { name: u[0].full_name, email: u[0].email, phone: u[0].phone },
+      result: scoreSubmission(r.answers, config),
+    });
+  } catch (err) {
+    return next(err);
   }
 });
 

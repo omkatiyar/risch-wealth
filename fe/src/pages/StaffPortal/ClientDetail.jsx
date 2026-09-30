@@ -5,7 +5,7 @@ import {
   Icons, assetColor, fmtDate, inr, nav, signedPct, tone, units,
 } from '../ClientPortal/ui';
 import { AllocationCard } from '../ClientPortal/Overview';
-import { RowMenu, initials } from './common';
+import { NavUpdate, RowMenu, initials } from './common';
 
 const B = '/employee-portal';
 const TYPE = { purchase: 'Purchase' };
@@ -47,6 +47,7 @@ export default function ClientDetail({ id, tab }) {
         <NavLink to={`${base}/transactions`} className={({ isActive }) => (isActive ? 'on' : '')}>Transactions ({orders.filter((o) => o.status === 'active').length})</NavLink>
       </nav>
 
+      {holdings.length > 0 && <NavUpdate compact onUpdated={load} />}
       {note && <p className="auth-note ok" role="status">{note}</p>}
       {err && <p className="auth-note" role="alert">{err}</p>}
 
@@ -80,7 +81,7 @@ export default function ClientDetail({ id, tab }) {
                   );
                 })}
               </ul>
-              <p className="cp-fine">XIRR since the first purchase in each class; shown after 30 days. Values at NAV of {fmtDate(summary.navDate)}.</p>
+              <p className="cp-fine">XIRR since the first purchase in each class; shown after 30 days.</p>
             </section>
           </div>
         </>

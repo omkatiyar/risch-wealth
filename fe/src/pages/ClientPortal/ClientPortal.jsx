@@ -12,6 +12,8 @@ import Statements from './Statements';
 import RiskProfile from './RiskProfile';
 import Messages from './Messages';
 import ProfileSecurity from './ProfileSecurity';
+import RiskAssessment from './RiskAssessment';
+import RiskReport from './RiskReport';
 
 // The signed-in client's dashboard. Everything shown comes from
 // /api/client/*, which only ever returns this client's own rows.
@@ -26,6 +28,9 @@ export const SECTIONS = [
   { path: 'risk-profile', label: 'Risk Profile', icon: Icons.risk, Component: RiskProfile },
   { path: 'messages', label: 'Messages', icon: Icons.messages, Component: Messages },
   { path: 'profile', label: 'Profile & Security', icon: Icons.profile, Component: ProfileSecurity },
+  // Not in the sidebar; "Risk Profile" stays highlighted while it's open.
+  { path: 'risk-assessment', label: 'Risk assessment', Component: RiskAssessment, hidden: true, parent: 'risk-profile' },
+  { path: 'risk-report', label: 'Risk proposal', Component: RiskReport, hidden: true, parent: 'risk-profile' },
 ];
 const to = (path) => (path ? `/client-portal/${path}` : '/client-portal');
 
@@ -69,12 +74,12 @@ export default function ClientPortal() {
     <div className={'cp' + (drawer ? ' cp-drawer-open' : '')}>
       <aside className="cp-side" aria-label="Client portal">
         <div className="cp-side-top">
-          <Link to="/" className="cp-logo" aria-label="RISCH Wealth home"><img src={logo} alt="RISCH Wealth" /></Link>
+          <Link to="/client-portal" className="cp-logo" aria-label="RISCH, Overview"><img src={logo} alt="RISCH Wealth" /></Link>
           <button type="button" className="cp-icon-btn cp-close" aria-label="Close menu" onClick={() => setDrawer(false)}><Icons.close /></button>
         </div>
         <nav className="cp-nav">
-          {SECTIONS.map((s) => (
-            <NavLink key={s.path} to={to(s.path)} end className={({ isActive }) => (isActive ? 'active' : undefined)}>
+          {SECTIONS.filter((s) => !s.hidden).map((s) => (
+            <NavLink key={s.path} to={to(s.path)} end className={({ isActive }) => (isActive || current?.parent === s.path ? 'active' : undefined)}>
               <s.icon />{s.label}
               {s.path === 'messages' && data?.requests.some((r) => r.status === 'in_progress') && <span className="cp-dot" aria-label="Requests in progress" />}
             </NavLink>
@@ -90,7 +95,6 @@ export default function ClientPortal() {
       <div className="cp-main">
         <header className="cp-top">
           <button type="button" className="cp-icon-btn cp-menu" aria-label="Open menu" onClick={() => setDrawer(true)}><Icons.menu /></button>
-          <Link to="/" className="cp-back">← rischwealth.com</Link>
           <div className="cp-top-right">
             <ThemeButton />
             {data && <UserMenu name={data.profile.fullName} onLogout={onLogout} />}

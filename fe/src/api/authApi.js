@@ -62,3 +62,4 @@ export const navStatus = () => call('/admin/nav-status');
 export const refreshNavs = () => post('/admin/nav-refresh');
 export const staffDashboard = () => call('/staff/dashboard');
 export const listPortfolios = ({ q = '', page = 1 } = {}) => call(`/admin/portfolios?page=${page}${q ? `&q=${encodeURIComponent(q)}` : ''}`);
+export const riskProfileReport = (id) => call(`/client/risk-profiles/${id}/report`);

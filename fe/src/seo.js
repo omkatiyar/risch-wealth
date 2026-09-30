@@ -82,6 +82,16 @@ export const PAGES = {
     description: 'Your RISCH Wealth client portal.',
     noindex: true,
   },
+  '/client-portal/risk-assessment': {
+    title: 'Risk Assessment | RISCH Client Portal',
+    description: 'Your RISCH Wealth client portal.',
+    noindex: true,
+  },
+  '/client-portal/risk-report': {
+    title: 'Risk Proposal | RISCH Client Portal',
+    description: 'Your RISCH Wealth client portal.',
+    noindex: true,
+  },
   '/client-portal/messages': {
     title: 'Messages | RISCH Client Portal',
     description: 'Your RISCH Wealth client portal.',

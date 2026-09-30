@@ -162,12 +162,12 @@ export function RiskCard({ risk }) {
           <RiskGauge tier={risk.tier} />
           <strong>{risk.tierName}</strong>
           <span className="cp-muted">Assessed {fmtDate(risk.createdAt)}</span>
-          <Link to="/risk-profiler" className="btn cp-btn-sm">Retake assessment <Arrow /></Link>
+          <Link to="/client-portal/risk-assessment" className="btn cp-btn-sm">Retake assessment <Arrow /></Link>
         </div>
       ) : (
         <>
           <p>Take the eight-question assessment while signed in; your result is saved here for us to discuss with you.</p>
-          <Link to="/risk-profiler" className="btn cp-btn-sm">Take the assessment <Arrow /></Link>
+          <Link to="/client-portal/risk-assessment" className="btn cp-btn-sm">Take the assessment <Arrow /></Link>
         </>
       )}
     </section>

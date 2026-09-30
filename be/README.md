@@ -175,7 +175,10 @@ docker compose exec backend npm run user:disable -- RW101
 - `/api/client/*` (clients only; every query is scoped to the signed-in
   client): `GET overview` (profile, latest risk profile, recent
   requests, request topics), `PATCH profile { fullName?, phone? }`,
-  `GET risk-profiles`, `POST requests { topic, message }` (max 10 open).
+  `GET risk-profiles`, `GET risk-profiles/:id/report` (a saved
+  assessment's full proposal data, rebuilt from its stored answers with
+  the same scoring; 409 if it was taken on an older questionnaire
+  version), `POST requests { topic, message }` (max 10 open).
 - Risk profiler: `POST /api/risk-profiler/score` still works for anyone;
   when a signed-in client submits, the result (answers, scores, tier,
   allocation, optional amount, config version) is saved to
@@ -250,6 +253,18 @@ docker compose exec db pg_dump -U risch risch > backup-$(date +%F).sql
 ## Change log
 
 Newest first. Frontend changes are listed in `../fe/README.md`.
+
+**Risk proposal download**
+- Migration 005: `risk_profiles.age` (saved from now on; older
+  assessments have none). `POST /api/risk-profiler/score` accepts `age`
+  and returns `riskProfileId` when saved.
+- `GET /api/client/risk-profiles/:id/report` for the portal's "Download
+  proposal (PDF)".
+
+**NAV refresh result**
+- `POST /api/admin/nav-refresh` also returns `fundsChanged` (funds that
+  moved to a newer NAV date). Same-date NAVs are still rewritten, so
+  AMFI's occasional corrections are picked up.
 
 **Staff portal**
 - `GET /api/staff/dashboard`, `GET /api/admin/portfolios`, request counts

@@ -24,7 +24,7 @@ export default function RiskProfile({ data }) {
         <section className="cp-card cp-empty">
           <h2 className="cp-card-title">Not assessed yet</h2>
           <p>Eight questions on your time horizon and comfort with risk. Take it while signed in and your result is saved here, for us to discuss with you.</p>
-          <Link to="/risk-profiler" className="btn btn-primary">Take the risk assessment <Arrow /></Link>
+          <Link to="/client-portal/risk-assessment" className="btn btn-primary">Take the risk assessment <Arrow /></Link>
         </section>
       </>
     );
@@ -39,7 +39,11 @@ export default function RiskProfile({ data }) {
           <RiskGauge tier={risk.tier} />
           <h2 className="cp-risk-name">{risk.tierName}</h2>
           <p className="cp-muted">Assessed {fmtDate(risk.createdAt)}{risk.investmentAmount ? ` · for ${inr(risk.investmentAmount)}` : ''}</p>
-          <Link to="/risk-profiler" className="btn cp-btn-sm">Retake assessment <Arrow /></Link>
+          <div className="cp-risk-actions">
+            <Link to={`/client-portal/risk-report?id=${risk.id}&print=1`} className="btn btn-primary cp-btn-sm"><Icons.download /> Download proposal (PDF)</Link>
+            <Link to={`/client-portal/risk-report?id=${risk.id}`} className="btn cp-btn-sm">View proposal</Link>
+          </div>
+          <Link to="/client-portal/risk-assessment" className="cp-link cp-retake">Retake assessment <Arrow /></Link>
         </section>
         <section className="cp-card">
           <h2 className="cp-card-title">Indicative allocation</h2>
@@ -61,10 +65,10 @@ export default function RiskProfile({ data }) {
           <h2 className="cp-card-title">Past assessments</h2>
           <div className="cp-table-wrap">
             <table className="cp-table">
-              <thead><tr><th>Date</th><th>Profile</th><th className="num">Amount considered</th></tr></thead>
+              <thead><tr><th>Date</th><th>Profile</th><th className="num">Amount considered</th><th aria-label="Proposal" /></tr></thead>
               <tbody>
                 {history.map((h) => (
-                  <tr key={h.id}><td>{fmtDate(h.createdAt)}</td><td>{h.tierName}</td><td className="num">{h.investmentAmount ? inr(h.investmentAmount) : '—'}</td></tr>
+                  <tr key={h.id}><td>{fmtDate(h.createdAt)}</td><td>{h.tierName}</td><td className="num">{h.investmentAmount ? inr(h.investmentAmount) : '—'}</td><td className="num"><Link to={`/client-portal/risk-report?id=${h.id}&print=1`} className="cp-link"><Icons.download /> PDF</Link></td></tr>
                 ))}
               </tbody>
             </table>

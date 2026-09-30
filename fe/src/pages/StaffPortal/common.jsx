@@ -207,39 +207,58 @@ export function OrderForm({ client, onSaved }) {
   );
 }
 
-// "NAVs as of … · Update now" (admins).
-export function NavUpdate({ compact = false }) {
+// "NAVs as of … · Update now" (admins). Downloads AMFI's latest file on
+// demand and says whether anything newer was found. `onUpdated` lets the
+// page reload its figures.
+export function NavUpdate({ compact = false, onUpdated }) {
   const [s, setS] = useState(null);
   const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState('');
+  const [result, setResult] = useState({ text: '', ok: true });
   const load = useCallback(() => navStatus().then(setS).catch(() => {}), []);
   useEffect(() => { load(); }, [load]);
 
   const run = async () => {
     setBusy(true);
-    setErr('');
+    setResult({ text: '', ok: true });
     try {
-      await refreshNavs();
+      const r = await refreshNavs();
       await load();
+      if (r.fundsChanged > 0) {
+        setResult({ text: `Updated ${r.fundsChanged} ${r.fundsChanged === 1 ? 'fund' : 'funds'} to the NAV of ${fmtDate(r.navDate)}.`, ok: true });
+        if (onUpdated) onUpdated();
+      } else {
+        setResult({ text: 'Already up to date: AMFI hasn’t published a newer NAV yet. Most funds are published by 11 pm IST; overseas funds and funds of funds by 10 am the next day.', ok: true });
+      }
     } catch (e) {
-      setErr(e.message);
+      setResult({ text: e.message, ok: false });
     } finally {
       setBusy(false);
     }
   };
 
   const last = s?.lastImport;
+  const status = !s ? 'Loading…'
+    : !s.funds ? 'No funds held yet.'
+      : last?.error && !s.navDate ? <span className="neg">The last NAV update failed.</span>
+        : <>NAVs as of <strong>{fmtDate(s.navDate)}</strong> · {s.funds} {s.funds === 1 ? 'fund' : 'funds'} held</>;
+  const button = <button type="button" className="cp-link" onClick={run} disabled={busy}>{busy ? 'Fetching latest…' : 'Update now'}</button>;
+  const note = result.text && <p className={'sp-nav-result' + (result.ok ? '' : ' neg')} role="status">{result.text}</p>;
+
+  if (compact) {
+    return (
+      <div className="nav-status">
+        <span>{status}</span>
+        {button}
+        {note}
+      </div>
+    );
+  }
   return (
-    <div className={compact ? 'nav-status' : 'sp-nav'}>
-      <p className="mb-0">
-        {!s ? 'Loading…'
-          : !last ? 'NAVs not updated yet.'
-            : last.error ? <span className="neg">The last NAV update failed.</span>
-              : <>NAVs as of <strong>{fmtDate(s.navDate || last.nav_date)}</strong> · {s.funds} {s.funds === 1 ? 'fund' : 'funds'} held</>}
-      </p>
-      {last && !last.error && <p className="cp-fine" style={{ marginTop: 4 }}>Last checked {timeAgo(last.finished_at)}. Updates automatically every evening from AMFI.</p>}
-      <button type="button" className="cp-link" onClick={run} disabled={busy}>{busy ? 'Updating…' : 'Update now'} {!busy && '→'}</button>
-      {err && <p className="neg cp-fine">{err}</p>}
+    <div className="sp-nav">
+      <p className="mb-0">{status}</p>
+      {last && <p className="cp-fine" style={{ marginTop: 4 }}>Last checked {timeAgo(last.finished_at)}{last.error ? ' (failed)' : ''}. Checked automatically from AMFI through the day.</p>}
+      {button}
+      {note}
     </div>
   );
 }

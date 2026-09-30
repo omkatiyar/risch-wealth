@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { listPortfolios } from '../../api/authApi';
 import { Icons, PageHead, fmtDate, inr } from '../ClientPortal/ui';
 import { Pager } from './Pager';
+import { NavUpdate } from './common';
 
 const B = '/employee-portal';
 
@@ -13,19 +14,21 @@ export default function Clients() {
   const [page, setPage] = useState(1);
   const [res, setRes] = useState(null);
   const [err, setErr] = useState('');
+  const [reload, setReload] = useState(0); // bumped after a NAV update
 
   useEffect(() => { const t = setTimeout(() => { setTerm(q.trim()); setPage(1); }, 250); return () => clearTimeout(t); }, [q]);
   useEffect(() => {
     let live = true;
     listPortfolios({ q: term, page }).then((r) => { if (live) { setRes(r); setErr(''); } }).catch((e) => live && setErr(e.message));
     return () => { live = false; };
-  }, [term, page]);
+  }, [term, page, reload]);
 
   return (
     <>
       <PageHead title="Client portfolios" sub="Client investments, holdings, returns and allocation.">
         <Link to={`${B}/purchase`} className="btn btn-primary cp-btn-sm"><Icons.plus /> Add purchase</Link>
       </PageHead>
+      <NavUpdate compact onUpdated={() => setReload((n) => n + 1)} />
       <section className="cp-card">
         <div className="sp-searchbar">
           <Icons.search />

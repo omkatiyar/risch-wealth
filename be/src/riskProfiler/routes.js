@@ -41,13 +41,15 @@ router.post('/score', async (req, res, next) => {
     if (user && user.role === 'client') {
       const t = config.tiers[result.tier];
       const amount = Number(req.body?.amount);
-      await query(
-        `INSERT INTO risk_profiles (user_id, config_version, answers, time_horizon_score, risk_preference_score, tier, tier_name, allocation, investment_amount)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      const age = Number(req.body?.age);
+      const { rows } = await query(
+        `INSERT INTO risk_profiles (user_id, config_version, answers, time_horizon_score, risk_preference_score, tier, tier_name, allocation, investment_amount, age)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
         [user.id, config.version, JSON.stringify(answers), result.timeHorizonScore, result.riskPreferenceScore, result.tier, t.name,
-          JSON.stringify({ india: t.india, intl: t.intl, debt: t.debt, cash: t.cash }), Number.isFinite(amount) && amount > 0 ? amount : null],
+          JSON.stringify({ india: t.india, intl: t.intl, debt: t.debt, cash: t.cash }), Number.isFinite(amount) && amount > 0 ? amount : null,
+          Number.isInteger(age) && age >= 18 && age <= 100 ? age : null],
       );
-      return res.json({ ...result, savedToAccount: true });
+      return res.json({ ...result, savedToAccount: true, riskProfileId: rows[0].id });
     }
   } catch (err) {
     return next(err);

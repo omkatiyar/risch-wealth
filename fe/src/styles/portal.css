@@ -27,8 +27,6 @@
 /* ---- top bar ---- */
 .cp-main{ display:flex; flex-direction:column; min-width:0; }
 .cp-top{ position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:14px; height:68px; padding:0 40px; background:var(--nav-glass); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
-.cp-back{ font-size:14px; font-weight:500; color:var(--muted); text-decoration:none; }
-.cp-back:hover{ color:var(--accent); }
 .cp-top-right{ margin-left:auto; display:flex; align-items:center; gap:10px; }
 .cp-icon-btn{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink-2); cursor:pointer; }
 .cp-icon-btn:hover{ color:var(--accent); border-color:var(--line-strong); }
@@ -228,7 +226,6 @@
   .cp-grid-2{ grid-template-columns:1fr; }
 }
 @media (max-width:640px){
-  .cp-back{ display:none; }
   .cp-card{ padding:22px 18px; }
   .cp-table-wrap{ margin:0 -18px; padding:0 18px; }
   .cp-summary{ grid-template-columns:1fr 1fr; padding:22px 0; }
@@ -409,3 +406,23 @@ a.sp-stat:hover{ border-color:var(--line-strong); box-shadow:0 10px 28px -20px r
   .sp-profile{ flex-direction:column-reverse; }
   .sp-dl{ grid-template-columns:1fr; }
 }
+.cp-content > .nav-status{ margin:-10px 0 18px; }
+.nav-status .cp-link:disabled, .sp-nav .cp-link:disabled{ opacity:.6; cursor:default; text-decoration:none; }
+.sp-nav-result{ flex-basis:100%; margin:8px 0 0; padding:10px 14px; border-radius:6px; background:var(--bg-tint); font-size:14px; line-height:1.5; color:var(--ink-2); max-width:72ch; }
+
+/* risk assessment inside the client portal (RiskProfiler embedded) */
+.profiler-embedded .wrap{ max-width:none; padding-left:0; padding-right:0; }
+.profiler-embedded .prog-rail{ position:sticky; top:68px; z-index:4; padding-top:0; margin-bottom:28px; border:1px solid var(--line); border-radius:8px; }
+.profiler-embedded .prog-inner{ padding:14px 20px; }
+.profiler-embedded .profiler-wrap{ padding-top:8px; padding-bottom:24px; min-height:0; }
+
+@media print{
+  /* printing the proposal from the portal: just the report */
+  .cp-side, .cp-top, .cp-foot, .cp-scrim, .sp-tabbar, .sp-backlink{ display:none !important; }
+  .cp{ display:block; background:#fff; }
+  .cp-content{ padding:0; max-width:none; }
+}
+.cp-risk-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:16px; }
+.cp-risk-actions .btn{ margin:0; gap:8px; }
+.cp-retake{ margin-top:16px; }
+.profiler-embedded > .sp-backlink{ margin-bottom:18px; }
