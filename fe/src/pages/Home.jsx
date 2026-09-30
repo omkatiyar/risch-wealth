@@ -83,7 +83,7 @@ export default function Home() {
           <div className="hero-copy">
             {/* Answers, in order: who we are, what we do, for whom, why trust us,
                 and what to do next. */}
-            <p className="eyebrow reveal in">RISCH Private Wealth · {FIRM.city} · Since {FIRM.foundedYear}</p>
+            <p className="eyebrow reveal in">RISCH Private Wealth · Since {FIRM.foundedYear}</p>
             <h1 className="display-xxl reveal in">Capital deserves<br /><span className="italic">a considered</span> hand.</h1>
             {/* From the client brochure. The founder wants this line kept in the hero. */}
             <p className="hero-tagline reveal in" style={{ transitionDelay: '.05s' }}>We manage portfolios.</p>
