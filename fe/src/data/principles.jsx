@@ -1,8 +1,8 @@
 // "Our Investment Principles" — the brochure RISCH sends every new
 // client. Titles and copy are verbatim (light copy-edits only); this is
 // the firm's own material, not written for this redesign.
-// Used in full (icon + title + body) on the Solutions page, and as a
-// short right-aligned title list in the home page hero.
+// Used in full (icon + title + body) on the home page and the What We
+// Provide page.
 export const PRINCIPLES = [
   {
     icon: <><circle cx="12" cy="8" r="3.5" /><path d="M4.5 20c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7" /></>,

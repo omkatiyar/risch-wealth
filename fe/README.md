@@ -240,6 +240,24 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**What We Provide redesign (Figma + review)**
+- `pages/Solutions.jsx` + the "WHAT WE PROVIDE (Figma, Oct 2026)" block in
+  `styles/styles.css` (`.sv-*`). Sections: hero ("Four disciplines. One
+  portfolio." with a supporting line and the boardroom image); the four
+  disciplines as rows, each a link to `/contact?topic=<discipline>` (the
+  Contact page pre-selects that topic); "Principles before products." (the
+  brochure's seven principles word for word, from `data/principles.jsx`,
+  four cards then three centred);
+  "What we allocate across." with an equal-segment ring (no proportions:
+  there is no model portfolio) and five asset-class cards; the new "From
+  conversation to a coherent portfolio." (Understand, Construct, Review);
+  and "A portfolio built around your life." with Start Risk Profile / Get
+  In Touch.
+- Contact topics now list the four disciplines; `?topic=` is applied after
+  mount so the prerendered page still hydrates cleanly.
+- Old allocation-stack styles (`.alloc-intro`, `.alloc-stack`, …) removed.
+- Lighthouse: mobile 97 / 100 / 100 / 100, desktop 100 across the board.
+
 **Rising arrow above the RISCH wordmark (brochure logo)**
 - `components/BrandArrow.jsx`: the arrow from the printed RISCH logo,
   traced from the brochure artwork and redrawn with smooth curves (hairline

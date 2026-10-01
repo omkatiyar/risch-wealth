@@ -30,7 +30,7 @@ export const PAGES = {
   },
   '/solutions': {
     title: 'Private Wealth Solutions & Portfolio Construction | RISCH',
-    description: 'Private wealth solutions, wealth coordination, portfolio construction and risk profiling across domestic equity, international equity, fixed income and cash.',
+    description: 'Four disciplines, one portfolio: portfolio construction, fund and strategy selection, global diversification and wealth coordination, built around you.',
   },
   '/risk-profiler': {
     title: 'Risk Profiler | Find Your Investment Risk Profile | RISCH',

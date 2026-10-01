@@ -3,19 +3,72 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { PRINCIPLES } from '../data/principles';
+import officePhoto from '../assets/contact-office.webp';
+import officePhoto2x from '../assets/contact-office-2x.webp';
 
-// What RISCH actually does for a client, in plain terms. The risk
-// assessment supports Portfolio Construction; it isn't a service of its own.
-const SERVICES = [
+// What We Provide (Figma, Oct 2026): hero, the four disciplines, the
+// principles, the allocation universe, how it comes together, and a
+// closing call to action. The risk assessment supports Portfolio
+// Construction; it isn't a service of its own.
+
+const Svg = ({ children }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{children}</svg>
+);
+const Arrow = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
+);
+
+// Each row's arrow opens the contact form with that topic chosen.
+const DISCIPLINES = [
   { t: 'Portfolio Construction', d: 'A portfolio built around your objectives, liquidity needs, time horizon and ability to withstand losses — sized to you, not a model.',
     icon: <><rect x="3" y="3" width="7" height="7" rx="1.2" /><rect x="14" y="3" width="7" height="7" rx="1.2" /><rect x="3" y="14" width="7" height="7" rx="1.2" /><rect x="14" y="14" width="7" height="7" rx="1.2" /></> },
-  { t: 'Fund & Strategy Selection', d: 'Mutual funds, PMS and AIFs from across the market, each chosen for the role it plays in your portfolio. Our risk assessment is where that conversation starts.',
+  { t: 'Fund & Strategy Selection', d: 'Mutual funds, PMS and AIFs from across the market, each chosen for the role it plays in your portfolio. Our research and risk assessment drive the selection.',
     icon: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5L21 21M7.5 10.5h6M7.5 13h4" /></> },
   { t: 'Global Diversification', d: 'Access to opportunities beyond Indian markets — the US, Europe, Asia and Taiwan — held as part of one plan rather than as a separate bet.',
     icon: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></> },
   { t: 'Wealth Coordination', d: 'Investments, liquidity, succession and your legal and tax advisers brought into one view, with one point of contact and regular reviews.',
     icon: <><circle cx="9" cy="8" r="3.2" /><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" /><circle cx="17" cy="8.5" r="2.6" /><path d="M15 14.2c2.7.4 4.7 2.5 4.7 5.8" /></> },
 ];
+
+// The five building blocks. The ring is deliberately equal-sized: there is
+// no model portfolio, so it shows what can go in, not how much.
+const ASSET_CLASSES = [
+  { t: 'Domestic Equity', d: 'Large, mid & small cap, thematic', c: '#B24A07' },
+  { t: 'International Equity', d: 'US, Europe, Asia ex-Japan & Taiwan', c: '#E8772E' },
+  { t: 'Fixed Income', d: 'Short, medium & long duration', c: '#F2B48A' },
+  { t: 'Commodities', d: 'Gold & silver', c: '#A08C7A' },
+  { t: 'Real Estate', d: 'REITs & InvITs', c: '#5E3B26' },
+];
+
+const STEPS = [
+  { t: 'Understand', d: 'We start with a detailed conversation about your goals, time horizon, liquidity needs and risk profile.',
+    icon: <path d="M4 5h16v11H8l-4 4z" /> },
+  { t: 'Construct', d: 'We design a portfolio using the four disciplines — aligned to your objectives and backed by research.',
+    icon: <><path d="M12 3a9 9 0 1 0 9 9h-9z" /><path d="M15 3.5A9 9 0 0 1 20.5 9H15z" /></> },
+  { t: 'Review', d: 'We track progress, adapt to changes in your life and rebalance to keep the portfolio aligned over time.',
+    icon: <><path d="M4 20V14M9 20V9M14 20V12M19 20V5" /><path d="M2 20h20" /></> },
+];
+
+function AllocationRing() {
+  const r = 82;
+  const sw = 34;
+  const c = 2 * Math.PI * r;
+  const seg = c / ASSET_CLASSES.length;
+  return (
+    <div className="sv-ring" role="img" aria-label="Your portfolio can combine domestic equity, international equity, fixed income, commodities and real estate">
+      <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+        {ASSET_CLASSES.map((a, i) => (
+          <circle
+            key={a.t} cx="100" cy="100" r={r} fill="none" stroke={a.c} strokeWidth={sw}
+            strokeDasharray={`${seg - 3} ${c}`} strokeDashoffset={-(seg * i)}
+            transform="rotate(-90 100 100)"
+          />
+        ))}
+      </svg>
+      <span>Your<br />portfolio</span>
+    </div>
+  );
+}
 
 export default function Solutions() {
   useScrollReveal();
@@ -24,119 +77,109 @@ export default function Solutions() {
     <>
       <Nav />
 
-      <header className="page-head" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="pattern-dots" style={{ top: 0, height: 420 }}></div>
-        <div className="wrap" style={{ position: 'relative' }}>
-          <p className="eyebrow kicker reveal in">What We Do</p>
-          <h1 className="display-xxl reveal in" style={{ maxWidth: '16em' }}>Four disciplines. <span className="italic">One</span> portfolio.</h1>
+      <header className="sv-hero">
+        <div className="sv-hero-photo" aria-hidden="true">
+          <img src={officePhoto} srcSet={`${officePhoto} 1x, ${officePhoto2x} 2x`} alt="" width="258" height="772" />
+        </div>
+        <div className="wrap sv-hero-copy">
+          <p className="eyebrow reveal in">What We Provide</p>
+          <h1 className="sv-h1 reveal in">Four disciplines.<br /><span>One</span> portfolio.</h1>
+          <p className="lede reveal in">We bring portfolio construction, strategy selection, global diversification and wealth coordination into one disciplined plan — designed around your objectives, not a model.</p>
         </div>
       </header>
 
-      <section className="section-tight">
+      <section className="sv-disc" aria-label="The four disciplines">
         <div className="wrap">
-          {SERVICES.map((svc, i) => (
-            <div className="numbered-row reveal" style={{ padding: '44px 0' }} key={svc.t}>
-              <div className="num">{String(i + 1).padStart(2, '0')}</div>
-              <div className="grid g-2" style={{ gridTemplateColumns: '1fr 1.6fr', alignItems: 'center' }}>
-                <div className="flex gap-16 items-center">
-                  <div className="icon-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{svc.icon}</svg>
-                  </div>
-                  <h2 className="display-s">{svc.t}</h2>
-                </div>
-                <p className="mb-0" style={{ maxWidth: '56ch' }}>{svc.d}</p>
-              </div>
-            </div>
-          ))}
+          <ol className="sv-disc-list">
+            {DISCIPLINES.map((x, i) => (
+              <li key={x.t} className="reveal">
+                <Link to={`/contact?topic=${encodeURIComponent(x.t)}`} className="sv-disc-row">
+                  <span className="sv-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="sv-icon"><Svg>{x.icon}</Svg></span>
+                  <h2 className="sv-disc-title">{x.t}</h2>
+                  <p className="sv-disc-text">{x.d}</p>
+                  <span className="sv-disc-arrow"><Arrow /><span className="sr-only"> Discuss this with RISCH</span></span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      <section className="section-tight on-tint">
+      <section className="sv-principles">
         <div className="wrap">
-          <div className="reveal" style={{ maxWidth: 640, marginBottom: 48 }}>
+          <div className="sv-head reveal">
             <p className="eyebrow">Investment Philosophy</p>
-            <h2 className="display-l">Our Investment Principles.</h2>
-            <p className="lede" style={{ marginTop: 16 }}>The same principles we set out for every new client, before a single rupee is committed.</p>
+            <h2 className="sv-h2">Principles before products.</h2>
+            <p className="sv-sub">The same principles we set out for every client, before a single rupee is committed.</p>
           </div>
-          <div className="grid g-3 reveal-stagger">
+          <div className="sv-cards reveal-stagger">
+            {/* the brochure's seven principles, word for word (src/data/principles.jsx) */}
             {PRINCIPLES.map((p) => (
-              <div key={p.title} style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-                <div className="icon-badge" style={{ marginBottom: 18 }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{p.icon}</svg>
-                </div>
-                <h3 className="display-s" style={{ marginBottom: 8 }}>{p.title}</h3>
-                <p className="body-s mb-0">{p.body}</p>
+              <div className="sv-card" key={p.title}>
+                <span className="sv-icon sv-icon-sm"><Svg>{p.icon}</Svg></span>
+                <h3>{p.title}</h3>
+                <p>{p.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="wrap">
-          <div className="alloc-intro">
-            <div className="reveal">
-              <p className="eyebrow">Allocation Universe</p>
-              <h2 className="display-l" style={{ maxWidth: '18ch' }}>What we allocate across.</h2>
-              <p className="alloc-statement">There is no model portfolio.</p>
-              <p style={{ maxWidth: '46ch' }}>How much sits in each layer depends on your objectives, liquidity needs, time horizon and capacity for risk — so the proportions are set with you, not in advance.</p>
-            </div>
-            {/* Deliberately without percentages: allocation is personal. */}
-            <div className="alloc-stack reveal" aria-label="Your portfolio: domestic equity, international equity, fixed income, commodities, real estate">
-              <p className="alloc-stack-label">Your portfolio</p>
-              {['Domestic Equity', 'International Equity', 'Fixed Income', 'Commodities', 'Real Estate'].map((layer, i) => (
-                <div className={`alloc-layer alloc-layer-${i}`} key={layer}><span>{layer}</span></div>
-              ))}
-            </div>
+      <section className="sv-alloc">
+        <div className="wrap sv-alloc-grid">
+          <div className="reveal">
+            <p className="eyebrow">Allocation Universe</p>
+            <h2 className="sv-h2">What we allocate across.</h2>
+            <p className="sv-statement">There is no model portfolio.</p>
+            <p className="sv-sub">How much sits in each layer depends on your objectives, liquidity needs, time horizon and capacity for risk — so the proportions are set with you, not in advance.</p>
           </div>
-
-          <div className="grid g-3 reveal-stagger">
-            <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge" style={{ marginBottom: 18 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-5 3 3 5-7" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>Domestic Equity</h3>
-              <p className="body-s mb-0">Large, mid &amp; small cap, plus thematic &amp; sectoral funds.</p>
-            </div>
-            <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge" style={{ marginBottom: 18 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>International Equity</h3>
-              <p className="body-s mb-0">US, Europe, Asia ex-Japan &amp; Taiwan.</p>
-            </div>
-            <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge" style={{ marginBottom: 18 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="13" rx="2" /><path d="M2 10h20" /><circle cx="7" cy="14.5" r="1.3" fill="currentColor" stroke="none" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>Fixed Income</h3>
-              <p className="body-s mb-0">Short, medium &amp; long duration.</p>
-            </div>
-            <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge" style={{ marginBottom: 18 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 20h18" /><path d="M5 20l2-6h4l2 6" /><path d="M11 20l2-6h4l2 6" /><path d="M8 14l2-5h4l2 5" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>Commodities</h3>
-              <p className="body-s mb-0">Gold &amp; silver.</p>
-            </div>
-            <div style={{ borderTop: '1px solid var(--line-strong)', paddingTop: 24 }}>
-              <div className="icon-badge" style={{ marginBottom: 18 }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18" /><path d="M5 21V9l7-5 7 5v12" /><path d="M9 21v-6h6v6" /><path d="M9 11h.01M15 11h.01" /></svg>
-              </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>Real Estate</h3>
-              <p className="body-s mb-0">REITs &amp; InvITs.</p>
-            </div>
-          </div>
+          <AllocationRing />
+          <ul className="sv-classes reveal">
+            {ASSET_CLASSES.map((a) => (
+              <li key={a.t}>
+                <span className="sv-dot" style={{ background: a.c }} aria-hidden="true" />
+                <span><strong>{a.t}</strong>{a.d}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="section on-paper-2" style={{ padding: '140px 0' }}>
-        <div className="wrap center">
-          <p className="eyebrow reveal" style={{ justifyContent: 'center' }}>Find Your Portfolio</p>
-          <h2 className="display-xl reveal" style={{ maxWidth: '18ch', margin: '0 auto 36px' }}>Your allocation is personal — see it in your proposal.</h2>
-          <div className="flex gap-16 reveal" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/risk-profiler" className="btn btn-rust">Take the risk profiler</Link>
-            <Link to="/contact" className="btn btn-ghost-dark">Get in touch</Link>
+      <section className="sv-process">
+        <div className="wrap">
+          <div className="sv-head reveal">
+            <p className="eyebrow">How It Comes Together</p>
+            <h2 className="sv-h2">From conversation to a coherent portfolio.</h2>
+            <p className="sv-sub">An integrated process that brings everything together.</p>
+          </div>
+          <ol className="sv-steps reveal-stagger">
+            {STEPS.map((s, i) => (
+              <li key={s.t}>
+                <span className="sv-num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <span className="sv-icon sv-icon-sm"><Svg>{s.icon}</Svg></span>
+                  <h3>{s.t}</h3>
+                  <p>{s.d}</p>
+                </div>
+                {i < STEPS.length - 1 && <span className="sv-step-arrow" aria-hidden="true"><Arrow /></span>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="sv-cta">
+        <svg className="sv-cta-arcs" viewBox="0 0 600 400" aria-hidden="true" focusable="false">
+          <circle cx="620" cy="420" r="300" /><circle cx="620" cy="420" r="380" /><circle cx="560" cy="460" r="250" />
+        </svg>
+        <div className="wrap reveal">
+          <p className="eyebrow">Start A Conversation</p>
+          <h2 className="sv-h2">A portfolio built around your life.</h2>
+          <p className="sv-sub">Take the first step towards a more thoughtful, disciplined and personalised investment journey.</p>
+          <div className="sv-cta-actions">
+            <Link to="/risk-profiler" className="btn btn-primary">Start Risk Profile <Arrow /></Link>
+            <Link to="/contact" className="btn">Get In Touch</Link>
           </div>
         </div>
       </section>

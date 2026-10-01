@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
@@ -7,11 +8,14 @@ import { Req } from '../components/Req';
 import officePhoto from '../assets/contact-office.webp';
 import officePhoto2x from '../assets/contact-office-2x.webp';
 
+// The four disciplines (What We Provide links here with ?topic=...) plus
+// the other common reasons to get in touch.
 const TOPICS = [
   'Portfolio review',
-  'Private Wealth Solutions',
-  'Wealth Coordination',
   'Portfolio Construction',
+  'Fund & Strategy Selection',
+  'Global Diversification',
+  'Wealth Coordination',
   'Risk Profiling',
   'Something else',
 ];
@@ -43,6 +47,13 @@ export default function Contact() {
   useScrollReveal();
 
   const [form, setForm] = useState({ name: '', email: '', dial: '+91', phone: '', topic: '', message: '' });
+  // /contact?topic=Portfolio%20Construction pre-selects the topic. Set after
+  // mount so the prerendered page and the first render still match.
+  const [params] = useSearchParams();
+  useEffect(() => {
+    const t = params.get('topic');
+    if (t && TOPICS.includes(t)) setForm((f) => ({ ...f, topic: t }));
+  }, [params]);
   const [note, setNote] = useState({ text: '', ok: false });
 
   const handleChange = (e) => {
