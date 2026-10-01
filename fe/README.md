@@ -240,6 +240,22 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Rising arrow above the RISCH wordmark (brochure logo)**
+- `components/BrandArrow.jsx`: the arrow from the printed RISCH logo,
+  traced from the brochure artwork and redrawn with smooth curves (hairline
+  tail after the "I", swoosh over "S" and "C", head over the "H"). It takes
+  the colour of the wordmark it sits on.
+- Where: the site header and the portal sidebars (typeset wordmark over the
+  ring: `.wm-arrow`, sized in em from the letter positions, dark like the
+  letters), and the footer and the risk-profile proposal
+  (`components/LogoMark.jsx`: `logo.png` + arrow, sized with `--h`, orange).
+- `assets/logo.png` cleaned: its semi-transparent edge pixels were white
+  (cut out from a white background), which showed as a light outline on the
+  navy footer on retina screens. They now carry the neighbouring orange;
+  same size, 9.6 KB.
+- Not changed: favicon, apple-touch icon and social preview image
+  (`public/`), which are small static images.
+
 **Footer redesign (Figma)**
 - `components/Footer/Footer.jsx` + the `.footer` rules in
   `styles/styles.css`: RISCH / Private Wealth with the mission ("Our
@@ -273,8 +289,7 @@ Newest first.
   with a 500-character counter. The card stacks its fields when it's
   narrow (container query). Still hands off to the visitor's email app
   (no mail backend yet).
-- Footer: LinkedIn moved into its own "Connect" column. Instagram stays
-  hidden.
+- Footer: see "Footer redesign (Figma)". Instagram stays hidden.
 
 **Portfolio value chart**
 - `components/ValueChart.jsx`: value (orange) and amount invested (blue

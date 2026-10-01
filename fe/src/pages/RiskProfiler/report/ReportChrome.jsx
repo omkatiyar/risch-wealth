@@ -1,10 +1,10 @@
-import logo from '../../../assets/logo.png';
+import LogoMark from '../../../components/LogoMark';
 
 export function PageHead({ dateStr }) {
   return (
     <div className="report-head">
       <div>
-        <img src={logo} alt="RISCH Wealth" />
+        <LogoMark alt="RISCH Wealth" />
         <p className="body-s" style={{ marginTop: 8, color: 'var(--muted)', fontSize: '10.5px', fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' }}>RISCH Private Wealth</p>
       </div>
       <div className="rh-right">

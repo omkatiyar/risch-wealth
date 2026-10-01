@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../../hooks/ThemeContext';
 import LogoRing from '../LogoRing/LogoRing';
+import BrandArrow from '../BrandArrow';
 
 const navLinkClass = ({ isActive }) => (isActive ? 'active' : undefined);
 
@@ -51,7 +52,7 @@ export default function Nav({ showMobileProfilerLink = true }) {
     <nav className={'nav' + (scrolled ? ' scrolled' : '')}>
       <NavLink to="/" className="nav-logo" onClick={closeMenu}>
         <LogoRing />
-        <span className="nav-wordmark">RISCH</span>
+        <span className="nav-wordmark">RISCH<BrandArrow className="wm-arrow" /></span>
       </NavLink>
       <div className={'nav-links' + (menuOpen ? ' open' : '')}>
         {NAV_LINKS.map((link) => (

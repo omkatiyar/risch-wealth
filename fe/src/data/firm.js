@@ -49,9 +49,12 @@ export const FIRM = {
   // Plain-English statement of what the registrations mean in practice.
   // Shown with the registration details (About, Disclosure).
   roleNote: 'In practice: the mutual funds, portfolio management services and alternative investment funds we recommend are run by their own SEBI-registered asset managers, portfolio managers and fund managers. RISCH helps you choose them, arranges the investment and reviews the portfolio with you over time.',
+  // `id` is shown on its own ("ARN-156886"), never with a caption that
+  // repeats it or names the issuer.
   registrations: [
     // AMFI ARN (mutual fund distribution)
     { label: 'ARN', id: 'ARN-156886' },
+    // APMI registration (PMS distribution)
     { label: 'APRN', id: 'APRN-05916' },
   ],
   // The founder's EUIN (E11449, valid 24/05/2025 – 23/05/2028) is no longer

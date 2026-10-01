@@ -235,6 +235,17 @@ section{ position:relative; }
   filter:drop-shadow(0 0 .6px var(--bg)) drop-shadow(0 0 1.2px var(--bg));
 }
 
+/* The brochure's rising arrow above the RISCH wordmark (BrandArrow).
+   In a typeset wordmark (header, portal sidebars) it is sized in em from
+   the letter positions of "RISCH" in Cormorant 600 with .05em tracking:
+   tail just after the "I" (~1.03em), head over the "H" (~2.58em), sitting
+   just above the capitals. It takes the wordmark's colour and halo. */
+.wm-arrow{ position:absolute; left:1.03em; top:-.41em; width:1.55em; height:auto; fill:currentColor; pointer-events:none; }
+/* ...and over the wordmark image (logo.png), sized from --h, its height */
+.logo-mark{ --h:56px; position:relative; display:inline-block; padding-top:calc(var(--h) * .56); line-height:0; vertical-align:top; }
+.logo-mark img{ display:block; height:var(--h); width:auto; }
+.logo-mark .brand-arrow{ position:absolute; top:0; left:var(--h); width:calc(var(--h) * 1.729); height:auto; fill:#F47A0C; }
+
 /* ===================== LOGO RING =====================
    The single large ring from the brochure cover, sized so the whole
    RISCH wordmark sits inside it, spinning slowly about its centre
@@ -451,7 +462,7 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .footer a{ color:var(--footer-ink); transition:color .2s ease; }
 .footer a:hover{ color:#F08A4B; }
 .footer .f-logo{ display:inline-flex; flex-direction:column; align-items:flex-start; }
-.footer .f-logo img{ display:block; height:56px; width:auto; }
+.footer .f-logo .logo-mark{ --h:56px; }
 .footer .f-logo span{ margin-top:4px; font-family:var(--f-serif); font-weight:500; font-size:25px; line-height:1.1; letter-spacing:.07em; color:var(--footer-ink); }
 .footer .f-logo:hover span{ color:var(--footer-ink); }
 .footer .f-rule{ display:block; width:38px; height:2px; background:#E8772E; margin:22px 0 20px; }
@@ -476,10 +487,8 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
 .footer .f-reg-text p{ margin:0; max-width:74ch; font-size:13.5px; line-height:1.7; color:var(--footer-ink); }
 .footer .f-reg-text .f-reg-grievance{ margin-top:6px; color:var(--footer-muted); }
 .footer .f-reg-ids{ display:flex; margin:0; }
-.footer .f-reg-ids > div{ padding:4px 44px; border-left:1px solid var(--footer-line); }
-.footer .f-reg-ids > div:last-child{ padding-right:8px; }
-.footer .f-reg-ids dt{ font-size:13.5px; color:var(--footer-muted); }
-.footer .f-reg-ids dd{ margin:4px 0 0; font-size:16.5px; font-weight:400; letter-spacing:.01em; color:var(--footer-ink); white-space:nowrap; }
+.footer .f-reg-ids > p{ margin:0; padding:14px 44px; border-left:1px solid var(--footer-line); font-size:16.5px; letter-spacing:.01em; color:var(--footer-ink); white-space:nowrap; }
+.footer .f-reg-ids > p:last-child{ padding-right:8px; }
 .footer .f-disclaimer{ padding:22px 0; border-top:1px solid var(--footer-line); }
 .footer .f-disclaimer p{ margin:0; max-width:120ch; font-size:12.5px; line-height:1.7; color:var(--footer-muted); }
 .footer .f-disclaimer a{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
@@ -498,12 +507,12 @@ html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
   .footer .f-top{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
   .footer .f-brand{ grid-column:1 / -1; }
   .footer .f-mission{ max-width:22em; }
-  .footer .f-reg-ids > div{ padding:4px 28px; }
+  .footer .f-reg-ids > p{ padding:14px 28px; }
 }
 @media (max-width:900px){
   .footer .f-reg{ grid-template-columns:56px minmax(0, 1fr); }
   .footer .f-reg-ids{ grid-column:1 / -1; }
-  .footer .f-reg-ids > div:first-child{ border-left:0; padding-left:0; }
+  .footer .f-reg-ids > p:first-child{ border-left:0; padding-left:0; }
   .footer .f-bottom{ flex-direction:column; align-items:flex-start; }
   .footer .f-bottom > p:first-child, .footer .f-legal{ flex:none; min-width:0; }
   .footer .f-motto{ text-align:left; }

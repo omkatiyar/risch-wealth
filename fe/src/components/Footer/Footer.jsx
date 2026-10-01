@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import LogoMark from '../LogoMark';
 import { FIRM } from '../../data/firm';
 
 // Site footer (Figma, Sept 2026): brand and mission, The Firm and Clients
@@ -43,7 +43,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
         <div className="f-top">
           <div className="f-brand">
             <Link to="/" className="f-logo">
-              <img src={logo} alt="RISCH" width="312" height="96" />
+              <LogoMark />
               <span>Private Wealth</span>
             </Link>
             <span className="f-rule" aria-hidden="true" />
@@ -99,14 +99,9 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
             <p>{FIRM.legalName}. {FIRM.registrationNote}</p>
             {FIRM.grievance && <p className="f-reg-grievance">{FIRM.grievance}</p>}
           </div>
-          <dl className="f-reg-ids">
-            {FIRM.registrations.map((r) => (
-              <div key={r.id}>
-                <dt>{r.label}</dt>
-                <dd>{r.id}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="f-reg-ids">
+            {FIRM.registrations.map((r) => <p key={r.id}>{r.id}</p>)}
+          </div>
         </div>
 
         {/* the standard warning an AMFI-registered distributor must show;

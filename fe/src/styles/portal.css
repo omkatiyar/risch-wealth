@@ -448,12 +448,12 @@ html[data-theme="dark"] .cp-light .cp-nav a.active{ background:rgba(240,138,75,.
   width:94px; height:94px; margin-left:-8px; text-decoration:none;
 }
 html[data-theme="dark"] .ring-logo{ --lr-faint-color:#5A3418; }
-.ring-logo svg{ position:absolute; inset:0; z-index:-1; width:100%; height:100%; animation:logoSpin 18s linear infinite; } /* same spin as the site header ring */
+.ring-logo > svg{ position:absolute; inset:0; z-index:-1; width:100%; height:100%; animation:logoSpin 18s linear infinite; } /* same spin as the site header ring */
 .ring-logo .lr-strong{ fill:var(--lr-strong-color); fill-opacity:.94; }
 .ring-logo .lr-medium{ fill:var(--lr-medium-color); fill-opacity:.82; }
 .ring-logo .lr-light{ fill:var(--lr-light-color); fill-opacity:.66; }
 .ring-logo .lr-faint{ fill:var(--lr-faint-color); fill-opacity:.46; }
-.ring-logo span{ font-family:var(--f-serif); font-weight:600; font-size:22px; line-height:1; letter-spacing:.05em; color:var(--ink); }
+.ring-logo span{ position:relative; font-family:var(--f-serif); font-weight:600; font-size:22px; line-height:1; letter-spacing:.05em; color:var(--ink); }
 @media (max-width:980px){ .cp-light{ background:var(--bg); } }
 
 /* ===== portfolio value chart (components/ValueChart.jsx) =====
