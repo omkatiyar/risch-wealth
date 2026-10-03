@@ -34,3 +34,34 @@ one-time nginx + DNS + certbot steps.
       risk-profiler weights can be edited from the frontend instead of
       hard-coded in `be/src/riskProfiler/config.js`
 - [ ] Phase 5 — wire the contact form to the real backend
+
+
+Venkatesh Varadan - https://www.linkedin.com/in/venkythgreat/
+
+https://www.linkedin.com/in/sriranjan/
+
+https://www.linkedin.com/in/giridhar-vetcha-a68a4525/
+
+https://www.linkedin.com/in/thomas-thomas-7597577/
+
+Mathew Varghese restuarant Liz
+
+https://www.linkedin.com/in/selwyncolaco/
+
+https://www.linkedin.com/in/nikhil-porwal-377718a7/
+
+https://www.linkedin.com/in/jitendra-purswani-b1807212/
+
+https://www.linkedin.com/in/jeevanath-avaroth-b8713b22/
+
+https://www.linkedin.com/in/tushar-jajoo-376295b/
+
+https://www.linkedin.com/in/arti-maheshwari-57322b12/
+
+https://www.linkedin.com/in/sandeep-kumar-jain-22200b280/
+
+aurobindo nayak broadcom 
+
+https://www.linkedin.com/in/korath-abraham-78b78b56/
+
+https://www.linkedin.com/in/shubhrat-agrawal-456a35209/

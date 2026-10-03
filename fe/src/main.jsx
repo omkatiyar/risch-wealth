@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 import '@fontsource-variable/inter';
 // Display serif for large headings, chosen to echo the logo.
 import '@fontsource-variable/cormorant-garamond';
+// Script face, used only for the signed client names on Testimonials.
+import '@fontsource/parisienne';
 import './styles/styles.css';
 import './styles/profiler.css';
 import './styles/portal.css';

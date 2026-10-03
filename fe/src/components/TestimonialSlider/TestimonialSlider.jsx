@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { TESTIMONIALS } from '../../data/testimonials';
+import { SPOTLIGHT_TESTIMONIALS as TESTIMONIALS } from '../../data/testimonials';
 
 export default function TestimonialSlider() {
   const [active, setActive] = useState(0);
