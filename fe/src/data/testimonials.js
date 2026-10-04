@@ -3,7 +3,8 @@
 //
 //   quote   short excerpt shown on the card
 //   group   which client profile they belong to (drives the filter chips)
-//   lead    the one account shown large at the top of the page
+//   lead    the one account shown large as the featured story
+//   pull    the account set as the full-width pull quote on navy
 //   story   a longer written account, one string per paragraph, with
 //           **bold** sentences. Not shown on the page at the moment; kept in
 //           case a full-letter view is wanted again.
@@ -44,6 +45,17 @@ export const TESTIMONIAL_GROUPS = [
   'NRIs & Global Indians',
   'Family Offices',
 ];
+
+// Short labels for the filter navigation.
+export const TESTIMONIAL_GROUP_LABELS = {
+  'Business Owners': 'Business Owners',
+  'Entrepreneurs & Founders': 'Founders',
+  'Senior Executives & CXOs': 'Executives',
+  'Doctors & Professionals': 'Professionals',
+  'Private Clients & Families': 'Families',
+  'NRIs & Global Indians': 'Global Indians',
+  'Family Offices': 'Family Offices',
+};
 
 export const TESTIMONIALS = [
   {
@@ -187,7 +199,7 @@ export const TESTIMONIALS = [
     credentials: ['Private Client', 'Retired, former public sector executive'],
     place: 'Bengaluru, Karnataka',
     role: 'Private Client', spotlight: true,
-    group: 'Private Clients & Families',
+    group: 'Private Clients & Families', pull: true,
   },
   {
     quote: 'Managing an India allocation from abroad used to mean chasing four different people. Now it means one call.',
