@@ -1,246 +1,124 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
-import CapitalOrbit from '../components/CapitalOrbit/CapitalOrbit';
-import { TESTIMONIALS, TESTIMONIAL_GROUPS, TESTIMONIAL_GROUP_LABELS } from '../data/testimonials';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { TESTIMONIALS, TESTIMONIAL_GROUPS } from '../data/testimonials';
+import skyline from '../assets/testimonials-skyline.webp';
+import skyline2x from '../assets/testimonials-skyline-2x.webp';
 
-const ALL = 'All';
+const ALL = 'All profiles';
 const LEAD = TESTIMONIALS.find((t) => t.lead) ?? TESTIMONIALS[0];
-const PULL = TESTIMONIALS.find((t) => t.pull) ?? TESTIMONIALS[1];
-// everything that is neither the featured story nor the navy pull quote
-const STORIES = TESTIMONIALS.filter((t) => t !== LEAD && t !== PULL);
-const FIRST_CHAPTER = 6;
+const REST = TESTIMONIALS.filter((t) => t !== LEAD);
 
-const FILTERS = [ALL, ...TESTIMONIAL_GROUPS.filter((g) => TESTIMONIALS.some((t) => t.group === g))];
-const labelOf = (g) => (g === ALL ? ALL : TESTIMONIAL_GROUP_LABELS[g] ?? g);
+// Only offer a filter for profiles that actually have an account to show.
+const PROFILES = TESTIMONIAL_GROUPS.filter((g) => REST.some((t) => t.group === g));
+const FILTERS = [ALL, ...PROFILES];
+// Counted once here rather than per chip on every render.
+const COUNTS = new Map(FILTERS.map((g) => [g, g === ALL ? REST.length : REST.filter((t) => t.group === g).length]));
 
-// "Sentence one. Sentence two. Sentence three." -> the first two carry the
-// featured quote at display size, the rest follows quietly underneath.
-function splitLead(text) {
-  const parts = text.match(/[^.!?]+[.!?]+(?:\s|$)/g)?.map((s) => s.trim()) ?? [text];
-  return { head: parts.slice(0, 2).join(' '), tail: parts.slice(2).join(' ') };
-}
-
-// **bold** inside a story paragraph becomes a bold phrase.
-const rich = (text) => text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
-
-// Fades content up as it scrolls into view. Content is visible by default
-// (prerendered page, no JS, anything already on screen); only elements that
-// start below the fold are hidden, and only once the page is running.
-function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest }) {
-  const ref = useRef(null);
-  const [state, setState] = useState('shown');
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || !('IntersectionObserver' in window)) return undefined;
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return undefined;
-    setState('armed');
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setState('in'); io.disconnect(); }
-    }, { rootMargin: '0px 0px -8% 0px' });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <Tag ref={ref} className={`${className} tx-reveal tx-reveal--${state}`} style={{ '--d': `${delay}ms` }} {...rest}>
-      {children}
-    </Tag>
-  );
-}
-
-const Arrow = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" strokeWidth="1.3" /></svg>
+// A client's photograph when one has been supplied and cleared, otherwise
+// their monogram. Both sit on the same accent disc, so the two mix cleanly.
+const Portrait = ({ person }) => (
+  <span className="ts-portrait" aria-hidden="true">
+    {person.photo
+      ? <img src={person.photo} alt="" loading="lazy" decoding="async" />
+      : <span className="ts-monogram">{person.initial}</span>}
+  </span>
 );
 
-function Who({ t, tone = '' }) {
-  return (
-    <div className={`tx-who ${tone}`}>
-      <span className="tx-face" aria-hidden="true">
-        <img src={t.photo} alt="" width="200" height="200" loading="lazy" decoding="async" />
-      </span>
-      <div className="tx-who-text">
-        <span className="tx-cat">{labelOf(t.group)}</span>
-        <span className="tx-sign">{t.name}</span>
-        {t.credentials.map((line) => <span className="tx-cred" key={line}>{line}</span>)}
-        <span className="tx-place">{t.place}</span>
-      </div>
-    </div>
-  );
-}
-
-// The longer written account, folded away so the page stays about the quote.
-function FullAccount({ t }) {
-  return (
-    <details className="tx-more">
-      <summary>Read the full account</summary>
-      <div className="tx-more-body">{t.story.map((para) => <p key={para.slice(0, 28)}>{rich(para)}</p>)}</div>
-    </details>
-  );
-}
-
-function Story({ t, size = 'sm', delay = 0 }) {
-  return (
-    <Reveal as="article" className={`tx-story tx-story--${size}`} delay={delay}>
-      <span className="tx-hair" aria-hidden="true" />
-      <blockquote><p>{t.quote}</p></blockquote>
-      <Who t={t} />
-      {size !== 'sm' && <FullAccount t={t} />}
-    </Reveal>
-  );
-}
+const Attribution = ({ person }) => (
+  <figcaption className="ts-by">
+    <Portrait person={person} />
+    <span className="ts-who">
+      <span className="ts-sign">{person.name}</span>
+      {(person.credentials ?? [person.role]).map((line) => (
+        <span className="ts-cred" key={line}>{line}</span>
+      ))}
+      {person.place && <span className="ts-place">{person.place}</span>}
+    </span>
+  </figcaption>
+);
 
 export default function Testimonials() {
   const [filter, setFilter] = useState(ALL);
-  const filtered = filter !== ALL;
-
-  const picked = useMemo(() => TESTIMONIALS.filter((t) => t.group === filter), [filter]);
-  const lead = useMemo(() => splitLead(LEAD.quote), []);
-
-  // the same editorial rhythm whether it holds 13 stories or 2
-  const SCATTER = ['lg', 'sm', 'sm', 'lg', 'sm', 'sm'];
-  const scatter = filtered ? picked : STORIES.slice(0, FIRST_CHAPTER);
-  const rest = STORIES.slice(FIRST_CHAPTER);
-  const [solo, ...columns] = rest;
+  const shown = useMemo(
+    () => (filter === ALL ? REST : REST.filter((t) => t.group === filter)),
+    [filter],
+  );
+  useScrollReveal();
 
   return (
     <>
       <Nav />
 
-      <main className="tx">
-        {/* 1 — hero */}
-        <section className="tx-hero">
-          <div className="tx-wrap tx-hero-grid">
-            <header className="tx-hero-copy">
-              <p className="tx-eyebrow">In our clients&rsquo; words</p>
-              <h1 className="tx-title">Entrusted with<br /><span>a lifetime&rsquo;s work.</span></h1>
-              <p className="tx-lede">
-                Business owners, doctors, executives and families share what it is like to work
-                with RISCH. Every situation is different. Our approach is the same: understand
-                how much risk you are comfortable with first, then build the portfolio around it.
-              </p>
-            </header>
-            <CapitalOrbit />
-          </div>
-        </section>
-
-        {/* 2 — quiet filter navigation */}
-        <div className="tx-filter">
-          <div className="tx-wrap">
-            <div className="tx-filter-rail" role="group" aria-label="Filter client stories by profile">
-              {FILTERS.map((g) => (
-                <button
-                  key={g}
-                  type="button"
-                  className={'tx-tab' + (filter === g ? ' is-on' : '')}
-                  aria-pressed={filter === g}
-                  onClick={() => setFilter(g)}
-                >
-                  {labelOf(g)}
-                </button>
-              ))}
-            </div>
-          </div>
+      <section className="ts">
+        {/* the same faint arcs that ground the Get In Touch page */}
+        <svg className="ts-lines" viewBox="0 0 620 520" aria-hidden="true" focusable="false">
+          <path d="M-40 520 A 560 560 0 0 1 420 40" />
+          <path d="M-40 520 A 500 500 0 0 1 380 90" />
+          <path d="M-40 520 A 440 440 0 0 1 335 145" />
+        </svg>
+        {/* skyline at dusk: the same curved panel as Get In Touch, but a
+            global-city view whose warm sky sits with the ivory palette */}
+        <div className="ts-photo" aria-hidden="true" style={{ '--ct-img': `url(${skyline})` }}>
+          <img src={skyline} srcSet={`${skyline} 1x, ${skyline2x} 2x`} alt="" width="300" height="898" loading="lazy" />
         </div>
 
-        {!filtered && (
-          <>
-            {/* 3 — the featured story, led entirely by type */}
-            <section className="tx-featured">
-              <div className="tx-wrap">
-                <Reveal className="tx-featured-inner">
-                  <p className="tx-kicker">01 / Featured client experience</p>
-                  <figure>
-                    <span className="tx-qmark" aria-hidden="true">&ldquo;</span>
-                    <blockquote>
-                      <p className="tx-featured-head">{lead.head}</p>
-                      {lead.tail && <p className="tx-featured-tail">{lead.tail}</p>}
-                    </blockquote>
-                    <figcaption><Who t={LEAD} /></figcaption>
-                  </figure>
-                  <FullAccount t={LEAD} />
-                </Reveal>
-              </div>
-            </section>
-          </>
-        )}
+        <div className="ts-wrap">
+          {/* copy and the lead account share the first screen, so neither
+              column is left half empty the way two stacked blocks were */}
+          <div className="ts-hero">
+            <header className="ts-head">
+              <p className="eyebrow reveal in">In our clients&rsquo; words</p>
+              <h1 className="ts-title reveal in">Entrusted with<br /><span>a lifetime&rsquo;s work.</span></h1>
+              <p className="lede ts-lede reveal in">
+                Business owners, founders, CXOs, doctors, families, global Indians and family
+                offices. Different balance sheets, one method — risk understood first, then a
+                portfolio built around it.
+              </p>
+            </header>
 
-        {/* 4 — stories, scattered across the grid */}
-        <section className="tx-stories tx-stories--cream" key={filter}>
-          <div className="tx-wrap">
-            <Reveal as="header" className="tx-chapter-head">
-              <p className="tx-kicker">{filtered ? `Client stories / ${labelOf(filter)}` : '02 / Client stories'}</p>
-            </Reveal>
-            <div className="tx-scatter">
-              {scatter.map((t, i) => <Story key={t.name} t={t} size={SCATTER[i % SCATTER.length]} />)}
-            </div>
+            <figure className="ts-featured reveal in">
+              <span className="ts-mark" aria-hidden="true">&ldquo;</span>
+              <blockquote>{LEAD.quote}</blockquote>
+              <Attribution person={LEAD} />
+            </figure>
           </div>
-        </section>
 
-        {!filtered && (
-          <>
-            {/* 5 — one exceptional line, on the footer navy */}
-            <section className="tx-pull">
-              <div className="tx-wrap">
-                <Reveal as="figure" className="tx-pull-inner">
-                  <span className="tx-hair tx-hair--center" aria-hidden="true" />
-                  <blockquote><p>{PULL.quote}</p></blockquote>
-                  <figcaption><Who t={PULL} tone="tx-who--center" /></figcaption>
-                </Reveal>
-              </div>
-            </section>
-
-            {/* 6 — a different composition for the rest */}
-            <section className="tx-stories tx-stories--light">
-              <div className="tx-wrap">
-                <Reveal as="header" className="tx-chapter-head">
-                  <p className="tx-kicker">03 / More client stories</p>
-                </Reveal>
-                {solo && (
-                  <Reveal as="article" className="tx-solo">
-                    <blockquote><p>{solo.quote}</p></blockquote>
-                    <Who t={solo} tone="tx-who--center" />
-                    <FullAccount t={solo} />
-                  </Reveal>
-                )}
-                <div className="tx-columns">
-                  {columns.map((t, i) => (
-                    <Reveal as="article" className="tx-col" key={t.name} delay={(i % 2) * 90}>
-                      <blockquote><p>{t.quote}</p></blockquote>
-                      <Who t={t} />
-                    </Reveal>
-                  ))}
-                </div>
-              </div>
-            </section>
-          </>
-        )}
-
-        {/* 7 — quiet disclosure */}
-        <section className="tx-disclosure">
-          <div className="tx-wrap">
-            <p>
-              Client statements reflect individual experiences and are not indicative of future
-              results or a guarantee of any outcome. Names are shortened and are used only with
-              the client&rsquo;s permission. See <Link to="/disclosure">Disclosures</Link>.
-            </p>
+          {/* never gated behind the scroll-reveal: it must always be usable */}
+          <div className="ts-filter" role="group" aria-label="Filter accounts by client profile">
+            {FILTERS.map((g) => (
+              <button
+                key={g}
+                type="button"
+                className={'ts-chip' + (filter === g ? ' is-on' : '')}
+                aria-pressed={filter === g}
+                onClick={() => setFilter(g)}
+              >
+                {g}
+                <span className="ts-chip-n">{COUNTS.get(g)}</span>
+              </button>
+            ))}
           </div>
-        </section>
 
-        {/* 8 — the close */}
-        <section className="tx-cta">
-          <div className="tx-wrap tx-cta-grid">
-            <Reveal className="tx-cta-copy">
-              <span className="tx-hair" aria-hidden="true" />
-              <h2>A considered second opinion can change how you see the whole portfolio.</h2>
-            </Reveal>
-            <Reveal className="tx-cta-actions" delay={120}>
-              <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
-              <Link to="/risk-profiler" className="tx-link">Take the risk assessment</Link>
-            </Reveal>
+          {/* keyed on the filter so the cards animate in again on each change */}
+          <div className="ts-grid" key={filter}>
+            {shown.map((t) => (
+              <figure className="ts-card" key={t.name}>
+                <blockquote>{t.quote}</blockquote>
+                <Attribution person={t} />
+              </figure>
+            ))}
           </div>
-        </section>
-      </main>
+
+          <p className="ts-note">
+            Testimonials reflect the experience of individual clients and are not indicative of
+            future results or a guarantee of any outcome. Names are shortened and portraits are
+            published only with the client&rsquo;s permission. See <Link to="/disclosure">Disclosures</Link>.
+          </p>
+        </div>
+      </section>
 
       <Footer />
     </>
