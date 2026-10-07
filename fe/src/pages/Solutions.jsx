@@ -1,10 +1,10 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { PRINCIPLES } from '../data/principles';
-import officePhoto from '../assets/contact-office.webp';
-import officePhoto2x from '../assets/contact-office-2x.webp';
+import RingSlider from '../components/RingSlider';
 
 // What We Provide (Figma, Oct 2026): hero, the four disciplines, the
 // principles, the allocation universe, how it comes together, and a
@@ -49,6 +49,69 @@ const STEPS = [
     icon: <><path d="M4 20V14M9 20V9M14 20V12M19 20V5" /><path d="M2 20h20" /></> },
 ];
 
+// The hero's 3D ring: the four disciplines, each a slide with its full
+// description and a link that opens the contact form on that topic. They go
+// round the ring twice (1-4, 1-4) so neighbouring slides always show at an
+// angle; the second set is hidden from assistive tech and the tab order.
+const RING_ITEMS = [0, 1].flatMap((round) => DISCIPLINES.map((x, i) => ({
+  key: `${x.t}-${round}`,
+  hidden: round === 1,
+  content: (
+    <>
+      <span className="rc-top">
+        <span className="rc-num">{String(i + 1).padStart(2, '0')}</span>
+        <span className="rc-icon"><Svg>{x.icon}</Svg></span>
+      </span>
+      <strong>{x.t}</strong>
+      <span className="rc-text">{x.d}</span>
+      <Link to={`/contact?topic=${encodeURIComponent(x.t)}`} className="rc-link" draggable="false" tabIndex={round === 1 ? -1 : undefined}>Discuss this <Arrow /></Link>
+    </>
+  ),
+})));
+
+const PRINCIPLES_COPY = {
+  eyebrow: 'Investment Philosophy',
+  title: 'Principles before products.',
+  sub: 'The same principles we set out for every client, before a single rupee is committed.',
+};
+
+// The seven principles. By default (server render, phones, reduced motion,
+// before the script loads) a plain grid of cards; on larger screens the 3D
+// scroll-morph scene (components/PrinciplesMorph, with framer-motion) is
+// loaded after mount and replaces it. Loading it after mount keeps the
+// library out of the page's first load and the hydration clean.
+function PrinciplesSection() {
+  const [Morph, setMorph] = useState(null);
+  useEffect(() => {
+    const wide = window.matchMedia('(min-width: 820px)').matches;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (wide && !still) import('../components/PrinciplesMorph').then((m) => setMorph(() => m.default));
+  }, []);
+
+  if (Morph) return <Morph principles={PRINCIPLES} {...PRINCIPLES_COPY} />;
+  return (
+    <section className="sv-principles">
+      <div className="wrap">
+        <div className="sv-head reveal">
+          <p className="eyebrow">{PRINCIPLES_COPY.eyebrow}</p>
+          <h2 className="sv-h2">{PRINCIPLES_COPY.title}</h2>
+          <p className="sv-sub">{PRINCIPLES_COPY.sub}</p>
+        </div>
+        <div className="sv-cards reveal-stagger">
+          {/* the brochure's seven principles, word for word (src/data/principles.jsx) */}
+          {PRINCIPLES.map((p) => (
+            <div className="sv-card" key={p.title}>
+              <span className="sv-icon sv-icon-sm"><Svg>{p.icon}</Svg></span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function AllocationRing() {
   const r = 82;
   const sw = 34;
@@ -78,53 +141,19 @@ export default function Solutions() {
       <Nav />
 
       <header className="sv-hero">
-        <div className="sv-hero-photo" aria-hidden="true">
-          <img src={officePhoto} srcSet={`${officePhoto} 1x, ${officePhoto2x} 2x`} alt="" width="258" height="772" />
-        </div>
         <div className="wrap sv-hero-copy">
-          <p className="eyebrow reveal in">What We Provide</p>
-          <h1 className="sv-h1 reveal in">Four disciplines.<br /><span>One</span> portfolio.</h1>
+          <div className="sv-hero-head">
+            <p className="eyebrow reveal in">What We Provide</p>
+            <h1 className="sv-h1 reveal in">Four disciplines.<br /><span>One</span> portfolio.</h1>
+          </div>
           <p className="lede reveal in">We bring portfolio construction, strategy selection, global diversification and wealth coordination into one disciplined plan — designed around your objectives, not a model.</p>
+        </div>
+        <div className="reveal in">
+          <RingSlider items={RING_ITEMS} label="Our four disciplines" />
         </div>
       </header>
 
-      <section className="sv-disc" aria-label="The four disciplines">
-        <div className="wrap">
-          <ol className="sv-disc-list">
-            {DISCIPLINES.map((x, i) => (
-              <li key={x.t} className="reveal">
-                <Link to={`/contact?topic=${encodeURIComponent(x.t)}`} className="sv-disc-row">
-                  <span className="sv-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="sv-icon"><Svg>{x.icon}</Svg></span>
-                  <h2 className="sv-disc-title">{x.t}</h2>
-                  <p className="sv-disc-text">{x.d}</p>
-                  <span className="sv-disc-arrow"><Arrow /><span className="sr-only"> Discuss this with RISCH</span></span>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="sv-principles">
-        <div className="wrap">
-          <div className="sv-head reveal">
-            <p className="eyebrow">Investment Philosophy</p>
-            <h2 className="sv-h2">Principles before products.</h2>
-            <p className="sv-sub">The same principles we set out for every client, before a single rupee is committed.</p>
-          </div>
-          <div className="sv-cards reveal-stagger">
-            {/* the brochure's seven principles, word for word (src/data/principles.jsx) */}
-            {PRINCIPLES.map((p) => (
-              <div className="sv-card" key={p.title}>
-                <span className="sv-icon sv-icon-sm"><Svg>{p.icon}</Svg></span>
-                <h3>{p.title}</h3>
-                <p>{p.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PrinciplesSection />
 
       <section className="sv-alloc">
         <div className="wrap sv-alloc-grid">

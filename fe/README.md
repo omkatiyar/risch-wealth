@@ -240,6 +240,42 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
+**Principles scroll-morph (What We Provide)**
+- `components/PrinciplesMorph.jsx` (adapted from the "scroll morph hero"
+  component: JSX + plain CSS, since the site has no Tailwind or
+  TypeScript; uses `framer-motion`, now a dependency). The seven
+  principles are flip cards that scatter, line up and form a circle, then
+  open into an arc as you scroll, sliding gently so each card passes the
+  centre. Hover, keyboard focus or a tap turns a card to its text.
+- The page's own scroll drives it (a 360vh section with a sticky stage),
+  so unlike the original it never captures the wheel or touch scrolling.
+- Loaded after mount from `PrinciplesSection` in `pages/Solutions.jsx`,
+  only on screens 820px and wider without reduced motion (own 45 KB
+  gzipped chunk). Everywhere else, and before it loads, the page shows the
+  plain grid of seven cards, so the principles are always in the HTML.
+- Styles: the `.pm-*` rules at the end of `styles/styles.css`. The Who We
+  Serve page has no principles section; this is on What We Provide.
+
+**3D ring slider in the What We Provide hero (luxury navy stage)**
+- `components/RingSlider.jsx`: slides seated round a 3D ring (CSS 3D
+  transforms, no library, so nothing was installed and no bundle weight
+  added). Drag to spin with inertia (a plain tap still follows a link);
+  arrow keys or the buttons step one slide; it drifts by itself and pauses
+  on hover or focus, when off screen, and with `prefers-reduced-motion`.
+  Far-side slides show through the gaps, dimmed and mirrored like a real
+  cylinder.
+- The slides are the four disciplines with their full descriptions and a
+  "Discuss this" link to `/contact?topic=...`. They go round twice (eight
+  places) so neighbours always show at an angle; the second set is
+  `aria-hidden` and out of the tab order. The discipline rows that used to
+  sit under the hero were removed.
+- Hero: deep-navy stage (footer navy), ivory slides with a copper edge, a
+  pool of copper light under the ring, hairline copper arcs, ivory serif
+  heading with a copper italic "One". Styles: `.sv-hero` and `.ring3d*` in
+  `styles/styles.css` (`--cw`, `--ch`, `--r` set the slide size and radius;
+  the front slide is magnified by the perspective, so the box is taller
+  than the slide).
+
 **What We Provide redesign (Figma + review)**
 - `pages/Solutions.jsx` + the "WHAT WE PROVIDE (Figma, Oct 2026)" block in
   `styles/styles.css` (`.sv-*`). Sections: hero ("Four disciplines. One
