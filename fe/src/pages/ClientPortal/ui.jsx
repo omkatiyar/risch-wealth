@@ -1,26 +1,26 @@
 // Shared pieces for the client dashboard: number/date formatting, the
 // allocation donut, the risk gauge and the sidebar icons.
 
-export const inr = (n) => (n === null || n === undefined ? '—' : `₹${Math.round(n).toLocaleString('en-IN')}`);
+export const inr = (n) => (n === null || n === undefined ? '–' : `₹${Math.round(n).toLocaleString('en-IN')}`);
 
 // ₹1.24 Cr / ₹8.5 L, for tight spaces (donut centre).
 export function inrShort(n) {
-  if (n === null || n === undefined) return '—';
+  if (n === null || n === undefined) return '–';
   if (Math.abs(n) >= 1e7) return `₹${(n / 1e7).toFixed(2)} Cr`;
   if (Math.abs(n) >= 1e5) return `₹${(n / 1e5).toFixed(2)} L`;
   return inr(n);
 }
 
-export const signedInr = (n) => (n === null || n === undefined ? '—' : `${n < 0 ? '−' : '+'}${inr(Math.abs(n))}`);
-export const signedPct = (n) => (n === null || n === undefined ? '—' : `${n < 0 ? '−' : '+'}${Math.abs(n).toFixed(2)}%`);
+export const signedInr = (n) => (n === null || n === undefined ? '–' : `${n < 0 ? '−' : '+'}${inr(Math.abs(n))}`);
+export const signedPct = (n) => (n === null || n === undefined ? '–' : `${n < 0 ? '−' : '+'}${Math.abs(n).toFixed(2)}%`);
 export const tone = (n) => (n === null || n === undefined || n === 0 ? '' : n > 0 ? 'pos' : 'neg');
 export const units = (n) => Number(n).toLocaleString('en-IN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-export const nav = (n) => (n === null || n === undefined ? '—' : Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 4 }));
+export const nav = (n) => (n === null || n === undefined ? '–' : Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 4 }));
 
 // 'YYYY-MM-DD' dates are calendar dates (no timezone); anything else is a
 // timestamp.
 export function fmtDate(d) {
-  if (!d) return '—';
+  if (!d) return '–';
   const date = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(`${d}T00:00:00`) : new Date(d);
   return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 }

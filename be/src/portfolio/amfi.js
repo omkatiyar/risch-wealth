@@ -171,7 +171,7 @@ export function scheduleNavRefresh() {
       );
       if (rows[0].last) return;
       const r = await refreshHeldNavs();
-      console.log(`NAV refresh: ${r.fundsUpdated} funds updated (NAV date ${r.navDate || '—'})`);
+      console.log(`NAV refresh: ${r.fundsUpdated} funds updated (NAV date ${r.navDate || '–'})`);
     } catch (err) {
       console.error('NAV refresh failed:', err.message);
     }

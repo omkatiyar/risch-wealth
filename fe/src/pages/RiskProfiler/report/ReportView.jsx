@@ -27,9 +27,9 @@ export default function ReportView({
 
   const meta = {
     clientName: basics.name || 'Prospective Client',
-    clientAge: basics.age ? `${basics.age} Years` : '—',
-    clientEmail: basics.email || '—',
-    clientPhone: basics.phone || '—',
+    clientAge: basics.age ? `${basics.age} Years` : '–',
+    clientEmail: basics.email || '–',
+    clientPhone: basics.phone || '–',
     dateStr,
   };
 

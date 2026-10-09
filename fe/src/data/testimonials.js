@@ -16,21 +16,18 @@
 // GAN, so no real person is depicted and no one's likeness is implied to
 // endorse the firm. Replace each with the real client's photograph once
 // their written permission is on file.
-import pAKapoor from '../assets/clients/a-kapoor.jpg';
-import pVShah from '../assets/clients/v-shah.jpg';
-import pLAgarwal from '../assets/clients/l-agarwal.jpg';
-import pSReddy from '../assets/clients/s-reddy.jpg';
-import pKNair from '../assets/clients/k-nair.jpg';
-import pMSubramanian from '../assets/clients/m-subramanian.jpg';
-import pPDeshpande from '../assets/clients/p-deshpande.jpg';
+import pVVaradan from '../assets/clients/v-varadan.jpg'; // real photograph, supplied by RISCH
+import pBose from '../assets/clients/bose.jpg'; // real photograph, supplied by RISCH
+import pPurswani from '../assets/clients/purswani.jpg'; // real photograph, supplied by RISCH
+import pThomas from '../assets/clients/thomas.jpg'; // real photograph, supplied by RISCH
+import pColaco from '../assets/clients/colaco.jpg'; // real photograph, supplied by RISCH
 import pAVarghese from '../assets/clients/a-varghese.jpg';
 import pSBhatt from '../assets/clients/s-bhatt.jpg';
-import pNIyer from '../assets/clients/n-iyer.jpg';
-import pRMenon from '../assets/clients/r-menon.jpg';
-import pHPatel from '../assets/clients/h-patel.jpg';
-import pAKrishnan from '../assets/clients/a-krishnan.jpg';
-import pGRao from '../assets/clients/g-rao.jpg';
-import pTMehta from '../assets/clients/t-mehta.jpg';
+import pMaheshwari from '../assets/clients/maheshwari.jpg'; // real photograph, supplied by RISCH
+import pAvaroth from '../assets/clients/avaroth.jpg'; // real photograph, supplied by RISCH
+import pVetcha from '../assets/clients/vetcha.jpg'; // real photograph, supplied by RISCH
+import pPorwal from '../assets/clients/porwal.jpg'; // real photograph, supplied by RISCH
+import pAbraham from '../assets/clients/abraham.jpg'; // real photograph, supplied by RISCH
 
 export const TESTIMONIAL_GROUPS = [
   'Business Owners',
@@ -44,59 +41,62 @@ export const TESTIMONIAL_GROUPS = [
 
 export const TESTIMONIALS = [
   {
-    quote: "RISCH didn't start with a product pitch. They started by asking what I could actually stomach in a bad year — and then built around that answer rather than around a shelf. For someone who has spent a career judging people by their process rather than their promises, that order mattered more than anything else they could have said.",
-    initial: 'A', name: 'A. Kapoor', photo: pAKapoor,
-    credentials: ['Founder & Managing Director', 'Precision Engineering Group'],
+    quote: "RISCH didn't start with a product pitch. They started by asking what I could actually stomach in a bad year, and then built around that answer rather than around a shelf. For someone who has spent a career judging people by their process rather than their promises, that order mattered more than anything else they could have said.",
+    initial: 'V', name: 'Mr Varadan', photo: pVVaradan,
+    credentials: ['Director, Software Engineering, Virtualization', 'NetApp'],
     place: 'Bengaluru, Karnataka',
-    role: 'Business Owner',
+    role: 'Director, Software Engineering',
     group: 'Business Owners', spotlight: true, lead: true,
   },
   {
     quote: 'Nearly everything I owned sat inside the business. The plan to build something outside it was written down, with the trade-offs stated, before I agreed to any of it.',
-    initial: 'V', name: 'V. Shah', photo: pVShah,
-    credentials: ['Managing Partner', 'Shah Industrial Manufacturing'],
-    place: 'Pune, Maharashtra',
-    role: 'Manufacturing Business Owner',
+    initial: 'B', name: 'Mr Bose', photo: pBose,
+    credentials: ['Director of Engineering', 'Pure Storage India'],
+    place: 'Bengaluru, Karnataka',
+    role: 'Director of Engineering',
     group: 'Business Owners',
   },
   {
     quote: 'Succession was the conversation I kept postponing. They structured it so the business and the portfolio finally point in the same direction.',
-    initial: 'L', name: 'L. Agarwal', photo: pLAgarwal,
-    credentials: ['Promoter, Third Generation', 'Agarwal Family Business'],
-    place: 'Jaipur, Rajasthan',
-    role: 'Promoter, Family Business',
+    // No photograph yet: shows his initial until a real one is supplied
+    // (add `photo: <imported image>` and it replaces the monogram).
+    initial: 'J', name: 'Mr Jajoo',
+    credentials: ['Principal System Engineer', 'Pegasystems'],
+    place: 'Bengaluru, Karnataka',
+    role: 'Principal System Engineer',
     group: 'Business Owners',
   },
   {
     quote: "The risk questionnaire took ten minutes and told me more about my own risk tolerance than any conversation I'd had before.",
-    initial: 'S', name: 'S. Reddy', photo: pSReddy,
-    credentials: ['Co-founder & Chief Executive', 'Consumer Technology Venture'],
-    place: 'Hyderabad, Telangana',
-    role: 'Entrepreneur',
+    // No photograph yet: shows his initial until a real one is supplied.
+    initial: 'J', name: 'Mr Jain',
+    credentials: ['Director', 'Regency Electricals Pvt Ltd'],
+    place: 'Bengaluru, Karnataka',
+    role: 'Director',
     group: 'Entrepreneurs & Founders', spotlight: true,
   },
   {
     quote: 'My income arrives in lumps, not every month. This is the first allocation anyone has built that genuinely accounts for that.',
-    initial: 'K', name: 'K. Nair', photo: pKNair,
-    credentials: ['Founder', 'Enterprise Software Company'],
+    initial: 'P', name: 'Mr Purswani', photo: pPurswani,
+    credentials: ['Director, Cyber Defence', 'Nike'],
     place: 'Bengaluru, Karnataka',
-    role: 'Founder, Software',
+    role: 'Director, Cyber Defence',
     group: 'Entrepreneurs & Founders',
   },
   {
     quote: "I don't have the hours to manage this myself. What I have instead is a documented process I can audit in twenty minutes.",
-    initial: 'M', name: 'M. Subramanian', photo: pMSubramanian,
-    credentials: ['Chief Executive Officer', 'Listed Industrial Group'],
+    initial: 'T', name: 'Mr Thomas', photo: pThomas,
+    credentials: ['Head, Sourcing & Procurement, West Asia', 'JLL Work Dynamics'],
     place: 'Bengaluru, Karnataka',
-    role: 'Chief Executive Officer',
+    role: 'Head, Sourcing & Procurement',
     group: 'Senior Executives & CXOs',
   },
   {
     quote: 'My ESOP concentration was the elephant in the room. It was the first thing they put on the table, not the last.',
-    initial: 'P', name: 'P. Deshpande', photo: pPDeshpande,
-    credentials: ['Chief Financial Officer', 'Global Financial Services Firm'],
-    place: 'Mumbai, Maharashtra',
-    role: 'Chief Financial Officer',
+    initial: 'C', name: 'Dr Colaco', photo: pColaco,
+    credentials: ['Healthcare Operations, Strategy & Projects', 'Former Chief Operating Officer, Cytecare Cancer Hospitals'],
+    place: 'Bengaluru, Karnataka',
+    role: 'Healthcare Operations & Strategy',
     group: 'Senior Executives & CXOs',
   },
   {
@@ -117,50 +117,50 @@ export const TESTIMONIALS = [
   },
   {
     quote: 'Consolidated reporting across three custodians, finally in one place. That alone was worth the switch.',
-    initial: 'N', name: 'N. Iyer', photo: pNIyer,
-    credentials: ['Private Client', 'Second-generation family wealth'],
-    place: 'Chennai, Tamil Nadu',
-    role: 'Private Client',
+    initial: 'M', name: 'Ms Maheshwari', photo: pMaheshwari,
+    credentials: ['Senior Solution Architect, Automotive Systems', 'Tata Technologies'],
+    place: 'Bengaluru, Karnataka',
+    role: 'Senior Solution Architect',
     group: 'Private Clients & Families', spotlight: true,
   },
   {
     quote: "I appreciated being shown the worst case before the best case. It's rare, and it's the right order.",
-    initial: 'R', name: 'R. Menon', photo: pRMenon,
-    credentials: ['Private Client', 'Retired, former public sector executive'],
+    initial: 'A', name: 'Mr Avaroth', photo: pAvaroth,
+    credentials: ['Safety Professional, 30 years\u2019 experience', 'Formerly Shell'],
     place: 'Bengaluru, Karnataka',
-    role: 'Private Client',
+    role: 'Safety Professional',
     group: 'Private Clients & Families', spotlight: true,
   },
   {
     quote: 'Managing an India allocation from eight thousand kilometres away used to mean chasing four different people. Now it means one call.',
-    initial: 'H', name: 'H. Patel', photo: pHPatel,
-    credentials: ['Regional Director, Middle East', 'Infrastructure & Logistics'],
-    place: 'Dubai, United Arab Emirates',
-    role: 'NRI Client',
+    initial: 'V', name: 'Mr Vetcha', photo: pVetcha,
+    credentials: ['Process Engineering Leadership, Coach & Consultant', 'Oil & Gas, Midstream / Downstream'],
+    place: 'Basra, Iraq',
+    role: 'Process Engineering Leader',
     group: 'NRIs & Global Indians',
   },
   {
-    quote: "Every cross-border question was answered plainly — including the ones where the answer was 'take that to your tax adviser'.",
-    initial: 'A', name: 'A. Krishnan', photo: pAKrishnan,
-    credentials: ['Managing Director', 'Asia-Pacific Banking'],
-    place: 'Singapore',
+    quote: "Every cross-border question was answered plainly, including the ones where the answer was 'take that to your tax adviser'.",
+    initial: 'P', name: 'Mr Porwal', photo: pPorwal,
+    credentials: ['Vice President', 'Goldman Sachs'],
+    place: 'Dallas, Texas, United States',
     role: 'Global Indian',
     group: 'NRIs & Global Indians',
   },
   {
     quote: "We already had advisers. What we didn't have was someone willing to put a view in writing and argue it on our behalf.",
-    initial: 'G', name: 'G. Rao', photo: pGRao,
-    credentials: ['Principal', 'Single-Family Office'],
-    place: 'Hyderabad, Telangana',
-    role: 'Principal, Single-Family Office',
+    initial: 'A', name: 'Mr Abraham', photo: pAbraham,
+    credentials: ['Electrical Engineering & Management Leader', 'Oil & Gas, Renewable Power, Asset Integrity'],
+    place: 'Bengaluru, Karnataka',
+    role: 'Electrical Engineering & Management Leader',
     group: 'Family Offices',
   },
   {
     quote: 'They work alongside the setup we already had rather than trying to replace it. That is what made the engagement workable.',
-    initial: 'T', name: 'T. Mehta', photo: pTMehta,
-    credentials: ['Chief Investment Officer', 'Multi-Family Office'],
-    place: 'Mumbai, Maharashtra',
-    role: 'Family Office, Chief Investment Officer',
+    // No photograph yet: shows his initial until a real one is supplied.
+    initial: 'N', name: 'Mr Nayak',
+    credentials: ['Senior Leadership', 'Broadcom'],
+    role: 'Senior Leader, Broadcom',
     group: 'Family Offices',
   },
 ];

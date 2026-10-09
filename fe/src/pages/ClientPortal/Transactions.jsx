@@ -63,7 +63,7 @@ export default function Transactions() {
                       <td>{fmtDate(t.date)}</td>
                       <td><span className="cp-type">{TYPE[t.type] || t.type}</span></td>
                       <td className="cp-fund"><strong>{t.fundName}</strong></td>
-                      <td>{t.folio || '—'}</td>
+                      <td>{t.folio || '–'}</td>
                       <td className="num"><strong>{inr(t.amount)}</strong></td>
                       <td className="num">{nav(t.nav)}</td>
                       <td className="num">{units(t.units)}</td>

@@ -5,7 +5,7 @@ export const PERSPECTIVES = [
     title: 'Why risk capacity should come before return targets',
     date: 'August 2026',
     tag: 'Methodology',
-    excerpt: 'Most portfolio conversations start with a return the client wants. We start with what they can actually withstand — here is why that ordering matters more than it sounds.',
+    excerpt: 'Most portfolio conversations start with a return the client wants. We start with what they can actually withstand, here is why that ordering matters more than it sounds.',
   },
   {
     title: 'Reading a worst-case number without panicking',

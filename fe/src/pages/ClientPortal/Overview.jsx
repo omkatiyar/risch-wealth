@@ -62,7 +62,7 @@ export function SummaryCard({ summary, cta = true }) {
       <div className="cp-stat">
         <span className="cp-stat-label">XIRR</span>
         {summary.xirr === null
-          ? <><strong>—</strong><span className="cp-stat-sub">Shown after 30 days</span></>
+          ? <><strong>–</strong><span className="cp-stat-sub">Shown after 30 days</span></>
           : <strong className={tone(summary.xirr)}>{signedPct(summary.xirr)}</strong>}
       </div>
       <div className="cp-stat">

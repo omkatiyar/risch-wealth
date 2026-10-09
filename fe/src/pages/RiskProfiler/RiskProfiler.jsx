@@ -61,11 +61,11 @@ function ProfilerIntro({ onBegin }) {
     <section className="p-step is-active" data-step="intro">
       <p className="eyebrow reveal in">Portfolio Suitability Questionnaire</p>
       <h1 className="display-xl reveal in" style={{ maxWidth: '14em' }}>Know your risk profile <span className="italic">before you invest.</span></h1>
-      <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>This diagnostic follows a documented time-horizon and risk-preference methodology. It takes about three minutes. At the end, you'll receive a preliminary proposal — allocation, sub-asset breakdown and hypothetical outcomes — built around your answers, as a starting point for a conversation with RISCH.</p>
+      <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>This diagnostic follows a documented time-horizon and risk-preference methodology. It takes about three minutes. At the end, you'll receive a preliminary proposal (allocation, sub-asset breakdown and hypothetical outcomes) built around your answers, as a starting point for a conversation with RISCH.</p>
       <div className="intro-facts reveal in">
         <div><span className="mono">01</span> Basic details</div>
-        <div><span className="mono">02</span> Time horizon — 2 questions</div>
-        <div><span className="mono">03</span> Risk preference — 6 questions</div>
+        <div><span className="mono">02</span> Time horizon: 2 questions</div>
+        <div><span className="mono">03</span> Risk preference: 6 questions</div>
         <div><span className="mono">04</span> Your proposal, instantly</div>
       </div>
       <button className="btn btn-primary" style={{ marginTop: 40 }} disabled={!onBegin} onClick={onBegin}>Begin
@@ -80,7 +80,7 @@ function stepLabel(key, questions) {
   if (key === 'basics') return 'Your details';
   if (key === 'report') return 'Your proposal';
   const q = questions.find((q) => q.id === key);
-  return `${q.group} — Question ${q.groupIndex} of ${q.groupTotal}`;
+  return `${q.group}: Question ${q.groupIndex} of ${q.groupTotal}`;
 }
 
 function RiskProfilerQuiz({
@@ -157,7 +157,7 @@ function RiskProfilerQuiz({
 
       <div className="prog-rail">
         <div className="wrap prog-inner">
-          <span className="mono prog-label">Step {stepIndex + 1} of {total} — {stepLabel(currentStepKey, questions)}</span>
+          <span className="mono prog-label">Step {stepIndex + 1} of {total}: {stepLabel(currentStepKey, questions)}</span>
           <div className="prog-track"><div className="prog-fill" style={{ width: progressPct + '%' }}></div></div>
         </div>
       </div>
@@ -243,7 +243,7 @@ function RiskProfilerQuiz({
 function QuestionStep({ question: q, amount, answer, onSelect, onBack, onNext }) {
   return (
     <section className="p-step is-active" data-step="question">
-      <p className="q-eyebrow">{q.group} — Question {q.groupIndex} of {q.groupTotal}</p>
+      <p className="q-eyebrow">{q.group}: Question {q.groupIndex} of {q.groupTotal}</p>
       <h2 className="display-m" style={{ marginBottom: q.sub ? 8 : 36, maxWidth: '26ch' }}>{q.prompt}</h2>
       {q.sub && <p className="body-s text-muted" style={{ marginBottom: 20 }}>{q.sub}</p>}
       <div className="opt-list">

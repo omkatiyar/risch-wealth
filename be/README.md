@@ -269,6 +269,10 @@ Newest first. Frontend changes are listed in `../fe/README.md`.
 - `GET /api/client/portfolio/history` and
   `GET /api/admin/clients/:id/history` return `{ points, complete }`.
 
+**Session status**
+- `GET /api/auth/status` returns `{ user }`, `null` when nobody is signed
+  in (200, not 401), for public pages that adapt to a signed-in client.
+
 **Risk proposal download**
 - Migration 005: `risk_profiles.age` (saved from now on; older
   assessments have none). `POST /api/risk-profiler/score` accepts `age`

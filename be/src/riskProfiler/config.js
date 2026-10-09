@@ -55,11 +55,11 @@ const QUESTIONS = [
     type: 'payoff',
     sub: 'Range shown on your indicative investment amount.',
     options: [
-      { label: 'Portfolio 1 — Conservative', points: 0, worst: -0.017, exp: 0.076, best: 0.148 },
-      { label: 'Portfolio 2 — Moderate', points: 4, worst: -0.233, exp: 0.102, best: 0.357 },
-      { label: 'Portfolio 3 — Balanced', points: 8, worst: -0.346, exp: 0.114, best: 0.464 },
-      { label: 'Portfolio 4 — Growth', points: 12, worst: -0.456, exp: 0.124, best: 0.566 },
-      { label: 'Portfolio 5 — Aggressive', points: 17, worst: -0.511, exp: 0.129, best: 0.616 },
+      { label: 'Portfolio 1: Conservative', points: 0, worst: -0.017, exp: 0.076, best: 0.148 },
+      { label: 'Portfolio 2: Moderate', points: 4, worst: -0.233, exp: 0.102, best: 0.357 },
+      { label: 'Portfolio 3: Balanced', points: 8, worst: -0.346, exp: 0.114, best: 0.464 },
+      { label: 'Portfolio 4: Growth', points: 12, worst: -0.456, exp: 0.124, best: 0.566 },
+      { label: 'Portfolio 5: Aggressive', points: 17, worst: -0.511, exp: 0.129, best: 0.616 },
     ],
   },
   {
@@ -78,7 +78,7 @@ const QUESTIONS = [
     prompt: 'Suppose a well-diversified portfolio fell 20% over a short period. With 10 years still to go before withdrawals, how would you react?',
     type: 'simple',
     options: [
-      { label: 'Maintain current allocation — no changes.', points: 16 },
+      { label: 'Maintain current allocation: no changes.', points: 16 },
       { label: 'Wait at least three months before derisking.', points: 5 },
       { label: 'Wait at least one year before derisking.', points: 10 },
       { label: 'Immediately move to cash / debt.', points: 0 },

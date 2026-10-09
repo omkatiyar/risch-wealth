@@ -65,3 +65,6 @@ aurobindo nayak broadcom
 https://www.linkedin.com/in/korath-abraham-78b78b56/
 
 https://www.linkedin.com/in/shubhrat-agrawal-456a35209/
+
+The 3D ring slider in the hero (RingSlider.jsx). Cards seated round a 3D ring that spun when you dragged it, with the far side showing through the gaps. Early on it carried the four disciplines, and I then rebuilt it on a navy stage.
+The seven principles scroll-morph (PrinciplesMorph.jsx). Seven flip cards scattered, lined up, formed a circle, then opened into an arc as you scrolled, and turned over on hover to show each principle.

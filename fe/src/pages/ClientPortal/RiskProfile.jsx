@@ -68,7 +68,7 @@ export default function RiskProfile({ data }) {
               <thead><tr><th>Date</th><th>Profile</th><th className="num">Amount considered</th><th aria-label="Proposal" /></tr></thead>
               <tbody>
                 {history.map((h) => (
-                  <tr key={h.id}><td>{fmtDate(h.createdAt)}</td><td>{h.tierName}</td><td className="num">{h.investmentAmount ? inr(h.investmentAmount) : '—'}</td><td className="num"><Link to={`/client-portal/risk-report?id=${h.id}&print=1`} className="cp-link"><Icons.download /> PDF</Link></td></tr>
+                  <tr key={h.id}><td>{fmtDate(h.createdAt)}</td><td>{h.tierName}</td><td className="num">{h.investmentAmount ? inr(h.investmentAmount) : '–'}</td><td className="num"><Link to={`/client-portal/risk-report?id=${h.id}&print=1`} className="cp-link"><Icons.download /> PDF</Link></td></tr>
                 ))}
               </tbody>
             </table>

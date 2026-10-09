@@ -47,7 +47,7 @@ export default function Footer({ showSocials = true, extendedLegal = false }) {
               <span>Private Wealth</span>
             </Link>
             <span className="f-rule" aria-hidden="true" />
-            <p className="f-eyebrow">Our Mission — Investor Success</p>
+            <p className="f-eyebrow">Our Mission: Investor Success</p>
             <p className="f-mission">Investors Trust Us Because<br /> We Put Them First.</p>
             {showSocials && (
               <div className="f-social">

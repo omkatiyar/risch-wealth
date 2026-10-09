@@ -23,7 +23,7 @@ export default function ReportPage2({ meta, ambiguous, mandate, answers, questio
         <p className="r-sub">Based on your time horizon and risk preference responses above.</p>
         {ambiguous && (
           <p className="body-s" style={{ marginTop: 0, marginBottom: 12, color: 'var(--muted)', fontSize: '10.5px' }}>
-            <em>Your time horizon and risk preference combination falls into a range flagged for internal review — the most conservative portfolio may still be appropriate if you are willing to revisit your stated risk preference.</em>
+            <em>Your time horizon and risk preference combination falls into a range flagged for internal review, the most conservative portfolio may still be appropriate if you are willing to revisit your stated risk preference.</em>
           </p>
         )}
         <MandateBanner mandate={mandate} />
