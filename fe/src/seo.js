@@ -29,8 +29,8 @@ export const PAGES = {
     description: 'RISCH Wealth works with business owners, entrepreneurs, families, NRIs, senior executives and family offices, with a portfolio built around each balance sheet.',
   },
   '/solutions': {
-    title: 'Private Wealth Solutions & Portfolio Construction | RISCH',
-    description: 'Four disciplines, one portfolio: portfolio construction, fund and strategy selection, global diversification and wealth coordination, built around you.',
+    title: 'Risk First, Portfolio Second: What We Provide | RISCH',
+    description: 'RISCH starts with your risk, time horizon and liquidity, then decides which building blocks belong in your portfolio. Private wealth portfolio construction.',
   },
   '/risk-profiler': {
     title: 'Risk Profiler | Find Your Investment Risk Profile | RISCH',
@@ -277,7 +277,7 @@ export function getHeadTags(pathname) {
     { property: 'og:image', content: OG_IMAGE },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
-    { property: 'og:image:alt', content: 'RISCH Wealth — Capital deserves a considered hand.' },
+    { property: 'og:image:alt', content: 'RISCH Wealth: Capital deserves a considered hand.' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: page.title },
     { name: 'twitter:description', content: page.description },

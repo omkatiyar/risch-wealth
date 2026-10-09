@@ -65,3 +65,4 @@ export const listPortfolios = ({ q = '', page = 1 } = {}) => call(`/admin/portfo
 export const riskProfileReport = (id) => call(`/client/risk-profiles/${id}/report`);
 export const clientPortfolioHistory = () => call('/client/portfolio/history');
 export const clientHistoryAdmin = (id) => call(`/admin/clients/${id}/history`);
+export const sessionStatus = () => call('/auth/status');

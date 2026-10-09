@@ -79,4 +79,4 @@ fs.writeFileSync(
 fs.rmSync(ssrDir, { recursive: true, force: true });
 
 console.log(`prerendered ${Object.keys(PAGES).length} pages + sitemap.xml`);
-for (const w of warnings) console.warn(`  SEO warning — ${w}`);
+for (const w of warnings) console.warn(`  SEO warning: ${w}`);

@@ -16,7 +16,7 @@ export default function WhoWeServe() {
         <div className="wrap" style={{ position: 'relative' }}>
           <p className="eyebrow kicker reveal in">Who We Serve</p>
           <h1 className="display-xxl reveal in" style={{ maxWidth: '16em' }}>Built around <span className="italic">your</span> balance sheet, whatever shape it takes.</h1>
-          <p className="lede reveal in" style={{ maxWidth: '46ch', marginTop: 26 }}>RISCH works with a small number of clients directly. These are the people we work with most often — not a checklist you need to fit.</p>
+          <p className="lede reveal in" style={{ maxWidth: '46ch', marginTop: 26 }}>RISCH works with a small number of clients directly. These are the people we work with most often, not a checklist you need to fit.</p>
         </div>
       </header>
 

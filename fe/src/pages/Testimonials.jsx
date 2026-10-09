@@ -74,7 +74,7 @@ export default function Testimonials() {
               <h1 className="ts-title reveal in">Entrusted with<br /><span>a lifetime&rsquo;s work.</span></h1>
               <p className="lede ts-lede reveal in">
                 Business owners, founders, CXOs, doctors, families, global Indians and family
-                offices. Different balance sheets, one method — risk understood first, then a
+                offices. Different balance sheets, one method, risk understood first, then a
                 portfolio built around it.
               </p>
             </header>

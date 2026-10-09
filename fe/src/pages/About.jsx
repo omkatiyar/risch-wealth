@@ -43,7 +43,7 @@ export default function About() {
             <div className="reveal" style={{ transitionDelay: '.08s' }}>
               <p className="eyebrow">The Founder</p>
               <h2 className="display-l" style={{ marginBottom: 20 }}>Two decades in private banking.</h2>
-              <p className="lede" style={{ marginBottom: 18 }}>Rishiraj founded RISCH after more than two decades in private banking — most recently at Edelweiss Financial Services, and before that as a Senior Private Banker at ICICI Securities.</p>
+              <p className="lede" style={{ marginBottom: 18 }}>Rishiraj founded RISCH after more than two decades in private banking, most recently at Edelweiss Financial Services, and before that as a Senior Private Banker at ICICI Securities.</p>
               <p style={{ maxWidth: '58ch', marginBottom: 28 }}>That career is why RISCH is built the way it is: risk understood first, in a documented and repeatable way, before a single recommendation is made.</p>
 
               <div className="flex gap-12" style={{ flexWrap: 'wrap' }}>
@@ -127,7 +127,7 @@ export default function About() {
               <p className="team-role">Co-Founder &amp; Chief Client Experience Officer</p>
               <p className="team-lead">Kratika leads the RISCH client experience end to end: relationship management, portfolio reviews, reporting and day-to-day service, so that every client relationship is proactive, transparent and personal.</p>
               <p>She brings more than a decade of experience in private banking and wealth management at HDFC Bank Global Private Clients, ICICI Securities Private Wealth and Kotak Securities, where she managed HNI portfolios, worked on cross-border client acquisition and structured business banking relationships.</p>
-              <p>At RISCH, she connects portfolio strategy with how clients actually experience it — the cadence of reviews, the clarity of reporting and the speed of execution.</p>
+              <p>At RISCH, she connects portfolio strategy with how clients actually experience it, the cadence of reviews, the clarity of reporting and the speed of execution.</p>
               <dl className="team-facts">
                 <div><dt>Previously</dt><dd>HDFC Bank Global Private Clients · ICICI Securities Private Wealth · Kotak Securities</dd></div>
                 <div><dt>Education</dt><dd>MBA, Finance · Christ University<br />BBM · Center for Management Studies, Jain (Deemed-to-be University)<br />Bishop Cotton Girls&rsquo; School, Bengaluru</dd></div>

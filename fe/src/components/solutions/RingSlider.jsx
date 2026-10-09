@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-// A 3D ring of cards: they sit around a circle you can spin by dragging (or
-// with the arrow keys / buttons) and drift slowly on their own. Plain CSS 3D
-// transforms, no library: each card is rotated to its place on the circle
-// and pushed out to its radius; the ring is turned as a whole. Cards on the
-// far side stay visible between the gaps (dimmed, and mirrored like a real
-// cylinder). `items`: [{ key, content, hidden? }].
+// A 3D ring of cards: they sit round a circle you can spin by dragging (or
+// with the arrow keys and buttons) and drift slowly on their own. Plain CSS
+// 3D transforms, no library: each card is turned to its place on the circle
+// and pushed out to its radius, and the ring is turned as a whole. Cards on
+// the far side show between the gaps, dimmed. Cards facing away are inert,
+// so only the ones you can read can be clicked or tabbed to.
 //
-// Motion: auto-spin and inertia pause when the pointer rests on the ring,
-// when it is off screen, or with prefers-reduced-motion (drag still works).
+// Motion: the auto-spin pauses while the pointer or focus rests on the ring,
+// when it is off screen, and with prefers-reduced-motion (dragging still works).
+// `items`: [{ key, content }]
 
-const AUTO_DEG_PER_SEC = 7;
-const TILT_DEG = -9;
+const AUTO_DEG_PER_SEC = 6;
+const TILT_DEG = -7;
 
 export default function RingSlider({ items, label }) {
   const rootRef = useRef(null);
@@ -27,9 +28,10 @@ export default function RingSlider({ items, label }) {
     if (ringRef.current) ringRef.current.style.transform = `rotateX(${TILT_DEG}deg) rotateY(${st.rot}deg)`;
     cardRefs.current.forEach((el, i) => {
       if (!el) return;
-      // 1 facing the viewer, 0 facing away
-      const facing = (Math.cos(((i * step + st.rot) * Math.PI) / 180) + 1) / 2;
-      el.style.opacity = (0.28 + 0.72 * facing).toFixed(3);
+      const facing = (Math.cos(((i * step + st.rot) * Math.PI) / 180) + 1) / 2; // 1 toward the viewer, 0 away
+      el.style.opacity = (0.3 + 0.7 * facing).toFixed(3);
+      const front = facing > 0.55;
+      if (el.inert !== !front) el.inert = !front;
     });
   }, [step]);
 
@@ -42,7 +44,7 @@ export default function RingSlider({ items, label }) {
       st.last = t;
       if (!st.dragging && st.visible) {
         if (st.target !== null) {
-          st.rot += (st.target - st.rot) * Math.min(1, dt * 9);
+          st.rot += (st.target - st.rot) * Math.min(1, dt * 7);
           if (Math.abs(st.target - st.rot) < 0.05) { st.rot = st.target; st.target = null; }
         } else if (Math.abs(st.vel) > 0.02) {
           st.rot += st.vel * dt * 60;
@@ -60,8 +62,7 @@ export default function RingSlider({ items, label }) {
     return () => { cancelAnimationFrame(raf); io.disconnect(); };
   }, [paint]);
 
-  // A press only becomes a drag after a few pixels of movement, so a plain
-  // tap still reaches the link inside a card.
+  // a press only becomes a drag after a few pixels, so a plain tap still reaches a link
   const onDown = (e) => {
     const st = s.current;
     st.down = true; st.dragging = false; st.target = null; st.vel = 0;
@@ -72,15 +73,13 @@ export default function RingSlider({ items, label }) {
     if (!st.down) return;
     if (!st.dragging) {
       if (Math.abs(e.clientX - st.startX) < 6) return;
-      st.dragging = true;
-      st.lastX = e.clientX;
+      st.dragging = true; st.lastX = e.clientX;
       rootRef.current.setPointerCapture?.(e.pointerId);
     }
     const now = performance.now();
-    const dx = e.clientX - st.lastX;
-    const deg = dx * 0.32;
+    const deg = (e.clientX - st.lastX) * 0.3;
     st.rot += deg;
-    st.vel = deg / Math.max(1, (now - st.lastT) / 16.7); // degrees per 60fps frame
+    st.vel = deg / Math.max(1, (now - st.lastT) / 16.7);
     st.lastX = e.clientX; st.lastT = now;
   };
   const onUp = (e) => {
@@ -117,14 +116,13 @@ export default function RingSlider({ items, label }) {
         onFocus={() => { s.current.hover = true; }}
         onBlur={() => { s.current.hover = false; }}
         onKeyDown={onKey}
-        style={{ '--n': items.length }}
       >
         <div className="ring3d-ring" ref={ringRef}>
           {items.map((it, i) => (
             <div
               key={it.key}
               ref={(el) => { cardRefs.current[i] = el; }}
-              className="ring3d-card" aria-hidden={it.hidden ? 'true' : undefined}
+              className="ring3d-card"
               style={{ transform: `rotateY(${i * step}deg) translateZ(var(--r))` }}
             >
               {it.content}
@@ -133,11 +131,11 @@ export default function RingSlider({ items, label }) {
         </div>
       </div>
       <div className="ring3d-controls">
-        <button type="button" onClick={() => nudge(1)} aria-label="Previous card">
+        <button type="button" onClick={() => nudge(1)} aria-label="Previous discipline">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>
-        <span>Drag to explore</span>
-        <button type="button" onClick={() => nudge(-1)} aria-label="Next card">
+        <span>Drag to turn</span>
+        <button type="button" onClick={() => nudge(-1)} aria-label="Next discipline">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>
       </div>

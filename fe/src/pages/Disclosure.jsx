@@ -56,7 +56,7 @@ function buildSections() {
     },
     {
       title: 'Confidentiality of client information',
-      body: "Information a client shares with RISCH Wealth — whether through this site, in conversation or in a portfolio review — is held in confidence and used solely to develop, execute and service that client's portfolio.",
+      body: "Information a client shares with RISCH Wealth, whether through this site, in conversation or in a portfolio review, is held in confidence and used solely to develop, execute and service that client's portfolio.",
     },
     {
       title: 'Trademarks',

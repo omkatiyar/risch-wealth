@@ -98,7 +98,7 @@ export default function Team({ selfId }) {
                     <td>{s.email}</td>
                     <td>{s.role === 'admin' ? 'Admin' : 'Employee'}</td>
                     <td><span className={'status-pill ' + s.status}>{s.status === 'active' ? 'Active' : 'Inactive'}</span></td>
-                    <td>{s.lastLoginAt ? fmtDate(s.lastLoginAt) : '—'}</td>
+                    <td>{s.lastLoginAt ? fmtDate(s.lastLoginAt) : '–'}</td>
                     <td className="num">
                       {!self && (
                         <RowMenu

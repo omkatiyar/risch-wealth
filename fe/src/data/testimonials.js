@@ -41,7 +41,7 @@ export const TESTIMONIAL_GROUPS = [
 
 export const TESTIMONIALS = [
   {
-    quote: "RISCH didn't start with a product pitch. They started by asking what I could actually stomach in a bad year — and then built around that answer rather than around a shelf. For someone who has spent a career judging people by their process rather than their promises, that order mattered more than anything else they could have said.",
+    quote: "RISCH didn't start with a product pitch. They started by asking what I could actually stomach in a bad year, and then built around that answer rather than around a shelf. For someone who has spent a career judging people by their process rather than their promises, that order mattered more than anything else they could have said.",
     initial: 'V', name: 'Mr Varadan', photo: pVVaradan,
     credentials: ['Director, Software Engineering, Virtualization', 'NetApp'],
     place: 'Bengaluru, Karnataka',
@@ -140,7 +140,7 @@ export const TESTIMONIALS = [
     group: 'NRIs & Global Indians',
   },
   {
-    quote: "Every cross-border question was answered plainly — including the ones where the answer was 'take that to your tax adviser'.",
+    quote: "Every cross-border question was answered plainly, including the ones where the answer was 'take that to your tax adviser'.",
     initial: 'P', name: 'Mr Porwal', photo: pPorwal,
     credentials: ['Vice President', 'Goldman Sachs'],
     place: 'Dallas, Texas, United States',

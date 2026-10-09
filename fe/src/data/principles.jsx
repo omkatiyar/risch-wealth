@@ -22,7 +22,7 @@ export const PRINCIPLES = [
   {
     icon: <><path d="M12 3v18M6 7h12M6 7l-3 6a3 3 0 0 0 6 0zM18 7l-3 6a3 3 0 0 0 6 0z" /></>,
     title: "We're valuation-driven investors.",
-    body: "Anchoring decisions to an investment's fair value — or what it's really worth — can lead to greater potential for returns.",
+    body: "Anchoring decisions to an investment's fair value, or what it's really worth, can lead to greater potential for returns.",
   },
   {
     icon: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5L21 21M7.5 10.5h6M7.5 13h4" /></>,

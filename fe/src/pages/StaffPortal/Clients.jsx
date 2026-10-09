@@ -47,8 +47,8 @@ export default function Clients() {
                     <tr key={c.id} onClick={() => navigate(`${B}/clients/${c.id}`)}>
                       <td><Link to={`${B}/clients/${c.id}`} className="sp-cell-link" onClick={(e) => e.stopPropagation()}>{c.fullName}</Link></td>
                       <td className="sp-contact">{c.email}{c.phone && <span>{c.phone}</span>}</td>
-                      <td className="num"><strong>{c.funds ? inr(c.value) : '—'}</strong></td>
-                      <td className="num">{c.funds || '—'}</td>
+                      <td className="num"><strong>{c.funds ? inr(c.value) : '–'}</strong></td>
+                      <td className="num">{c.funds || '–'}</td>
                       <td>{c.lastOrderAt ? fmtDate(c.lastOrderAt) : <span className="cp-muted">No purchases yet</span>}</td>
                       <td className="num sp-chev"><Icons.chevron /></td>
                     </tr>

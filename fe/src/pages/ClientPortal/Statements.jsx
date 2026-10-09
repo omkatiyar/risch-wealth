@@ -55,7 +55,7 @@ export default function Statements({ data, portfolio }) {
 
   const valuation = () => {
     download(`risch-valuation-${slug}-${summary.navDate}.csv`, [
-      [`Portfolio valuation — ${name}`],
+      [`Portfolio valuation: ${name}`],
       [`Valued at NAV of ${fmtDate(summary.navDate)}`],
       [],
       ['Fund', 'AMC', 'Asset class', 'Units', 'NAV', 'NAV date', 'Invested (INR)', 'Current value (INR)', 'Gain (INR)', 'Return %', 'XIRR %'],
@@ -71,7 +71,7 @@ export default function Statements({ data, portfolio }) {
     try {
       const rows = (await allTransactions()).filter((t) => fy === 'all' || fyOf(t.date) === fy).reverse();
       download(`risch-transactions-${slug}-${fy === 'all' ? 'all' : `FY${fy}`}.csv`, [
-        [`Transaction statement — ${name}`],
+        [`Transaction statement: ${name}`],
         [fy === 'all' ? 'All transactions' : `Financial year ${fy}`],
         [],
         ['Date', 'Type', 'Fund', 'Folio', 'Amount (INR)', 'NAV', 'Units'],

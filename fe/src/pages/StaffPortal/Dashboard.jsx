@@ -17,7 +17,7 @@ export default function Dashboard({ user }) {
     { icon: Icons.clients, n: d.clients, l: 'Total clients', to: isAdmin ? `${B}/clients` : null },
     isAdmin && { icon: Icons.portfolio, n: d.activePortfolios, l: 'Active portfolios', to: `${B}/clients` },
     { icon: Icons.inbox, n: d.pendingRequests, l: 'Pending requests', to: `${B}/requests` },
-    isAdmin && { icon: Icons.statements, n: d.navDate ? fmtDate(d.navDate) : '—', l: 'Latest NAV date', small: true },
+    isAdmin && { icon: Icons.statements, n: d.navDate ? fmtDate(d.navDate) : '–', l: 'Latest NAV date', small: true },
   ].filter(Boolean) : [];
 
   return (

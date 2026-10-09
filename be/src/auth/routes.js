@@ -117,6 +117,18 @@ router.get('/me', async (req, res, next) => {
   }
 });
 
+// Like /me, but a signed-out visitor gets 200 { user: null } instead of a
+// 401, for public pages that adapt when someone is signed in (no console
+// error for every anonymous visit).
+router.get('/status', async (req, res, next) => {
+  try {
+    const user = await userFromRequest(req);
+    return res.json({ user: user ? publicUser(user) : null });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.post('/password', authLimiter, async (req, res, next) => {
   try {
     const user = await userFromRequest(req);

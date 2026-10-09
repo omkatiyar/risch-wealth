@@ -46,11 +46,11 @@ export default function Portfolio({ portfolio, history }) {
                 <span className="cp-xirr-track">
                   {a.xirr !== null && <span className="cp-xirr-fill" style={{ width: `${(Math.abs(a.xirr) / maxX) * 100}%`, background: a.xirr < 0 ? 'var(--neg)' : assetColor(a.assetClass) }} />}
                 </span>
-                <span className={'cp-xirr-val ' + tone(a.xirr)}>{a.xirr === null ? '—' : signedPct(a.xirr)}</span>
+                <span className={'cp-xirr-val ' + tone(a.xirr)}>{a.xirr === null ? '–' : signedPct(a.xirr)}</span>
               </li>
             ))}
           </ul>
-          {allocation.some((a) => a.xirr === null) && <p className="cp-fine">— XIRR is shown once an investment is 30 days old.</p>}
+          {allocation.some((a) => a.xirr === null) && <p className="cp-fine">XIRR is shown once an investment is 30 days old.</p>}
         </section>
       </div>
 
@@ -83,7 +83,7 @@ export default function Portfolio({ portfolio, history }) {
                   <td className="num">{inr(h.invested)}</td>
                   <td className="num"><strong>{inr(h.currentValue)}</strong></td>
                   <td className={'num ' + tone(h.returnPct)}>{signedPct(h.returnPct)}</td>
-                  <td className={'num ' + tone(h.xirr)}>{h.xirr === null ? '—' : signedPct(h.xirr)}</td>
+                  <td className={'num ' + tone(h.xirr)}>{h.xirr === null ? '–' : signedPct(h.xirr)}</td>
                 </tr>
               ))}
               {shown.length === 0 && <tr><td colSpan={8} className="cp-muted">No funds match.</td></tr>}

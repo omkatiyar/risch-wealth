@@ -40,7 +40,7 @@ export default function ClientDetail({ id, tab }) {
         </div>
         <div className="sp-client-value">
           <span>Total portfolio value</span>
-          <strong>{holdings.length ? inr(summary.currentValue) : '—'}</strong>
+          <strong>{holdings.length ? inr(summary.currentValue) : '–'}</strong>
           <span>{holdings.length} {holdings.length === 1 ? 'fund' : 'funds'}</span>
         </div>
         <Link to={`${base}/purchase`} className="btn btn-primary cp-btn-sm sp-head-btn"><Icons.plus /> Add purchase</Link>
@@ -66,7 +66,7 @@ export default function ClientDetail({ id, tab }) {
         <>
           <div className="sp-stats sp-stats-4">
             <div className="cp-card sp-stat"><strong>{inr(summary.currentValue)}</strong><span>Current value</span></div>
-            <div className="cp-card sp-stat"><strong className={tone(summary.xirr)}>{summary.xirr === null ? '—' : signedPct(summary.xirr)}</strong><span>XIRR{summary.xirr === null ? ' (after 30 days)' : ''}</span></div>
+            <div className="cp-card sp-stat"><strong className={tone(summary.xirr)}>{summary.xirr === null ? '–' : signedPct(summary.xirr)}</strong><span>XIRR{summary.xirr === null ? ' (after 30 days)' : ''}</span></div>
             <div className="cp-card sp-stat"><strong>{inr(summary.invested)}</strong><span>Total invested</span></div>
             <div className="cp-card sp-stat"><strong className={tone(summary.gain)}>{signedPct(summary.returnPct)}</strong><span>Absolute return · since {fmtDate(summary.sinceDate)}</span></div>
           </div>
@@ -82,7 +82,7 @@ export default function ClientDetail({ id, tab }) {
                     <li key={a.assetClass}>
                       <span className="cp-xirr-name">{a.assetClass}</span>
                       <span className="cp-xirr-track">{a.xirr !== null && <span className="cp-xirr-fill" style={{ width: `${(Math.abs(a.xirr) / max) * 100}%`, background: a.xirr < 0 ? 'var(--neg)' : assetColor(a.assetClass) }} />}</span>
-                      <span className={'cp-xirr-val ' + tone(a.xirr)}>{a.xirr === null ? '—' : signedPct(a.xirr)}</span>
+                      <span className={'cp-xirr-val ' + tone(a.xirr)}>{a.xirr === null ? '–' : signedPct(a.xirr)}</span>
                     </li>
                   );
                 })}
@@ -118,7 +118,7 @@ function Holdings({ holdings }) {
                   <td className="num">{inr(h.invested)}</td>
                   <td className="num"><strong>{inr(h.currentValue)}</strong></td>
                   <td className={'num ' + tone(h.returnPct)}>{signedPct(h.returnPct)}</td>
-                  <td className={'num ' + tone(h.xirr)}>{h.xirr === null ? '—' : signedPct(h.xirr)}</td>
+                  <td className={'num ' + tone(h.xirr)}>{h.xirr === null ? '–' : signedPct(h.xirr)}</td>
                 </tr>
               ))}
             </tbody>
@@ -168,8 +168,8 @@ function Orders({ orders, onChange, onError }) {
                   <td className="num"><strong>{inr(o.amount)}</strong></td>
                   <td className="num">{units(o.units)}</td>
                   <td className="num">{nav(o.nav)}</td>
-                  <td>{o.folio || '—'}</td>
-                  <td>{o.createdBy || '—'}<span className="sp-sub">{fmtDate(o.createdAt)}</span></td>
+                  <td>{o.folio || '–'}</td>
+                  <td>{o.createdBy || '–'}<span className="sp-sub">{fmtDate(o.createdAt)}</span></td>
                   <td className="num">{o.status === 'active' && <RowMenu label={`Actions for ${o.fundName} on ${fmtDate(o.tradeDate)}`} items={[{ label: 'Void this order…', danger: true, onClick: () => onVoid(o) }]} />}</td>
                 </tr>
               ))}

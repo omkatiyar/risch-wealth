@@ -141,7 +141,7 @@ export function OrderForm({ client, onSaved }) {
           render={(s) => (
             <>
               <strong>{s.name}</strong>
-              <span>{s.amc} · Code {s.code}{s.isin ? ` · ${s.isin}` : ''} · NAV {s.nav ?? '—'} on {fmtDate(s.navDate)}</span>
+              <span>{s.amc} · Code {s.code}{s.isin ? ` · ${s.isin}` : ''} · NAV {s.nav ?? '–'} on {fmtDate(s.navDate)}</span>
             </>
           )}
           onPick={(s) => { setFund(s); setForm((f) => ({ ...f, assetClass: s.heldAssetClass || s.suggestedAssetClass })); }}
@@ -152,7 +152,7 @@ export function OrderForm({ client, onSaved }) {
           <div className="ord-fund">
             <div>
               <strong>{fund.name}</strong>
-              <span>{fund.amc} · Code {fund.code}{fund.isin ? ` · ${fund.isin}` : ''} · NAV {fund.nav ?? '—'} on {fmtDate(fund.navDate)}</span>
+              <span>{fund.amc} · Code {fund.code}{fund.isin ? ` · ${fund.isin}` : ''} · NAV {fund.nav ?? '–'} on {fmtDate(fund.navDate)}</span>
             </div>
             <button type="button" className="sp-x" aria-label="Choose a different fund" onClick={() => setFund(null)}><Icons.close /></button>
           </div>

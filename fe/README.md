@@ -240,41 +240,41 @@ to `--accent`. White on the logo orange was only 3.2:1.
 
 Newest first.
 
-**Principles scroll-morph (What We Provide)**
-- `components/PrinciplesMorph.jsx` (adapted from the "scroll morph hero"
-  component: JSX + plain CSS, since the site has no Tailwind or
-  TypeScript; uses `framer-motion`, now a dependency). The seven
-  principles are flip cards that scatter, line up and form a circle, then
-  open into an arc as you scroll, sliding gently so each card passes the
-  centre. Hover, keyboard focus or a tap turns a card to its text.
-- The page's own scroll drives it (a 360vh section with a sticky stage),
-  so unlike the original it never captures the wheel or touch scrolling.
-- Loaded after mount from `PrinciplesSection` in `pages/Solutions.jsx`,
-  only on screens 820px and wider without reduced motion (own 45 KB
-  gzipped chunk). Everywhere else, and before it loads, the page shows the
-  plain grid of seven cards, so the principles are always in the HTML.
-- Styles: the `.pm-*` rules at the end of `styles/styles.css`. The Who We
-  Serve page has no principles section; this is on What We Provide.
-
-**3D ring slider in the What We Provide hero (luxury navy stage)**
-- `components/RingSlider.jsx`: slides seated round a 3D ring (CSS 3D
-  transforms, no library, so nothing was installed and no bundle weight
-  added). Drag to spin with inertia (a plain tap still follows a link);
-  arrow keys or the buttons step one slide; it drifts by itself and pauses
-  on hover or focus, when off screen, and with `prefers-reduced-motion`.
-  Far-side slides show through the gaps, dimmed and mirrored like a real
-  cylinder.
-- The slides are the four disciplines with their full descriptions and a
-  "Discuss this" link to `/contact?topic=...`. They go round twice (eight
-  places) so neighbours always show at an angle; the second set is
-  `aria-hidden` and out of the tab order. The discipline rows that used to
-  sit under the hero were removed.
-- Hero: deep-navy stage (footer navy), ivory slides with a copper edge, a
-  pool of copper light under the ring, hairline copper arcs, ivory serif
-  heading with a copper italic "One". Styles: `.sv-hero` and `.ring3d*` in
-  `styles/styles.css` (`--cw`, `--ch`, `--r` set the slide size and radius;
-  the front slide is magnified by the perspective, so the box is taller
-  than the slide).
+**What We Provide rebuilt: "Risk first. Portfolio second."**
+- Visual language: the same as Get In Touch and Testimonials: the ivory
+  ground with soft radial tints and paper grain, copper hairline arcs
+  bottom-left, a serif title with an accent second line, ink type and
+  hairline rules; the disciplines sit on a sand band; the footer is the
+  only navy. The hero scene is drawn in ink on ivory and follows the
+  light / dark theme.
+- `pages/Solutions.jsx`: hero with one quiet three.js scene; a risk
+  profile gate; a portfolio architecture that adapts to the visitor's risk
+  profile; four disciplines (sticky title, scrolling items); the seven
+  principles as a manifesto with a small ring that tracks the active one;
+  the process; an adaptive call to action. Native scrolling throughout, no
+  scroll-jacking. Removed: the 3D carousel, the seven-card wheel, the donut
+  chart and `framer-motion`.
+- Hero scene (`components/solutions/`): `heroLayout.js` (shared geometry),
+  `HeroScene.jsx` (SVG composition + labels, real text), `heroScene3d.js`
+  (three.js: rings round "You" that settle into alignment, then six blocks
+  emerge; pointer tilt of at most 3 degrees; pauses off screen; disposes
+  everything). three.js loads after the page is idle. Phones, reduced
+  motion and no WebGL get the SVG composition only.
+- Personalisation: `hooks/useRiskProfile.js` reads the signed-in client's
+  saved profile (`/api/auth/status`, then `/api/client/risk-profiles`).
+  `components/solutions/portfolioExperience.js` turns it into the
+  prominence of each building block, from the risk engine's own split per
+  mandate: a bucket at 0 (tier 4 has no international equity) hides that
+  block; the two largest are "most relevant", the smallest "supporting".
+  No percentages, returns or recommendations are produced. Commodities and
+  real estate have no bucket in the engine, so they stay standard for every
+  profile (marked TODO for the firm's approved rules).
+- Anonymous visitors' results are not stored anywhere (only signed-in
+  clients', in `risk_profiles`), so they see the default, educational
+  architecture. The CTA becomes "Review Risk Profile" once a profile exists.
+- Backend: `GET /api/auth/status` returns `{ user }` (null when signed out)
+  with a 200, so public pages can check the session without a 401 in the
+  console.
 
 **What We Provide redesign (Figma + review)**
 - `pages/Solutions.jsx` + the "WHAT WE PROVIDE (Figma, Oct 2026)" block in
@@ -845,3 +845,128 @@ Newest first.
 **Nav**
 - Removed the "Risk Profiler" nav tab, since the "Start Risk Profile"
   button already links there. The footer link remains.
+
+**What We Provide: hero and 01 / Understand**
+- Hero: masthead-style kicker ("What We Provide ... Est. 2014"), hand-set
+  italic "Portfolio second.", shorter lede, plain "Explore the architecture".
+- 01 / Understand now has two parts: Risk Tolerance (was Risk capacity) and
+  Time Horizon, with one horizon per portfolio: Risch Conservative up to 5
+  years, Balanced 5 to 7, Moderate 7 to 10, Aggressive 10+. Liquidity,
+  Objectives, Existing wealth and Concentration removed from this section.
+- No em-dashes anywhere in site text (code comments excepted). Empty-value
+  placeholders in tables are now an en-dash; backend portfolio labels read
+  "Portfolio 1: Conservative" etc.
+- Hero: removed the "Start Your Risk Profile" / "Review Risk Profile" button
+  (the nav button and the later sections keep theirs). Added depth: the
+  composition turns in CSS 3D with the pointer (desktop only, off for touch
+  and reduced motion) with a slow idle sway and a soft floor shadow; inside
+  the three.js scene the rings now sit at different depths and the outer
+  nodes are lifted forward, so they separate as it turns.
+- Hero: dropped "Est. 2014" and its rule from the kicker. The diagram now
+  has only two rings, Risk Tolerance and Time Horizon (matching 01 /
+  Understand); Liquidity, Objectives and Existing wealth rings are gone.
+  The rings precess on their own axes inside the three.js scene.
+- 01 / Understand: removed the "Start Risk Profile" button from this
+  section too (the hero, nav and later sections keep theirs); "Eight
+  questions · about three minutes" remains as a plain line.
+
+**What We Provide: full redesign (Oct 2026)**
+- New order: dark hero with an interactive 3D orrery, 1 Understand, 2 Asset
+  Allocation, 3 Investment Philosophy (dark), 4 How it comes together,
+  dark closing CTA. All copy is in `src/content/solutions.js`; lines
+  marked COMPLIANCE are the regulatory-sensitive ones. Styles are in
+  `src/styles/solutions.css`.
+- Orrery (`components/solutions/Orrery.jsx`, `orrery3d.js`): "You" core,
+  Risk Tolerance and Time Horizon rings, outer orbit of the six asset
+  classes. Drag or arrow keys to turn it, click or press a name to bring a
+  sphere forward. Names are real buttons. SVG fallback on weak phones, no
+  WebGL; reduced motion stops the auto-orbit.
+- Understand: Risk Tolerance (psychometric copy, Morningstar "Mind the Gap"
+  figure with source, Graham quote) and Time Horizon (slider + four rows,
+  kept in step). Boundaries: up to 5 / over 5 to 7 / over 7 to under 10 /
+  10+.
+- Asset Allocation: four portfolio tabs with a 3D donut (SVG fallback).
+  The percentages are PLACEHOLDERS (`ILLUSTRATIVE_ALLOCATIONS`, TODO owner
+  to confirm), labelled "Illustrative".
+- The Morningstar-worded principles are gone from this page (still on Home).
+  Removed: Architecture/ModuleList, portfolio-experience adaptation,
+  old hero scene.
+- The Morningstar statistic uses the verified figures (10 years to 31 Dec
+  2025: funds 9.9%, investors 8.7%, gap 1.2 points), not the brief's.
+- /solutions now uses the same ground as Get In Touch and Testimonials
+  (ivory, sand wash, paper grain, faint orange arcs) in hero, philosophy
+  (sand) and closing CTA; the green/dark bands are gone. The orrery is
+  ink spheres with an orange halo and follows the light/dark theme;
+  buttons use the site's standard primary/secondary styles.
+- /solutions: removed every "Start risk profile" / "Review risk profile"
+  button from the page body (hero, Understand, closing CTA; the nav button
+  stays). The closing CTA now has only "Get in touch". The hero orrery
+  drops Liquidity, Real Estate and Commodities, leaving Risk Tolerance,
+  Time Horizon, Domestic Equity, International Equity and Fixed Income.
+- /solutions: after the risk-profile button removals the page was rebalanced:
+  the hero's remaining action is an outline "See how we decide" button with
+  a down arrow (was a bare text link), and the orphaned "Eight questions,
+  about three minutes" line under Time Horizon is gone.
+- /solutions section 3 reworked: the five invented principles are replaced
+  by the original seven (data/principles.jsx) as a scroll-morph again
+  (`components/solutions/PrinciplesMorph.jsx`, rebuilt without
+  framer-motion, CSS transitions only): seven flip cards scatter, line up,
+  form a circle, then open into an arc as you scroll; hover, focus or tap
+  turns a card over. The heading and Test-match quote now sit side by side
+  and are pinned with the cards, which removes the large empty gap. Phones
+  and reduced-motion get a plain numbered list.
+- Hero orrery: the three rings now lean at their own angles and precess
+  like gyroscopes (and the whole system turns faster), so the rings visibly
+  rotate in 3D and cross each other. Choosing a sphere stops the precession
+  and turns the system until that sphere faces you. Load errors are now
+  logged to the console (they were swallowed before).
+- /solutions: the four disciplines are now a 3D ring of cards
+  (`components/solutions/RingSlider.jsx`, plain CSS 3D, no library). Drag
+  or use the arrow keys / buttons to turn it; it drifts slowly on its own
+  (paused on hover, focus, off screen and with reduced motion). Cards
+  facing away are dimmed and inert. Under 760px wide it falls back to the
+  plain four-column / stacked list. Each card keeps its "Discuss this"
+  link to /contact?topic=...
+- /solutions: removed the "Morningstar, Mind the Gap" source line under the
+  1.2% figure (owner's request). The statistic itself is still shown.
+- /solutions allocation: the portfolios now show four asset classes
+  (Domestic Equity, International Equity, Fixed Income, Commodities);
+  Liquidity and Real Estate removed from the mixes (placeholder percentages
+  re-based to 100, still TODO owner to confirm). The 3D donut highlights the
+  segment under the pointer (it steps forward and grows, the legend row and a
+  centre label follow); hovering a legend row highlights its segment too.
+  The flat SVG fallback highlights on hover as well. Liquidity and Real
+  Estate remain in the "building blocks" list further down.
+- /solutions hero: the black-hole experiment was reverted at the owner's request; the gyroscope-ring orrery is back as before.
+- /solutions hero orrery re-done as a live 3D projection onto SVG
+  (`components/solutions/Orrery.jsx`, plain maths, no WebGL, so it works on
+  every browser and phone; the three.js orrery file is removed, three.js
+  stays for the allocation donut). The rings lean and precess, the spheres
+  shade and scale with depth, and the name labels swing round with their
+  spheres (turned and scaled in perspective, dimmer at the back). Drag or
+  arrow keys to turn; choosing a name brings its sphere to the front;
+  reduced motion shows a still frame.
+- /solutions: tightened vertical spacing across the page. Section padding
+  is roughly halved (about 44 to 80px instead of 72 to 150px), the gaps
+  between a heading, its content, the disclaimers, the process timeline and
+  the disciplines ring are smaller, and the principles stage now starts right
+  under the nav with no blank band above the heading (its circle is a little
+  smaller so it stays clear of the heading and quote).
+- /solutions allocation chart: hover now works on the flat (non-WebGL)
+  donut too. The segment under the pointer thickens and casts a shadow, the
+  others fade, the legend row and centre label follow. Cause of the bug: the
+  empty 3D canvas sat on top of the flat chart and swallowed the pointer, so
+  it now ignores the pointer until the 3D chart is actually running. The 3D
+  chart's hover is unchanged.
+- /solutions: removed Liquidity and Real Estate from the "building blocks"
+  list (seven blocks remain).
+- /solutions hero: removed the "Drag to turn it. Select any sphere to bring it
+  forward." hint line; the panel under the orrery stays empty (its rule
+  hidden) until a name is chosen.
+- /solutions: shortened the blank band under the hero (hero bottom padding
+  about 14 to 24px, Understand top padding about 36 to 60px, smaller reserved
+  panel under the orrery).
+- /solutions: removed the closing "A portfolio built around your life" band
+  (and its Get in touch button). The line now sits, in italic accent serif,
+  on the right of the "Four disciplines. One coherent portfolio." heading;
+  the page ends with the disciplines ring and then the footer.

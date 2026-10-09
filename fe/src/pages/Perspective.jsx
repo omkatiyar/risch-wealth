@@ -16,7 +16,7 @@ export default function Perspective() {
         <div className="wrap" style={{ position: 'relative' }}>
           <p className="eyebrow kicker reveal in">Perspective</p>
           <h1 className="display-xxl reveal in" style={{ maxWidth: '16em' }}>Notes on risk, <span className="italic">not</span> noise.</h1>
-          <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>Occasional writing on how we think about risk, portfolios and wealth coordination — not market commentary or calls.</p>
+          <p className="lede reveal in" style={{ maxWidth: '52ch', marginTop: 26 }}>Occasional writing on how we think about risk, portfolios and wealth coordination, not market commentary or calls.</p>
         </div>
       </header>
 

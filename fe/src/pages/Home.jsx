@@ -23,7 +23,7 @@ function trustItems() {
   items.push(
     { n: `${new Date().getFullYear() - FIRM.careerStartYear} years`, l: "Founder's career in private banking and wealth management" },
     { n: String(FIRM.foundedYear), l: 'Year RISCH Wealth was founded' },
-    { n: 'Zero', l: 'Proprietary products — recommendations align to you, not a shelf' },
+    { n: 'Zero', l: 'Proprietary products, recommendations align to you, not a shelf' },
     { n: 'MF · PMS · AIF', l: 'Mutual funds, portfolio management services and alternative investment funds', compact: true },
   );
   return items.slice(0, 4);
@@ -33,7 +33,7 @@ function trustItems() {
 // diagram. The risk profiler supports stage 01; it isn't the product.
 const FRAMEWORK = [
   { t: 'Understand Risk', d: 'We separate your willingness to take risk from your ability to withstand it. Both are measured; the lower one sets the limit.' },
-  { t: 'Define the Objective', d: 'What this capital needs to do: liquidity, income, growth, preservation or legacy — often several at once.' },
+  { t: 'Define the Objective', d: 'What this capital needs to do: liquidity, income, growth, preservation or legacy, often several at once.' },
   { t: 'Build the Allocation', d: 'A portfolio in which every holding has a role.', chips: ['Indian equity', 'Global equity', 'Fixed income', 'Commodities', 'Real estate'] },
   { t: 'Review & Rebalance', d: 'Your portfolio evolves as markets and your circumstances change, with a review at every rebalancing.' },
 ];
@@ -52,9 +52,9 @@ const CEO_FACTS = [
 ];
 
 const DISCIPLINES = [
-  { t: 'Portfolio Construction', d: 'A portfolio built around your objectives, liquidity needs and risk — sized to you, not a model.' },
+  { t: 'Portfolio Construction', d: 'A portfolio built around your objectives, liquidity needs and risk, sized to you, not a model.' },
   { t: 'Fund & Strategy Selection', d: 'Mutual funds, PMS and AIFs from across the market, each chosen for the role it plays in your portfolio.' },
-  { t: 'Global Diversification', d: 'Access to opportunities beyond Indian markets — US, Europe, Asia and Taiwan — as part of one plan.' },
+  { t: 'Global Diversification', d: 'Access to opportunities beyond Indian markets (US, Europe, Asia and Taiwan) as part of one plan.' },
   { t: 'Wealth Coordination', d: 'Investments, liquidity, succession and your other advisers, brought into one view with one point of contact.' },
 ];
 
@@ -90,7 +90,7 @@ export default function Home() {
             <div className="hero-body">
               {/* brand → proposition → credibility → action */}
               <div className="reveal in" style={{ transitionDelay: '.1s' }}>
-                <p className="lede hero-lede">Private wealth management for entrepreneurs, business owners, professionals and families — built around your goals, your risk and your long-term wealth, across Indian and global markets.</p>
+                <p className="lede hero-lede">Private wealth management for entrepreneurs, business owners, professionals and families, built around your goals, your risk and your long-term wealth, across Indian and global markets.</p>
                 {FIRM.minimumInvestable && (
                   <p className="hero-note">For investors with {FIRM.minimumInvestable}+ in investable assets.</p>
                 )}
@@ -120,10 +120,10 @@ export default function Home() {
         <div className="wrap">
           <div className="principles-feature-head">
             <div>
-              <p className="eyebrow">Our Mission — Investor Success</p>
+              <p className="eyebrow">Our Mission: Investor Success</p>
               <h2 className="display-l" style={{ maxWidth: '24ch' }}>Investors trust us because we put them first.</h2>
             </div>
-            <p className="lede" style={{ maxWidth: '46ch' }}>Seven investment principles guide every portfolio we manage — the same ones we set out for every new client, before a single rupee is committed.</p>
+            <p className="lede" style={{ maxWidth: '46ch' }}>Seven investment principles guide every portfolio we manage, the same ones we set out for every new client, before a single rupee is committed.</p>
           </div>
           <div className="principles-list">
             {PRINCIPLES.map((p, i) => (
@@ -188,7 +188,7 @@ export default function Home() {
             <div className="reveal">
               <p className="eyebrow">Who We Serve</p>
               <h2 className="display-l" style={{ marginBottom: 20 }}>For wealth that has outgrown simple answers.</h2>
-              <p style={{ maxWidth: '42ch' }}>RISCH works with a small number of clients directly — typically where wealth is spread across businesses, custodians, generations or countries.</p>
+              <p style={{ maxWidth: '42ch' }}>RISCH works with a small number of clients directly, typically where wealth is spread across businesses, custodians, generations or countries.</p>
               <Link to="/who-we-serve" className="text-link">More on who we work with <Arrow /></Link>
             </div>
             <div className="line-list reveal">
@@ -295,7 +295,7 @@ export default function Home() {
             <div>
               <p className="eyebrow">Risk Assessment</p>
               <h2 className="display-m" style={{ marginBottom: 12 }}>Before we talk, see where you stand.</h2>
-              <p className="mb-0" style={{ maxWidth: '60ch' }}>Eight questions on your time horizon and risk preference produce a preliminary allocation with hypothetical outcomes. It's a starting point for a conversation — not a recommendation.</p>
+              <p className="mb-0" style={{ maxWidth: '60ch' }}>Eight questions on your time horizon and risk preference produce a preliminary allocation with hypothetical outcomes. It's a starting point for a conversation, not a recommendation.</p>
             </div>
             <Link to="/risk-profiler" className="btn">Take the risk assessment <Arrow /></Link>
           </div>
@@ -329,7 +329,7 @@ export default function Home() {
         <div className="wrap center">
           <p className="eyebrow reveal" style={{ justifyContent: 'center' }}>Start A Conversation</p>
           <h2 className="display-l reveal" style={{ maxWidth: '22ch', margin: '0 auto 24px' }}>Your portfolio deserves a considered second opinion.</h2>
-          <p className="lede reveal" style={{ maxWidth: '52ch', margin: '0 auto 36px' }}>Whether your wealth sits across several advisers or you're starting afresh, the first step is a conversation about what it needs to do — and what it can withstand.</p>
+          <p className="lede reveal" style={{ maxWidth: '52ch', margin: '0 auto 36px' }}>Whether your wealth sits across several advisers or you're starting afresh, the first step is a conversation about what it needs to do, and what it can withstand.</p>
           <div className="flex gap-16 reveal" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/contact" className="btn btn-primary">Start a conversation <Arrow /></Link>
             <a href={FIRM.phoneHref} className="btn">Call {FIRM.phone}</a>
