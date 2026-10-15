@@ -4,17 +4,19 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useRiskProfile } from '../hooks/useRiskProfile';
-import Orrery from '../components/solutions/Orrery';
+import ProfileToPortfolio from '../components/solutions/ProfileToPortfolio';
 import HorizonSelector from '../components/solutions/HorizonSelector';
 import AllocationPanel from '../components/solutions/AllocationPanel';
 import ProcessTimeline from '../components/solutions/ProcessTimeline';
 import BuildingBlocks from '../components/solutions/BuildingBlocks';
+import Icon from '../components/solutions/Icons';
+import Band from '../components/solutions/Band';
 import RingSlider from '../components/solutions/RingSlider';
 import PrinciplesMorph, { PrinciplesGrid } from '../components/solutions/PrinciplesMorph';
 import { PRINCIPLES } from '../data/principles';
 import { ALLOCATION, CLOSING, HERO, PHILOSOPHY, TOGETHER, UNDERSTAND, horizonForYears } from '../content/solutions';
 
-// What We Provide: risk first, portfolio second. Hero orrery, then the four
+// What We Provide: risk first, portfolio second. Hero (profile to portfolio), then the four
 // parts of the page in order: Understand, Asset Allocation, Investment
 // Philosophy, How it comes together. All copy lives in content/solutions.js.
 
@@ -25,6 +27,8 @@ const Arrow = () => (
 const Down = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1V13M7 13L1.5 7.5M7 13L12.5 7.5" stroke="currentColor" strokeWidth="1.3" /></svg>
 );
+
+const Eyebrow = ({ children }) => <p className="wp-eyebrow"><span>{children}</span></p>;
 
 // a thin copper line drawing of a pitch and its creases, used as a divider
 const Crease = () => (
@@ -37,9 +41,10 @@ const Crease = () => (
 
 export default function Solutions() {
   useScrollReveal();
-  const { status, profile } = useRiskProfile();
+  const { status, profile, isClient } = useRiskProfile();
   const complete = status === 'complete';
   const reviewHref = '/client-portal/risk-profile';
+  const startHref = isClient ? '/client-portal/risk-assessment' : '/risk-profiler';
 
   // the scroll-morph needs room and motion; phones and reduced-motion get a plain grid
   const [morph, setMorph] = useState(false);
@@ -67,7 +72,15 @@ export default function Solutions() {
   }));
 
   const [years, setYears] = useState(6);
-  const [portfolio, setPortfolio] = useState('balanced');
+  const [portfolio, setPortfolio] = useState('growth');
+  // smooth scroll to the Asset Allocation section, clear of the sticky header
+  const seeMix = () => {
+    const el = document.querySelector('.wp-alloc');
+    if (!el) return;
+    const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h-scrolled')) || 94;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - head, behavior: still ? 'auto' : 'smooth' });
+  };
   const onYears = (y) => { setYears(y); setPortfolio(horizonForYears(y)); };
   const goUnderstand = () => document.getElementById('understand')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -75,6 +88,7 @@ export default function Solutions() {
   const philTop = (
     <div className="wrap wp-phil-top">
       <div>
+        <Eyebrow>Our principles</Eyebrow>
         <h2 className="wp-h2" id="phil-h">{PHILOSOPHY.title}</h2>
         <Crease />
       </div>
@@ -99,7 +113,7 @@ export default function Solutions() {
               <button type="button" className="btn wp-see" onClick={goUnderstand}>{HERO.secondary} <Down /></button>
             </div>
           </div>
-          <Orrery />
+          <ProfileToPortfolio />
         </div>
       </header>
 
@@ -107,6 +121,7 @@ export default function Solutions() {
       <section className="wp-und" id="understand" aria-labelledby="und-h">
         <div className="wrap">
           <div className="wp-head reveal">
+            <Eyebrow>Your profile</Eyebrow>
             <h2 className="wp-h2" id="und-h">{U.title}</h2>
             <p className="wp-body">{U.intro}</p>
             {complete && <p className="wp-saved">Your saved profile: <strong>{profile.tierName}</strong>. <Link to={reviewHref} className="wp-link">Review it <Arrow /></Link></p>}
@@ -114,25 +129,33 @@ export default function Solutions() {
 
           <div className="wp-und-grid">
             <article className="wp-block reveal" aria-labelledby="tol-h">
+              <Icon name="gauge" size={32} className="wp-block-icon" />
               <h3 id="tol-h">{U.tolerance.title}</h3>
               <p className="wp-body">{U.tolerance.body}</p>
-              <figure className="wp-fig">
-                <p className="wp-fig-n" aria-label={`${U.tolerance.figure} ${U.tolerance.figureText}`}><span aria-hidden="true">{U.tolerance.figure}</span></p>
-                <figcaption>
-                  <span>{U.tolerance.figureText}</span>
-                </figcaption>
-              </figure>
-              <blockquote className="wp-quote">
-                <p>{U.tolerance.quote}</p>
-                <cite>{U.tolerance.quoteBy}</cite>
-              </blockquote>
             </article>
 
             <article className="wp-block reveal" aria-labelledby="hz-h">
+              <Icon name="hourglass" size={32} className="wp-block-icon" />
               <h3 id="hz-h">{U.horizon.title}</h3>
               <p className="wp-body">{U.horizon.body}</p>
-              <HorizonSelector years={years} onYears={onYears} />
+              <HorizonSelector years={years} onYears={onYears} onSeeMix={seeMix} />
               <p className="wp-note">{U.horizon.note}</p>
+            </article>
+
+            <article className="wp-block reveal" aria-labelledby="bs-h">
+              <Icon name="brain" size={32} className="wp-block-icon" />
+              <h3 id="bs-h">{U.behaviour.title}</h3>
+              <p className="wp-body">{U.behaviour.body}</p>
+              <figure className="wp-fig">
+                <p className="wp-fig-n" aria-label={`${U.behaviour.figure} ${U.behaviour.figureText}`}><span aria-hidden="true">{U.behaviour.figure}</span></p>
+                <figcaption>
+                  <span>{U.behaviour.figureText}</span>
+                </figcaption>
+              </figure>
+              <blockquote className="wp-quote">
+                <p>{U.behaviour.quote}</p>
+                <cite>{U.behaviour.quoteBy}</cite>
+              </blockquote>
             </article>
           </div>
         </div>
@@ -159,6 +182,7 @@ export default function Solutions() {
 
       {/* 3 · INVESTMENT PHILOSOPHY */}
       <section className="wp-phil" aria-labelledby="phil-h">
+        <Band src="/images/solutions/principles-band.webp" />
         {morph ? (
           <PrinciplesMorph principles={PRINCIPLES} hint={PHILOSOPHY.morphHint} top={philTop} />
         ) : (
@@ -173,12 +197,14 @@ export default function Solutions() {
       <section className="wp-tog" id="together" aria-labelledby="tog-h">
         <div className="wrap">
           <div className="wp-head reveal">
+            <Eyebrow>Our process</Eyebrow>
             <h2 className="wp-h2" id="tog-h">{TOGETHER.title}</h2>
           </div>
           <ProcessTimeline />
 
           <div className="wp-blocks">
             <div className="wp-head reveal">
+              <Eyebrow>What we offer</Eyebrow>
               <h3 className="wp-h3">{TOGETHER.blocksTitle}</h3>
               <p className="wp-body">{TOGETHER.blocksIntro}</p>
             </div>
@@ -195,6 +221,14 @@ export default function Solutions() {
           </div>
         </div>
       </section>
+
+      <Band src="/images/solutions/cta-band.webp" variant="cta">
+        <div className="wrap wp-cta-copy reveal">
+          <p className="wp-eyebrow"><span>The right conversation</span></p>
+          <h2 className="wp-h2">Start with your risk. We will take it from there.</h2>
+          <Link to={complete ? reviewHref : startHref} className="btn btn-primary">{complete ? 'Review Risk Profile' : 'Start Risk Profile'} <Arrow /></Link>
+        </div>
+      </Band>
 
       <Footer />
     </>

@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { TOGETHER } from '../../content/solutions';
+import Icon from './Icons';
+
+const STEP_ICONS = ['user', 'pie', 'layers', 'refresh'];
 
 // The only numbered sequence on the page. A copper line draws down (or across)
 // as the section scrolls into view.
@@ -30,7 +33,7 @@ export default function ProcessTimeline() {
       <ol>
       {TOGETHER.steps.map(([t, d], i) => (
         <li key={t}>
-          <span className="pt-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span className="pt-head"><span className="pt-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><Icon name={STEP_ICONS[i]} size={24} className="pt-icon" /></span>
           <h3>{t}</h3>
           <p>{d}</p>
         </li>

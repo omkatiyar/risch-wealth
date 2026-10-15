@@ -970,3 +970,79 @@ Newest first.
   (and its Get in touch button). The line now sits, in italic accent serif,
   on the right of the "Four disciplines. One coherent portfolio." heading;
   the page ends with the disciplines ring and then the footer.
+- /solutions allocation: the four portfolios are now the RISCH model
+  mandates, named "Risch Active Balanced", "Risch Active Growth", "Risch Active
+  Aggressive" and "Risch Active Aggressive Plus", with the macro allocation
+  and the sub-asset class breakdown shown as two donuts (3D with hover, flat
+  fallback) and legends, using the same percentages as the risk profiler
+  (be/src/riskProfiler/config.js TIERS + SPLIT; derived in
+  content/solutions.js, keep them in step). Aggressive Plus carries the
+  profiler's domestic-concentration note and has no international rows. The
+  Time Horizon rows now use the same names, in the same order: Active
+  Balanced up to 5 years, Growth 5 to 7, Aggressive 7 to 10, Aggressive Plus
+  10+ (previously Conservative / Balanced / Moderate / Aggressive). The
+  placeholder illustrative mixes are gone.
+- /solutions: portfolio names are written "RISCH Active ..." (RISCH always in capitals).
+- /solutions "The wealth architecture": the card ring of the four disciplines
+  (RingSlider, deleted) is replaced by a quiet piece of linework
+  (`components/solutions/WealthArchitecture.jsx` + `architecture3d.js`,
+  three.js): a calm core labelled "One portfolio" and four open hairline
+  layers, one per discipline (existing names), each ending in a small node.
+  Ink linework on the page ground (follows light/dark), orange only for the
+  active layer. About 78 s per turn, pointer parallax within 3 and 2 degrees,
+  and the layers ease toward one plane as the section scrolls into view.
+  Hover, focus or tap a label to highlight its layer and read one line plus
+  the "Discuss this" link. DOM labels, DPR capped at 1.5, paused off screen,
+  everything disposed on unmount. Phones and no-WebGL get a still drawing and
+  the plain four-item list; reduced motion stops the turning, parallax and
+  scroll convergence. Hero copy and the hero orrery are untouched.
+- /solutions principles cards: the dark charcoal cards are now light, in the
+  style of the Testimonials and Get In Touch cards: white surface, hairline
+  border, orange top rule, ink serif titles and orange numbers; the back face
+  is a soft ivory with the same rule. Both follow the light/dark theme.
+- /solutions: the Understand heading now reads "Before we design a portfolio,
+  we understand you." The "building blocks" list is now "Solutions" with
+  three items only (Mutual Fund, Portfolio Management Services (PMS),
+  Alternative Investment Funds (AIF)); same hover/tap effect. Meta
+  description wording updated to match.
+- /solutions Understand: now three points side by side, Risk Tolerance,
+  Time Horizon and Behavioural Science (new). The behavioural-patterns copy
+  moved from Risk Tolerance into Behavioural Science, which also carries the
+  1.2% figure and the Graham quote; the intro and the horizon note say
+  "three things" / "three inputs". The portfolio rows stack name over years in
+  the narrower column. Two columns under 1020px, one under 760px.
+- /solutions: the process heading now reads "How a RISCH portfolio comes together."
+- /solutions: the disciplines section is back to the 3D ring of four cards
+  (RingSlider), replacing the "wealth architecture" linework (removed).
+  Drag, arrow keys or buttons turn it; it drifts slowly; cards facing away
+  are dimmed and inert; under 760px it is the plain list.
+- /solutions allocation donuts: new colour scheme so every slice is easy to tell apart. Hue marks the asset family (rust and orange for India equity, navy and blue for international equity, green for fixed income, warm grey for cash) and shade separates the slices inside a family. Legends use the same colours.
+- /solutions Time Horizon: removed the repeated four-portfolio list. Under the
+  slider there is now a "Likely fit" line (portfolio name, fades on change) and
+  a "See this mix below" link that smooth-scrolls to Asset Allocation, clear of
+  the sticky header. The slider drives the Asset Allocation tab (one way; tab
+  clicks never move the slider). Mapping, in `horizonForYears`: up to 5 years
+  Balanced, 6 to 7 Growth, 8 to 10 Aggressive, 11 and up Aggressive Plus.
+- /solutions imagery and icons: thin line icons (inline SVG, Lucide-style, accent colour,
+  decorative) on the Risk Tolerance / Time Horizon / Behavioural Science cards, the four
+  process steps and the three Solutions items; eyebrow labels with a rule each side (YOUR
+  PROFILE, OUR PRINCIPLES, OUR PROCESS, WHAT WE OFFER); a full-width photo band above the
+  principles and a closing "Start with your risk." band with a Start Risk Profile button
+  (`components/solutions/Band.jsx`). Images are placeholders in
+  `public/images/solutions/` (see the README there); a neutral block shows if one is missing.
+- /solutions: removed the empty photo band above the principles (its placeholder file is deleted and a photo band with no image now takes no space). Add `public/images/solutions/principles-band.webp` to bring it back.
+- /solutions hero visual replaced: the orbit diagram is gone
+  (`Orrery.jsx`, `orreryLayout.js` and the `or-*` CSS deleted). New
+  "profile to portfolio" diagram (`components/solutions/ProfileToPortfolio.jsx`,
+  plain SVG + DOM labels, no WebGL): Risk Tolerance, Time Horizon and
+  Behavioural Profile draw toward "You", then open into Domestic Equity,
+  International Equity and Fixed Income under a "Portfolio architecture" label.
+  Intro draws once (about 2 s), slow idle drift, 2 degree pointer depth on
+  desktop only; reduced motion shows the finished drawing; phones get a
+  vertical version of the same sequence. Hero copy and CTA ("Explore our
+  approach") updated to the new wording. No allocation figures.
+- /solutions Understand cards: the supporting text under the 1.2% figure, the
+  Time Horizon note and the quote attribution now use the same body style and
+  size as the card paragraphs (17 to 19px, ink-2). Headings, the large figure
+  and the quote itself are unchanged.
+- /solutions Understand cards: body text a little smaller (16px, notes and captions 15.5px), and the 1.2% figure has its caption beside it again instead of below.

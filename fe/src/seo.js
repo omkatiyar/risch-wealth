@@ -30,7 +30,7 @@ export const PAGES = {
   },
   '/solutions': {
     title: 'Risk First, Portfolio Second: What We Provide | RISCH',
-    description: 'RISCH starts with your risk, time horizon and liquidity, then decides which building blocks belong in your portfolio. Private wealth portfolio construction.',
+    description: 'RISCH starts with your risk, time horizon and liquidity, then decides which solutions belong in your portfolio. Private wealth portfolio construction.',
   },
   '/risk-profiler': {
     title: 'Risk Profiler | Find Your Investment Risk Profile | RISCH',

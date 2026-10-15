@@ -1,9 +1,15 @@
-import { HORIZONS, SLIDER_MAX, SLIDER_MIN, horizonForYears } from '../../content/solutions';
+import {
+  HORIZONS, SLIDER_MAX, SLIDER_MIN, UNDERSTAND, horizonForYears,
+} from '../../content/solutions';
 
-// A slider and four rows that stay in step: moving the slider highlights the
-// portfolio it falls in, choosing a row moves the slider to that range.
-export default function HorizonSelector({ years, onYears }) {
-  const active = horizonForYears(years);
+const Down = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1V13M7 13L1.5 7.5M7 13L12.5 7.5" stroke="currentColor" strokeWidth="1.3" /></svg>
+);
+
+// A slider that names the portfolio its years point to. The page keeps the
+// Asset Allocation tab in step (one way: the tabs never move the slider).
+export default function HorizonSelector({ years, onYears, onSeeMix }) {
+  const fit = HORIZONS.find((h) => h.id === horizonForYears(years));
   const pct = ((years - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN)) * 100;
   const label = years >= SLIDER_MAX ? `${SLIDER_MAX}+ years` : `${years} ${years === 1 ? 'year' : 'years'}`;
   return (
@@ -25,20 +31,12 @@ export default function HorizonSelector({ years, onYears }) {
           {[1, 5, 10, 15].map((n) => <span key={n} style={{ left: `${((n - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN)) * 100}%` }}>{n === 15 ? '15+' : n}</span>)}
         </div>
       </div>
-      <div className="hz-rows" role="radiogroup" aria-label="Portfolio by time horizon">
-        {HORIZONS.map((h) => (
-          <button
-            key={h.id}
-            type="button"
-            role="radio"
-            aria-checked={active === h.id}
-            className={'hz-row' + (active === h.id ? ' is-on' : '')}
-            onClick={() => onYears(h.at)}
-          >
-            <span className="hz-name">{h.name}</span>
-            <span className="hz-span">{h.span}</span>
-          </button>
-        ))}
+      <div className="hz-fit" aria-live="polite">
+        <span className="hz-fit-label">{UNDERSTAND.horizon.fitLabel}</span>
+        <strong key={fit.id} className="hz-fit-name">{fit.name}</strong>
+        <a href="#alloc-h" className="wp-link hz-fit-link" onClick={(e) => { e.preventDefault(); onSeeMix(); }}>
+          {UNDERSTAND.horizon.fitLink} <Down />
+        </a>
       </div>
     </div>
   );

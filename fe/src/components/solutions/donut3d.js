@@ -36,7 +36,7 @@ export function mountDonut(host, { colors, values, reduced, onHover }) {
 
   const scene = new Scene();
   const camera = new PerspectiveCamera(30, 1, 0.1, 50);
-  camera.position.set(0, 0, 8.4);
+  camera.position.set(0, 0, 7.2);
   scene.add(new AmbientLight(0xffffff, 1.7));
   const key = new DirectionalLight(0xfff1de, 2.6); key.position.set(-3, 5, 7); scene.add(key);
   const group = new Group(); scene.add(group);

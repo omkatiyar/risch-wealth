@@ -6,28 +6,33 @@
 // ---- hero ---------------------------------------------------------------
 export const HERO = {
   title: ['Risk first.', 'Portfolio second.'],
-  body: 'A portfolio should begin with the person it is for, not with a shelf of products. We first learn how much risk you can carry, how long you can wait and what the capital must achieve. Only then do we choose what belongs in it.',
-  secondary: 'See how we decide',
-  orreryLabel: 'Interactive orrery of a RISCH portfolio. Drag to rotate, or use the arrow keys. Choose a name to see what it means.',
+  body: 'A portfolio should begin with the person it is built for, not with a shelf of products. We first understand how much risk you can carry, how long your capital can stay invested and what it needs to achieve. Only then do we decide what belongs in the portfolio.',
+  secondary: 'Explore our approach',
+  // the picture reads left to right: inputs, then the investor, then the portfolio
+  inputs: ['Risk Tolerance', 'Time Horizon', 'Behavioural Profile'],
+  architecture: 'Portfolio architecture',
+  outputs: ['Domestic Equity', 'International Equity', 'Fixed Income'],
 };
 
-// The orrery: "You" at the core, two inner rings, one outer orbit of the main
-// asset classes (domestic, international, fixed income).
-export const ORRERY = [
-  { id: 'risk', ring: 0, name: 'Risk Tolerance', line: 'How much loss you can bear, and how you are likely to behave when it arrives.' },
-  { id: 'time', ring: 1, name: 'Time Horizon', line: 'How long the capital can stay invested before it is needed.' },
-  { id: 'domestic', ring: 2, name: 'Domestic Equity', line: 'Long-term growth from the Indian economy.' },
-  { id: 'international', ring: 2, name: 'International Equity', line: 'Exposure beyond one market, one currency and one economy.' },
-  { id: 'fixed', ring: 2, name: 'Fixed Income', line: 'Stability and regular income.' },
-];
 
 // ---- 1. understand ---------------------------------------------------------
 export const UNDERSTAND = {
-  title: 'Before we choose a single fund, we understand you.',
-  intro: 'Your risk profile is built before any product is discussed, so the answer is about you and nothing else. Two things shape it: how much risk you can tolerate and how long your capital can stay invested.',
+  title: 'Before we design a portfolio, we understand you.',
+  intro: 'Your risk profile is built before any product is discussed, so the answer is about you and nothing else. Three things shape it: how much risk you can tolerate, how long your capital can stay invested and how you are likely to behave when markets move.',
   tolerance: {
     title: 'Risk Tolerance',
-    body: 'A short psychometric questionnaire looks at how you think about money, loss and uncertainty, not only what you say you are comfortable with. It also helps us spot behavioural patterns, like the urge to sell in a fall or chase a rally, that quietly cost investors returns.',
+    body: 'A short psychometric questionnaire looks at how you think about money, loss and uncertainty, not only what you say you are comfortable with. It separates the losses you could absorb from the losses you could sit through.',
+  },
+  horizon: {
+    title: 'Time Horizon',
+    body: 'The longer capital can wait, the more room the portfolio has to work.',
+    note: 'Time horizon is one of three inputs. Your full risk profile sets the final fit.',
+    fitLabel: 'Likely fit',
+    fitLink: 'See this mix below',
+  },
+  behaviour: {
+    title: 'Behavioural Science',
+    body: 'Tolerance on paper is not behaviour in a crisis. We study the patterns that quietly cost investors returns, like the urge to sell in a fall or chase a rally, and shape the portfolio so that you can stay with it.',
     figure: '1.2%',
     figureText: 'a year lost by the average investor to the timing of their buying and selling. The funds returned 9.9% a year; their investors earned 8.7%.',
     // COMPLIANCE: third-party statistic. Verified against Morningstar's "Mind the
@@ -36,57 +41,87 @@ export const UNDERSTAND = {
     quote: 'The investor’s chief problem, and even his worst enemy, is likely to be himself.',
     quoteBy: 'Benjamin Graham, The Intelligent Investor',
   },
-  horizon: {
-    title: 'Time Horizon',
-    body: 'The longer capital can wait, the more room the portfolio has to work.',
-    note: 'Time horizon is one of two inputs. Your full risk profile sets the final fit.',
-  },
 };
 
-// Boundaries: up to 5 years Conservative, over 5 to 7 Balanced, over 7 up to
-// under 10 Moderate, 10 and beyond Aggressive. `at` is where a row puts the slider.
+// Slider boundaries (see horizonForYears): up to 5 years Active Balanced, 6 to 7
+// Active Growth, 8 to 10 Active Aggressive, 11 and up Active Aggressive Plus. `at` is
+// where a row puts the slider.
 export const HORIZONS = [
-  { id: 'conservative', name: 'Risch Conservative Portfolio', span: 'Up to 5 years', from: 0, to: 5, at: 3 },
-  { id: 'balanced', name: 'Risch Balanced Portfolio', span: '5 to 7 years', from: 5, to: 7, at: 6 },
-  { id: 'moderate', name: 'Risch Moderate Portfolio', span: '7 to 10 years', from: 7, to: 10, at: 8 },
-  { id: 'aggressive', name: 'Risch Aggressive Portfolio', span: '10 years and beyond', from: 10, to: 15, at: 12 },
+  { id: 'balanced', name: 'RISCH Active Balanced', span: 'Up to 5 years', from: 0, to: 5, at: 3 },
+  { id: 'growth', name: 'RISCH Active Growth', span: '5 to 7 years', from: 5, to: 7, at: 6 },
+  { id: 'aggressive', name: 'RISCH Active Aggressive', span: '7 to 10 years', from: 7, to: 10, at: 8 },
+  { id: 'aggressive-plus', name: 'RISCH Active Aggressive Plus', span: '10 years and beyond', from: 10, to: 15, at: 12 },
 ];
 export const SLIDER_MIN = 1;
 export const SLIDER_MAX = 15; // shown as "15+"
-export const horizonForYears = (y) => (y <= 5 ? 'conservative' : y <= 7 ? 'balanced' : y < 10 ? 'moderate' : 'aggressive');
+// the one place the slider's years are turned into a portfolio id
+export const horizonForYears = (y) => (y <= 5 ? 'balanced' : y <= 7 ? 'growth' : y <= 10 ? 'aggressive' : 'aggressive-plus');
 
 // ---- 2. asset allocation ------------------------------------------------------
 export const ALLOCATION = {
   title: 'Asset allocation decides most of the journey.',
   intro: 'We do not start with a product shelf. We start with how your money is spread across asset classes, then keep that mix on track as markets move.',
   label: 'Illustrative',
+  macroTitle: 'Macro asset allocation',
+  subTitle: 'Sub-asset class breakdown',
   // COMPLIANCE
-  disclaimer: 'Illustrative only. These mixes show how the four portfolios differ in character. They are not a recommendation, and your own allocation is set from your full risk profile.',
+  disclaimer: 'Illustrative only. These are the model mixes of the four RISCH portfolios, shown to explain how they differ. They are not a recommendation, and your own allocation is set from your full risk profile.',
   points: [
     ['Set from your risk profile.', 'The mix follows who you are and what the capital is for, not what is popular this year.'],
     ['Rebalanced when markets pull it off target.', 'When one asset class runs ahead or falls behind, we bring the portfolio back to its intended shape.'],
     ['Reviewed when your life changes.', 'A new business, a sale, a child, a retirement date: the allocation is revisited when the facts change.'],
   ],
 };
-export const ASSET_CLASSES = [
-  { id: 'domestic', name: 'Domestic Equity', color: '#B24A07' },
-  { id: 'international', name: 'International Equity', color: '#E8935A' },
-  { id: 'fixed', name: 'Fixed Income', color: '#4A443C' },
-  { id: 'commodities', name: 'Commodities', color: '#C9BBA5' },
+
+// The four model portfolios. The macro percentages and the sub-splits are the
+// same ones the risk profiler uses (be/src/riskProfiler/config.js: TIERS and
+// SPLIT); keep the two in step. Sub-asset values are derived from them.
+const MODELS = {
+  balanced: { india: 38.21, intl: 12.10, debt: 43.81, cash: 5.88 },
+  growth: { india: 52.74, intl: 15.79, debt: 28.02, cash: 3.45 },
+  aggressive: { india: 66.69, intl: 19.36, debt: 11.71, cash: 2.24 },
+  'aggressive-plus': { india: 78.61, intl: 0, debt: 19.43, cash: 1.96 },
+};
+const SPLIT = {
+  india: { large: 0.795, mid: 0.127, small: 0.078 },
+  intl: { europe: 0.436, us: 0.349, asia: 0.215 },
+  debt: { medium: 0.435, long: 0.316, short: 0.249 },
+};
+export const MACRO_CLASSES = [
+  { id: 'india', name: 'India Equity', color: '#B24A07' },
+  { id: 'intl', name: 'International Equity', color: '#1F3A5F' },
+  { id: 'debt', name: 'India Fixed Income', color: '#5E7D4F' },
+  { id: 'cash', name: 'Cash & Equivalents', color: '#A39B8B' },
 ];
-// TODO (owner to confirm): placeholder percentages for illustration only. Each
-// row must total 100. Replace with the firm's own model mixes before launch.
-export const ILLUSTRATIVE_ALLOCATIONS = {
-  conservative: { domestic: 20, international: 5, fixed: 65, commodities: 10 },
-  balanced: { domestic: 35, international: 15, fixed: 40, commodities: 10 },
-  moderate: { domestic: 45, international: 20, fixed: 25, commodities: 10 },
-  aggressive: { domestic: 55, international: 25, fixed: 10, commodities: 10 },
+export const SUB_CLASSES = [
+  { id: 'large', name: 'India Large Cap', color: '#B24A07', of: 'india' },
+  { id: 'mid', name: 'India Mid Cap', color: '#E8772E', of: 'india' },
+  { id: 'small', name: 'India Small Cap', color: '#F2B880', of: 'india' },
+  { id: 'europe', name: 'Europe Equity', color: '#1F3A5F', of: 'intl' },
+  { id: 'us', name: 'US Equity', color: '#4F7CAC', of: 'intl' },
+  { id: 'asia', name: 'Asia ex-Japan', color: '#9DBBD8', of: 'intl' },
+  { id: 'medium', name: 'Medium Term Debt', color: '#4A6B3C', of: 'debt' },
+  { id: 'long', name: 'Long Term Debt', color: '#86A876', of: 'debt' },
+  { id: 'short', name: 'Short Term Debt', color: '#C3D6B3', of: 'debt' },
+  { id: 'cashsub', name: 'Cash Equivalents', color: '#A39B8B', of: 'cash' },
+];
+const round1 = (n) => Math.round(n * 10) / 10;
+export const allocationFor = (id) => {
+  const m = MODELS[id];
+  return {
+    macro: MACRO_CLASSES.map((c) => round1(m[c.id])),
+    sub: SUB_CLASSES.map((c) => round1(c.of === 'cash' ? m.cash : m[c.of] * SPLIT[c.of][c.id])),
+  };
 };
 export const PORTFOLIO_SUITS = {
-  conservative: 'For capital that may be needed within about five years, where steadiness matters more than growth.',
-  balanced: 'For goals five to seven years away, with room for growth alongside a solid base of income.',
-  moderate: 'For goals seven to ten years out, where equity can do more of the work and the journey can be uneven.',
-  aggressive: 'For capital that can stay invested for ten years or more and can sit through deep, long falls.',
+  balanced: 'For capital that may be needed within about five years, where steadiness matters more than growth.',
+  growth: 'For goals five to seven years away, with room for growth alongside a solid base of income.',
+  aggressive: 'For goals seven to ten years out, where equity can do more of the work and the journey can be uneven.',
+  'aggressive-plus': 'For capital that can stay invested for ten years or more and can sit through deep, long falls.',
+};
+// COMPLIANCE: concentration warning carried over from the risk profiler.
+export const PORTFOLIO_NOTES = {
+  'aggressive-plus': 'Domestic-only equity concentration. This may carry higher volatility than a globally diversified aggressive mandate.',
 };
 
 // ---- 3. philosophy -------------------------------------------------------------
@@ -100,26 +135,23 @@ export const PHILOSOPHY = {
 
 // ---- 4. how it comes together ----------------------------------------------------
 export const TOGETHER = {
-  title: 'From one conversation to one coherent portfolio.',
+  title: 'How a RISCH portfolio comes together.',
   steps: [
     ['Understand', 'Goals, time horizon, liquidity needs and Risk Tolerance.'],
     ['Allocate', 'Choose the asset mix that fits your profile.'],
     ['Construct', 'Select funds and strategies for each role in the mix.'],
     ['Review', 'Monitor, rebalance and adapt as markets and your life change.'],
   ],
-  blocksTitle: 'The building blocks',
-  blocksIntro: 'There is no model portfolio. These are the blocks that may form part of one, and how much weight each carries is set with you, not in advance.',
+  blocksTitle: 'Solutions',
+  blocksIntro: 'There is no model portfolio. These are the solutions that may form part of one, and how much weight each carries is set with you, not in advance.',
   // COMPLIANCE: "held through" lines name product categories. PMS and AIF are
   // offered as a distributor and only to eligible investors.
   blocks: [
-    { name: 'Domestic Equity', role: 'Long-term growth of the Indian economy.', through: 'Large, mid and small cap, thematic and sectoral funds.' },
-    { name: 'International Equity', role: 'Exposure beyond one market, currency and economy.', through: 'US, Europe, Asia ex-Japan and Taiwan.' },
-    { name: 'Fixed Income', role: 'Stability and income.', through: 'Short, medium and long duration debt funds.' },
-    { name: 'Hybrid and Multi-Asset', role: 'Equity, debt and gold in one holding, for smoother rides.', through: 'Balanced advantage, multi-asset and arbitrage funds.' },
-    { name: 'Commodities', role: 'Behave differently from shares and bonds.', through: 'Gold and silver.' },
+    { name: 'Mutual Fund', role: 'Professionally managed funds across equity, debt and hybrid strategies, for the core of a portfolio.', through: 'Mutual funds across equity, debt and hybrid categories, distributed by RISCH.' },
     { name: 'Portfolio Management Services (PMS)', role: 'A dedicated, concentrated equity portfolio for larger investments.', through: 'PMS strategies, distributed by RISCH.' },
     { name: 'Alternative Investment Funds (AIF)', role: 'Strategies beyond listed markets, such as private credit and private equity, for eligible investors.', through: 'AIFs, distributed by RISCH.' },
   ],
+
   // COMPLIANCE: existing disclosure, keep verbatim.
   disclosure: 'Portfolio components shown here illustrate RISCH’s investment framework; they are not a recommendation. A suitable portfolio also depends on your wider net worth, liabilities, illiquid assets, taxes and liquidity needs, which we go through with you in conversation.',
   disciplinesTitle: 'Four disciplines. One coherent portfolio.',

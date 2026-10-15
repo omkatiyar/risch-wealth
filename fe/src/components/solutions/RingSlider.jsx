@@ -6,9 +6,6 @@ import { useCallback, useEffect, useRef } from 'react';
 // and pushed out to its radius, and the ring is turned as a whole. Cards on
 // the far side show between the gaps, dimmed. Cards facing away are inert,
 // so only the ones you can read can be clicked or tabbed to.
-//
-// Motion: the auto-spin pauses while the pointer or focus rests on the ring,
-// when it is off screen, and with prefers-reduced-motion (dragging still works).
 // `items`: [{ key, content }]
 
 const AUTO_DEG_PER_SEC = 6;
@@ -28,7 +25,7 @@ export default function RingSlider({ items, label }) {
     if (ringRef.current) ringRef.current.style.transform = `rotateX(${TILT_DEG}deg) rotateY(${st.rot}deg)`;
     cardRefs.current.forEach((el, i) => {
       if (!el) return;
-      const facing = (Math.cos(((i * step + st.rot) * Math.PI) / 180) + 1) / 2; // 1 toward the viewer, 0 away
+      const facing = (Math.cos(((i * step + st.rot) * Math.PI) / 180) + 1) / 2;
       el.style.opacity = (0.3 + 0.7 * facing).toFixed(3);
       const front = facing > 0.55;
       if (el.inert !== !front) el.inert = !front;
@@ -62,7 +59,6 @@ export default function RingSlider({ items, label }) {
     return () => { cancelAnimationFrame(raf); io.disconnect(); };
   }, [paint]);
 
-  // a press only becomes a drag after a few pixels, so a plain tap still reaches a link
   const onDown = (e) => {
     const st = s.current;
     st.down = true; st.dragging = false; st.target = null; st.vel = 0;
